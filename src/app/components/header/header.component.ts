@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -7,9 +8,32 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  logged = false;
+  emailUsuario = "";
+
+  constructor( private  authService: AuthService) {
+   }
 
   ngOnInit(): void {
+    this.obtenerUsuarioLoggeado();
+  }
+
+  obtenerUsuarioLoggeado(){
+    /*this.authService.getUserLogged().subscribe(user => {
+      console.log(user?.email);
+      if (user?.email != null) {
+        this.logged = true; 
+        this.emailUsuario = user.email 
+      } else this.logged = false;
+    })*/
+  }
+
+  logout(){
+    /*this.authService.logout();
+    this.logged = false;
+    this.snackbar.open("Saliendo...", 'Cerrar',{
+      duration:3000
+    });*/
   }
 
 }

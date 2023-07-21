@@ -1,0 +1,11 @@
+@font-face {
+    font-family: 'titleFont';
+    src: url('../assets/fonts/ProssimaSwashPersonalUseRegular-K7X0W.otf') format('truetype');
+    src: url('../assets/fonts/ProssimaModaPersonalUseRegular-2Ox1W.otf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Montserrat';
+    src: url('../assets/fonts/Montserrat-VariableFont_wght.ttf') format('truetype');
+    src: url('../assets/fonts/Montserrat-Italic-VariableFont_wght.ttf') format('truetype');
+  }

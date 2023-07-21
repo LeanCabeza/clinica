@@ -1,90 +1,11 @@
+.image-container {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+  }
   
-  h1{
-    font-family: 'Trebuchet MS';
-    color: white;
+  .image-container img {
+    width: 100%;
+    height: 80vh;
+    filter: brightness(90%); /* Ajusta el porcentaje para hacer la imagen más oscura */
   }
-  .fondo {
-    height: 83vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
- 
-  .contenedor {
-    border-radius: 25px;
-    background-image: url(../../../assets/images/home3.jpg);;
-    background-position: center;
-    background-size: cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100vh;
-    height: 60vh;
-    padding: 15px;
-  }
-
-  .registerButton {
-    box-shadow:inset -1px 2px 0px 0px #bee2f9;
-    background:linear-gradient(to bottom, #63b8ee 5%, #468ccf 100%);
-    background-color:#63b8ee;
-    border-radius:6px;
-    border:1px solid #3866a3;
-    display:inline-block;
-    cursor:pointer;
-    color:#14396a;
-    font-family:Trebuchet MS;
-    font-size:16px;
-    font-weight:bold;
-    padding:10px 30px;
-    text-decoration:none;
-    text-shadow:-1px 2px 0px #7cacde;
-  }
-  .registerButton:hover {
-    background:linear-gradient(to bottom, #468ccf 5%, #63b8ee 100%);
-    background-color:#468ccf;
-  }
-  .registerButton:active {
-    position:relative;
-    top:1px;
-  }
-
-
-  .logButton {
-    box-shadow:inset -1px 2px 0px 0px #9acc85;
-    background:linear-gradient(to bottom, #74ad5a 5%, #68a54b 100%);
-    background-color:#74ad5a;
-    border-radius:6px;
-    border:1px solid #3b6e22;
-    display:inline-block;
-    cursor:pointer;
-    color:#ffffff;
-    font-family:Trebuchet MS;
-    font-size:16px;
-    font-weight:bold;
-    padding:10px 30px;
-    text-decoration:none;
-    text-shadow:-1px 2px 0px #92b879;
-  }
-  .logButton:hover {
-    background:linear-gradient(to bottom, #68a54b 5%, #74ad5a 100%);
-    background-color:#68a54b;
-  }
-  .logButton:active {
-    position:relative;
-    top:1px;
-  }
-
-  
-  .bounce-top{-webkit-animation:bounce-top .9s .5s both;animation:bounce-top .9s .5s both}  @-webkit-keyframes bounce-top{0%{-webkit-transform:translateY(-45px);transform:translateY(-45px);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in;opacity:1}24%{opacity:1}40%{-webkit-transform:translateY(-24px);transform:translateY(-24px);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}65%{-webkit-transform:translateY(-12px);transform:translateY(-12px);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}82%{-webkit-transform:translateY(-6px);transform:translateY(-6px);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}93%{-webkit-transform:translateY(-4px);transform:translateY(-4px);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}25%,55%,75%,87%{-webkit-transform:translateY(0);transform:translateY(0);-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out}100%{-webkit-transform:translateY(0);transform:translateY(0);-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out;opacity:1}}@keyframes bounce-top{0%{-webkit-transform:translateY(-45px);transform:translateY(-45px);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in;opacity:1}24%{opacity:1}40%{-webkit-transform:translateY(-24px);transform:translateY(-24px);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}65%{-webkit-transform:translateY(-12px);transform:translateY(-12px);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}82%{-webkit-transform:translateY(-6px);transform:translateY(-6px);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}93%{-webkit-transform:translateY(-4px);transform:translateY(-4px);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}25%,55%,75%,87%{-webkit-transform:translateY(0);transform:translateY(0);-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out}100%{-webkit-transform:translateY(0);transform:translateY(0);-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out;opacity:1}}
-  @-webkit-keyframes bounce-top{0%{-webkit-transform:translateY(-45px);transform:translateY(-45px);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in;opacity:1}24%{opacity:1}40%{-webkit-transform:translateY(-24px);transform:translateY(-24px);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}65%{-webkit-transform:translateY(-12px);transform:translateY(-12px);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}82%{-webkit-transform:translateY(-6px);transform:translateY(-6px);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}93%{-webkit-transform:translateY(-4px);transform:translateY(-4px);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}25%,55%,75%,87%{-webkit-transform:translateY(0);transform:translateY(0);-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out}100%{-webkit-transform:translateY(0);transform:translateY(0);-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out;opacity:1}}@keyframes bounce-top{0%{-webkit-transform:translateY(-45px);transform:translateY(-45px);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in;opacity:1}24%{opacity:1}40%{-webkit-transform:translateY(-24px);transform:translateY(-24px);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}65%{-webkit-transform:translateY(-12px);transform:translateY(-12px);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}82%{-webkit-transform:translateY(-6px);transform:translateY(-6px);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}93%{-webkit-transform:translateY(-4px);transform:translateY(-4px);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}25%,55%,75%,87%{-webkit-transform:translateY(0);transform:translateY(0);-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out}100%{-webkit-transform:translateY(0);transform:translateY(0);-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out;opacity:1}}
-
-  .scale-in-center{-webkit-animation:scale-in-center .5s cubic-bezier(.25,.46,.45,.94) both;animation:scale-in-center .5s cubic-bezier(.25,.46,.45,.94) both}
-  @-webkit-keyframes scale-in-center{0%{-webkit-transform:scale(0);transform:scale(0);opacity:1}100%{-webkit-transform:scale(1);transform:scale(1);opacity:1}}@keyframes scale-in-center{0%{-webkit-transform:scale(0);transform:scale(0);opacity:1}100%{-webkit-transform:scale(1);transform:scale(1);opacity:1}}
-
-  .tracking-in-contract{-webkit-animation:tracking-in-contract .8s cubic-bezier(.215,.61,.355,1.000) both;animation:tracking-in-contract .8s cubic-bezier(.215,.61,.355,1.000) both}
-  @-webkit-keyframes tracking-in-contract{0%{letter-spacing:1em;opacity:0}40%{opacity:.6}100%{letter-spacing:normal;opacity:1}}@keyframes tracking-in-contract{0%{letter-spacing:1em;opacity:0}40%{opacity:.6}100%{letter-spacing:normal;opacity:1}}
-
-  #shadow {
-    -webkit-box-shadow: 5px 5px 15px 5px #F7ECDE; 
-    box-shadow: 5px 5px 15px 5px #F7ECDE;
-    }

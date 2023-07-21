@@ -1,0 +1,27 @@
+<h2>Admin Panel</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Apellido</th>
+      <th>Email</th>
+      <th>Especialidad</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let usuario of usuarios">
+      <td>{{ usuario.id }}</td>
+      <td>{{ usuario.nombre }}</td>
+      <td>{{ usuario.apellido }}</td>
+      <td>{{ usuario.email }}</td>
+      <td>{{ usuario.especialidad }}</td>
+      <td>
+        <button *ngIf="usuario.especialidad" class="btn btn-success" (click)="aceptarUsuario(usuario)">Aceptar</button>
+        <button *ngIf="usuario.especialidad" class="btn btn-danger" (click)="rechazarUsuario(usuario)">Rechazar</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

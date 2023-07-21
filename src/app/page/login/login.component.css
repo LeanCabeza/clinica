@@ -18,6 +18,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    border-top: 1px solid #005075;
   }
  
   .contenedor {
@@ -69,6 +70,7 @@
     font-family:Arial;
     font-size:12px;
     padding:11px 24px;
+    margin-left: 15px;
     text-decoration:none;
     text-shadow:0px 1px 0px #854629;
   }
