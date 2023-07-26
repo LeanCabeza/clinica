@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from 'src/app/models/usuario.interface';
+import { UsuariosService } from 'src/app/service/usuarios.service';
+import { CommonModule } from '@angular/common';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @Component({
@@ -7,26 +11,35 @@ import { Usuario } from 'src/app/models/usuario.interface';
   templateUrl: './admin-panel.component.html',
   styleUrls: ['./admin-panel.component.css']
 })
+
 export class AdminPanelComponent implements OnInit {
 
-  usuarios: Usuario[]; // Esta propiedad almacenará la lista de usuarios obtenidos de Firebase
+  usuarios: Usuario[]
 
-  constructor() { }
+  constructor(private usuariosService: UsuariosService) { }
 
   ngOnInit(): void {
-    // Aquí puedes obtener los usuarios de Firebase y asignarlos a this.usuarios
-    // Por ejemplo, puedes usar el servicio AngularFire para interactuar con Firebase
-    // this.usuarios = this.afs.collection('usuarios').valueChanges(); // Ejemplo usando AngularFirestore (Firestore de Firebase)
+    this.getUsuarios();
   }
 
-  aceptarUsuario(usuario: Usuario) {
-    // Aquí implementarías la lógica para aceptar al usuario especialista
-    // Puedes enviar una actualización a Firebase o realizar otras acciones
+  aceptarUsuario(){
+
   }
 
-  rechazarUsuario(usuario: Usuario) {
-    // Aquí implementarías la lógica para rechazar al usuario especialista
-    // Puedes enviar una actualización a Firebase o realizar otras acciones
+  rechazarUsuario(){
+    
+  }
+
+  getUsuarios() {
+    this.usuariosService.getUsuarios()
+      .subscribe(
+        (usuarios: Usuario[]) => {
+          this.usuarios = usuarios;
+        },
+        (error) => {
+          console.log('Error al obtener los usuarios:', error);
+        }
+      );
   }
 
 }
