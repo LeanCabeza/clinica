@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from 'src/app/models/usuario.interface';
 import { UsuariosService } from 'src/app/service/usuarios.service';
-import { CommonModule } from '@angular/common';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-admin-panel',
@@ -14,7 +11,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 export class AdminPanelComponent implements OnInit {
 
-  usuarios: Usuario[]
+  usuarios: Usuario[];
+  especialistas: Usuario[];
 
   constructor(private usuariosService: UsuariosService) { }
 
@@ -22,19 +20,13 @@ export class AdminPanelComponent implements OnInit {
     this.getUsuarios();
   }
 
-  aceptarUsuario(){
-
-  }
-
-  rechazarUsuario(){
-    
-  }
-
   getUsuarios() {
     this.usuariosService.getUsuarios()
       .subscribe(
         (usuarios: Usuario[]) => {
-          this.usuarios = usuarios;
+          // Filtrar usuarios según el valor de la especialidad
+          this.usuarios = usuarios.filter((usuario: Usuario) =>  usuario.aceptado == "true");
+          this.especialistas = usuarios.filter((usuario: Usuario) => usuario.especialidad != null && usuario.aceptado == null);
         },
         (error) => {
           console.log('Error al obtener los usuarios:', error);
@@ -42,4 +34,16 @@ export class AdminPanelComponent implements OnInit {
       );
   }
 
+  actualizarEstado(dni: string, flag: string): void {
+    const dniParse = Number(dni);
+    this.usuariosService.actualizarAceptadoPorDNI(dniParse, flag)
+      .then(() => {
+        swal.fire('Procesamiento exitoso!', (flag === 'true') ? 'El usuario fue aceptado correctamente' : 'El usuario fue rechazado correctamente', 'success');
+        this.getUsuarios();
+      })
+      .catch((error) => {
+        console.error('Error al actualizar el estado:', error);
+        this.getUsuarios();
+      });
+  }
 }

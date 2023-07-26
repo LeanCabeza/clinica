@@ -36,4 +36,19 @@ export class UsuariosService {
     return this.usuarioColleccion?.add(usuario);
   }
 
+  actualizarAceptadoPorDNI(dni: number, flag: string): Promise<void> {
+    console.log("Entre al servicio");
+    return new Promise<void>((resolve, reject) => {
+      this.db.collection('usuarios', ref => ref.where('dni', '==', dni))
+        .get()
+        .toPromise()
+        .then((querySnapshot) => {
+          querySnapshot?.forEach((doc) => {
+            doc.ref.update({ aceptado: flag }).then(() => {resolve()});
+          });
+        })
+        .catch((error) => reject(error));
+    });
+  }
+
 }

@@ -1,5 +1,5 @@
 <div class="container">
-  <h2>Admin Panel</h2>
+  <h2 style="text-align: center;">Todos los usuarios 👥</h2>
 
   <table class="table table-striped table-bordered">
     <thead>
@@ -12,8 +12,6 @@
         <th>Edad</th>
         <th>Obra Social</th>
         <th>Tipo Usuario</th>
-        <th>Especialidad</th>
-        <th>Acciones</th>
       </tr>
     </thead>
     <tbody>
@@ -31,10 +29,49 @@
         <td>{{ usuario.edad }}</td>
         <td>{{ usuario.obraSocial }}</td>
         <td>{{ usuario.tipoUsuario }}</td>
-        <td>{{ usuario.especialidad }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<div class="container">
+  <h2 style="text-align: center;">Aceptar/Rechazar Especialistas 👨🏻‍⚖️🔨</h2>
+
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Usuario</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Email</th>
+        <th>Dni</th>
+        <th>Edad</th>
+        <th>Obra Social</th>
+        <th>Tipo Usuario</th>
+        <th>Especialidad</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let especialista of especialistas">
         <td>
-          <button *ngIf="usuario.especialidad" class="btn btn-success" style="height: 35px" (click)="aceptarUsuario()">Aceptar</button>
-          <button *ngIf="usuario.especialidad" class="btn btn-danger" style="height: 35px;margin-left: 5px;" (click)="rechazarUsuario()">Rechazar</button>
+          <div class="profile-picture">
+            <img *ngIf="especialista.fotoPerfil" [src]="especialista.fotoPerfil" alt="Foto de perfil">
+            <span *ngIf="!especialista.fotoPerfil" class="no-photo">Sin foto</span>
+          </div>
+        </td>
+        <td>{{ especialista.nombre }}</td>
+        <td>{{ especialista.apellido }}</td>
+        <td>{{ especialista.email }}</td>
+        <td>{{ especialista.dni }}</td>
+        <td>{{ especialista.edad }}</td>
+        <td>{{ especialista.obraSocial }}</td>
+        <td>{{ especialista.tipoUsuario }}</td>
+        <td>{{ especialista.especialidad }}</td>
+        <td>
+          <button *ngIf="especialista.especialidad" class="btn btn-success" style="height: 35px" (click)="actualizarEstado(especialista.dni,'true')">Aceptar</button>
+          <button *ngIf="especialista.especialidad" class="btn btn-danger" style="height: 35px;margin-left: 5px;" (click)="actualizarEstado(especialista.dni,'false')">Rechazar</button>
         </td>
       </tr>
     </tbody>
