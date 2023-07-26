@@ -34,6 +34,8 @@
         <td>{{ usuario.especialidad }}</td>
         <td>
           <button *ngIf="usuario.especialidad" class="btn btn-success" style="height: 35px" (click)="aceptarUsuario()">Aceptar</button>
+          <button *ngIf="usuario.especialidad" class="btn btn-danger" style="height: 35px;margin-left: 5px;" (click)="rechazarUsuario()">Rechazar</button>
+        </td>
       </tr>
     </tbody>
   </table>
