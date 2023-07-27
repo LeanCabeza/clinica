@@ -18,8 +18,8 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.usuariosService.usuarioLogueado$.subscribe((usuario) => {
       this.usuarioLogueado = usuario;
-      this.userIcon = this.usuarioLogueado?.tipoUsuario === 'especialista' ? '🩺' : this.usuarioLogueado?.tipoUsuario === 'admin' ? '🔨' : '🟢';
     });
+    this.userIcon = this.usuarioLogueado?.tipoUsuario === 'especialista' ? '🩺' : this.usuarioLogueado?.tipoUsuario === 'admin' ? '🔨' : '🟢';
   }
 
   logout() {
