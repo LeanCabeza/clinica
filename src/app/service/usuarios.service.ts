@@ -52,14 +52,12 @@ export class UsuariosService {
   }
 
   getUsuarioByCredentials(email: string, password: string): Promise<Usuario | null> {
-    console.log("Llegue al servicio", email, password);
     return new Promise<Usuario | null>((resolve, reject) => {
       this.db.collection<Usuario>('usuarios', ref => ref.where('email', '==', email).where('password', '==', password))
         .get()
         .toPromise()
         .then((querySnapshot) => {
           if (querySnapshot?.empty) {
-            console.log("No se encontro nada")
             resolve(null); 
           } else {
             querySnapshot?.forEach((doc) => {

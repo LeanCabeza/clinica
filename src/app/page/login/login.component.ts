@@ -23,7 +23,6 @@ export class LoginComponent implements OnInit {
   }
 
   async login() {
-    console.log("LLegue al login")
     try {
       const user = await this.usuariosService.getUsuarioByCredentials(this.usuario.email, this.usuario.password);
       if (user) {
@@ -32,7 +31,6 @@ export class LoginComponent implements OnInit {
         swal.fire('Error', 'Credenciales inválidas. Por favor, inténtalo de nuevo.', 'error');
       }
     } catch (error) {
-      console.log('Error al verificar las credenciales:', error);
       swal.fire('Error', 'Ha ocurrido un error. Por favor, inténtalo de nuevo.', 'error');
     }
   }
