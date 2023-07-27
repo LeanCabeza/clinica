@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
 
   async login() {
     try {
-      const user = await this.usuariosService.getUsuarioByCredentials(this.usuario.email, this.usuario.password);
+      const user = await this.usuariosService.login(this.usuario.email, this.usuario.password);
       if (user) {
         swal.fire('Ingreso exitoso!', 'Inicio de sesión exitoso. Redirigiendo...', 'success');
       } else {

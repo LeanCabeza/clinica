@@ -51,7 +51,7 @@ export class UsuariosService {
     });
   }
 
-  getUsuarioByCredentials(email: string, password: string): Promise<Usuario | null> {
+  login(email: string, password: string): Promise<Usuario | null> {
     return new Promise<Usuario | null>((resolve, reject) => {
       this.db.collection<Usuario>('usuarios', ref => ref.where('email', '==', email).where('password', '==', password))
         .get()
