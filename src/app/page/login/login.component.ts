@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AuthService } from 'src/app/service/auth.service';
+import { UsuariosService } from 'src/app/service/usuarios.service';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -9,10 +10,9 @@ import { AuthService } from 'src/app/service/auth.service';
 })
 export class LoginComponent implements OnInit {
 
-  mensajeLoggeo: string = '';
   @ViewChild("loginForm") loginForm:NgForm | undefined;
 
-  constructor(private authService: AuthService) {}
+  constructor(private usuariosService: UsuariosService) {}
 
   ngOnInit(): void {
   }
@@ -22,18 +22,20 @@ export class LoginComponent implements OnInit {
     password: ""
   }
 
-  loginConGoogle(){
-    this.authService.loginWithGoogle().then(res =>{
-      console.log("Se loggeo:",res);
-    })
+  async login() {
+    console.log("LLegue al login")
+    try {
+      const user = await this.usuariosService.getUsuarioByCredentials(this.usuario.email, this.usuario.password);
+      if (user) {
+        swal.fire('Registro exitoso!', 'Inicio de sesión exitoso. Redirigiendo...', 'success');
+      } else {
+        swal.fire('Error', 'Credenciales inválidas. Por favor, inténtalo de nuevo.', 'error');
+      }
+    } catch (error) {
+      console.log('Error al verificar las credenciales:', error);
+      swal.fire('Error', 'Ha ocurrido un error. Por favor, inténtalo de nuevo.', 'error');
+    }
   }
 
-  login(){
-    console.log(this.usuario);
-    const {email ,password} = this.usuario;
-    this.authService.login(email,password).then(res =>{
-      console.log("Se loggeo:",res);
-    })
-  }
 
 }

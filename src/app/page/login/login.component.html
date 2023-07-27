@@ -1,23 +1,22 @@
 <div class="fondo">
-  <div  id="shadow" class="contenedor scale-in-center flip-in-ver-left">
+  <div id="shadow" class="contenedor scale-in-center flip-in-ver-left">
     <div>
       <h1 class="text-center tracking-in-contract display-4">
-          Ingresar
+        Ingresar
       </h1>
       <img src="../assets/images/loginImage.jpg" class="logo">
 
       <div class="row mt-4">
         <div>
           <label>Email</label>
-          <input type="mail" class="form-control"  placeholder="email@ejemplo.com">
+          <input type="email" class="form-control" [(ngModel)]="usuario.email" placeholder="email@ejemplo.com">
           <label>Password</label>
-          <input type="password" class="form-control"  placeholder="Seguridad123">
-          
+          <input type="password" class="form-control" [(ngModel)]="usuario.password" placeholder="Seguridad123">
           <div class="d-flex justify-content-center mt-3">
-            <a href="#" class="logginBtn">Ingresar</a>
-            <a class="loginGoogleBtn" (click)="loginConGoogle()">Ingresar con Google</a>
+            <a class="logginBtn" (click)="login()">Ingresar</a>
           </div>
         </div>
       </div>
+    </div>
   </div>
 </div>

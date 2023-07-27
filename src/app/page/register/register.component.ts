@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/service/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UsuariosService } from 'src/app/service/usuarios.service';
 import swal from 'sweetalert2';
@@ -30,7 +29,6 @@ export class RegisterComponent implements OnInit {
   selectedImage: File | null;
 
   constructor(
-    private authService: AuthService,
     private snackBar: MatSnackBar,
     private userService: UsuariosService
   ) {}
@@ -105,17 +103,7 @@ export class RegisterComponent implements OnInit {
       return false;
     }
 
-    // Agrega validaciones adicionales para los demás campos si es necesario...
-
     return true;
-  }
-
-  loginConGoogle() {
-    this.authService.loginWithGoogle().then(res => {
-      console.log('Se registró:', res);
-    }).catch(error => {
-      console.error('Error al registrar con Google:', error);
-    });
   }
 
   openSnackBar() {
