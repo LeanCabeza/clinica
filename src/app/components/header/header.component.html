@@ -1,28 +1,44 @@
-
 <header>
   <div class="px-3 py-2 bg-white text-white">
     <div class="container">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+
+        <!-- Contenido del usuario logueado -->
+        <div *ngIf="usuarioLogueado" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+          <div class="profile-picture">
+            <img *ngIf="usuarioLogueado.fotoPerfil" [src]="usuarioLogueado.fotoPerfil" alt="Foto de perfil">
+            <span *ngIf="!usuarioLogueado.fotoPerfil" class="no-photo">Sin foto</span>
+          </div>
+          <h3>{{ usuarioLogueado.nombre }} {{ usuarioLogueado.apellido }} {{userIcon}}</h3>
+        </div>
+
+        <!-- Resto del contenido del header -->
         <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
           <img src="/assets/images/logo.png" alt="Logo de la pagina" height="60">
         </a>
         <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0">
           <li>
             <a routerLink="" class="nav-link text-black">
-                <strong> 🏠 Inicio</strong>        
+              <strong> 🏠 Inicio</strong>        
             </a>
           </li>
-          <li>
+          <li *ngIf="!usuarioLogueado">
             <a routerLink="/register" class="nav-link text-black">
               <strong> 📝 Registrarse</strong>     
             </a>
           </li>
           <li>
-            <a routerLink="/login" class="nav-link text-black">
+            <a *ngIf="!usuarioLogueado"routerLink="/login" class="nav-link text-black">
               <strong> 📤 Ingresar</strong>     
             </a>
           </li>
+          <li>
+            <a *ngIf="usuarioLogueado" (click)="logout()" routerLink="" class="nav-link text-black">
+              <strong> ⛔ Salir</strong>     
+            </a>
+          </li>
         </ul>
+
       </div>
     </div>
   </div>
