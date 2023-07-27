@@ -1,9 +1,6 @@
 
 <header>
   <div class="px-3 py-2 bg-white text-white">
-
-  <div *ngIf="logged == false;else loggedHeader">
-
     <div class="container">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
         <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
@@ -28,51 +25,5 @@
         </ul>
       </div>
     </div>
-  </div>
-
-  <ng-template #loggedHeader>
-    <div class="container">
-      <div class="text-end">
-        <strong style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;font-size: 15px;">🟢 {{emailUsuario}}</strong>
-      </div>
-      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-        <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
-          <img src="/assets/images/Logo.png" alt="Logo de la pagina" height="60">
-        </a>
-        <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0">
-          <li>
-            <a routerLink="" class="nav-link text-white">
-                <strong> 🏠 Inicio</strong>        
-            </a>
-          </li>
-          <li>
-            <a routerLink="/gamelist" class="nav-link text-white">
-              <strong>  🎮 Juegos</strong>     
-            </a>
-          </li>
-          <li>
-            <a routerLink="/tabla" class="nav-link text-white">
-              <strong>🎯 Mejores Jugadores</strong>     
-            </a>
-          </li>
-          <li>
-            <a routerLink="/chat" class="nav-link text-white">
-              <strong> 🦜 Chat</strong>     
-            </a>
-          </li>
-          <li>
-            <a routerLink="/about" class="nav-link text-white">
-              <strong> 👨🏻‍💻 About</strong>     
-            </a>
-          </li>
-          <li>
-            <a routerLink="" class="nav-link text-white">
-              <strong (click)="logout()"> 🚫 Salir</strong>     
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </ng-template>
   </div>
 </header>

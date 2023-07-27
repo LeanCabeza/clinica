@@ -7,20 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  logged = false;
-  emailUsuario = "";
-
   constructor() {
    }
 
   ngOnInit(): void {
-    this.obtenerUsuarioLoggeado();
   }
-
-  obtenerUsuarioLoggeado(){
-  }
-
-  logout(){
-  }
-
 }

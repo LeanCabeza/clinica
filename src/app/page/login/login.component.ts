@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
     try {
       const user = await this.usuariosService.getUsuarioByCredentials(this.usuario.email, this.usuario.password);
       if (user) {
-        swal.fire('Registro exitoso!', 'Inicio de sesión exitoso. Redirigiendo...', 'success');
+        swal.fire('Ingreso exitoso!', 'Inicio de sesión exitoso. Redirigiendo...', 'success');
       } else {
         swal.fire('Error', 'Credenciales inválidas. Por favor, inténtalo de nuevo.', 'error');
       }
