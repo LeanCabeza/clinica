@@ -13,11 +13,13 @@ export class AdminPanelComponent implements OnInit {
 
   usuarios: Usuario[];
   especialistas: Usuario[];
+  flagAdmin: boolean = false;
 
   constructor(private usuariosService: UsuariosService) { }
 
   ngOnInit(): void {
     this.getUsuarios();
+    this.flagAdmin = this.usuariosService.getUsuarioLogueado()?.tipoUsuario == "admin"
   }
 
   getUsuarios() {
