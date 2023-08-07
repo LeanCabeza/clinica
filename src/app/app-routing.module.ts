@@ -5,6 +5,7 @@ import { LoginComponent } from './page/login/login.component';
 import { MainComponent } from './page/main/main.component';
 import { RegisterComponent } from './page/register/register.component';
 import { AdminPanelComponent } from './page/admin-panel/admin-panel.component';
+import { PacientePanelComponent } from './page/paciente-panel/paciente-panel.component';
 
 
 const routes: Routes = [
@@ -12,7 +13,9 @@ const routes: Routes = [
   {path:'register',component: RegisterComponent},
   {path:'login',component: LoginComponent},
   {path:'profile',component: MyProfileComponent},
-  {path:'panel',component: AdminPanelComponent},
+  {path:'panelAdmin',component: AdminPanelComponent},
+  {path:'panelPaciente',component: PacientePanelComponent},
+  {path:'**',component: MainComponent},
 ];
 
 @NgModule({

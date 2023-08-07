@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import { Usuario } from '../models/usuario.interface';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { CommonModule } from '@angular/common';
 
 
 @Injectable({
@@ -39,6 +37,14 @@ export class UsuariosService {
   getUsuarios() {
     this.usuarioColleccion = this.db.collection<Usuario>('usuarios', ref => ref);
     return this.usuarioColleccion.valueChanges();
+  }
+
+  getEspecialistaByEspecialidad(especialidad: string): Observable<Usuario[]> {
+    return this.usuarioColleccion
+      .valueChanges()
+      .pipe(
+        map((usuarios: Usuario[]) => usuarios.filter((usuario: Usuario) => usuario.especialidad === especialidad))
+      );
   }
 
   crearUsuario(usuario: Usuario) {

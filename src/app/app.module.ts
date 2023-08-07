@@ -15,6 +15,7 @@ import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser'
 import { FormsModule } from '@angular/forms';
 import { AdminPanelComponent } from './page/admin-panel/admin-panel.component';
+import { PacientePanelComponent } from './page/paciente-panel/paciente-panel.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { AdminPanelComponent } from './page/admin-panel/admin-panel.component';
     LoginComponent,
     RegisterComponent,
     MyProfileComponent,
-    AdminPanelComponent
+    AdminPanelComponent,
+    PacientePanelComponent
   ],
   imports: [
     BrowserModule,
