@@ -16,6 +16,8 @@ import { BrowserModule } from '@angular/platform-browser'
 import { FormsModule } from '@angular/forms';
 import { AdminPanelComponent } from './page/admin-panel/admin-panel.component';
 import { PacientePanelComponent } from './page/paciente-panel/paciente-panel.component';
+import { TurnosService } from './service/turnos.service';
+import { UsuariosService } from './service/usuarios.service';
 
 
 @NgModule({
@@ -38,9 +40,9 @@ import { PacientePanelComponent } from './page/paciente-panel/paciente-panel.com
     BrowserAnimationsModule,
     MatSnackBarModule,
     CommonModule,
-    FormsModule
+    FormsModule,
   ],
-  providers: [],
+  providers:  [TurnosService,UsuariosService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

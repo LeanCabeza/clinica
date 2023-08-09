@@ -8,8 +8,13 @@
     constructor(private firestore: AngularFirestore) { }
     
     getTurnosByEspecialista(dni: string) {
-        return this.firestore.collection<Turno>('turnos', ref => ref.where('dni', '==', dni)).valueChanges();
+        console.log("Tratando de obtener turnos firebase, servicio, dni: ",dni);
+        return this.firestore.collection<Turno>('turnos', ref => ref.where('especialistaDni', '==', dni)).valueChanges();
     }
+
+    guardarTurno(turno: Turno) {
+        return this.firestore.collection('turnos').add(turno);
+      }
     
     
     }
