@@ -20,7 +20,7 @@ export class PacientePanelComponent implements OnInit {
   especialidadSeleccionada: string;
   fechaSeleccionada: string;
   horaSeleccionada: string;
-  doctorSeleccionado: any;
+  dniDoctorSeleccionado: any;
   usuarioLogueado: Usuario | null = null;
 
   constructor(private usuariosService: UsuariosService, private turnosService: TurnosService) {
@@ -54,7 +54,7 @@ export class PacientePanelComponent implements OnInit {
       this.horas = [];
       const horaInicio = 9;
       const horaFin = 13;
-      const intervalo = 30; // minutos
+      const intervalo = 30;
   
       for (let hora = horaInicio; hora < horaFin; hora++) {
         for (let minuto = 0; minuto < 60; minuto += intervalo) {
@@ -69,25 +69,28 @@ export class PacientePanelComponent implements OnInit {
     this.usuariosService.getEspecialistaByEspecialidad(this.especialidadSeleccionada)
       .subscribe(doctores => {
         this.doctores = doctores;
-        this.doctorSeleccionado = null;
+        this.dniDoctorSeleccionado = null;
         this.fechaSeleccionada = "";
         this.horaSeleccionada = "";
       });
   }
   
   seleccionarFecha() {
-    if (this.doctorSeleccionado && this.fechaSeleccionada) {
+    if (this.dniDoctorSeleccionado && this.fechaSeleccionada) {
       this.cargarHorarios();
     }
   }
+
   reservarTurno() {
     if (!this.horaSeleccionada) {
       Swal.fire('Error', 'Debes seleccionar un horario.', 'error');
       return;
     }
 
+    console.log(this.dniDoctorSeleccionado);
+
     const nuevoTurno: Turno = {
-      especialistaDni: this.doctorSeleccionado,
+      especialistaDni: this.dniDoctorSeleccionado,
       pacienteDni: this.usuarioLogueado?.dni.toString(),
       fecha: this.fechaSeleccionada,
       hora: this.horaSeleccionada,
@@ -96,7 +99,7 @@ export class PacientePanelComponent implements OnInit {
 
     this.turnosService.guardarTurno(nuevoTurno)
       .then(() => {
-        Swal.fire('Operacion exitosa!', 'Turno guardado con exito', 'success');
+        Swal.fire('Operacion exitosa!',`Turno guardado con éxito para el ${this.fechaSeleccionada} a las ${this.horaSeleccionada}.` , 'success');
         // Actualizar la lista de turnos disponibles
         // this.cargarTurnosOcupados(this.doctorSeleccionado);
       })
