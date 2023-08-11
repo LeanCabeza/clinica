@@ -1,33 +1,31 @@
 <div class="container">
   <div class="form-group">
     <label for="especialidad">Selecciona una especialidad:</label>
-    <select class="form-control" [(ngModel)]="especialidadSeleccionada" name="especialidad" (ngModelChange)="cargarDoctores(); cargarTurnos()">
+    <select class="form-control" [(ngModel)]="especialidadSeleccionada" (change)="cargarDoctores()">
       <option *ngFor="let especialidad of especialidades" [value]="especialidad">{{ especialidad }}</option>
     </select>
   </div>
   
-  <div class="form-group" *ngIf="doctores">
+  <div class="form-group" *ngIf="doctores.length > 0">
     <label for="doctor">Selecciona un doctor:</label>
-    <select class="form-control" [(ngModel)]="doctorSeleccionado" name="doctor" (ngModelChange)="doctorSeleccionado && cargarTurnosOcupados(doctorSeleccionado)">
+    <select class="form-control" [(ngModel)]="doctorSeleccionado">
       <option *ngFor="let doctor of doctores" [value]="doctor.dni">{{ doctor.nombre }} {{ doctor.apellido }}</option>
     </select>
   </div>
-  
-  
-  <div class="table-responsive" *ngIf="turnosDisponibles" >
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Fecha</th>
-          <th>Reservar</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let turno of turnosDisponibles">
-          <td>{{ turno.fecha | date:'medium' }}</td>
-          <td><button class="btn btn-primary" (click)="reservarTurno(turno)">Reservar</button></td>
-        </tr>
-      </tbody>
-    </table>
+
+  <div class="form-group" *ngIf="doctorSeleccionado">
+    <label for="fecha">Selecciona una Fecha:</label>
+    <select class="form-control" [(ngModel)]="fechaSeleccionada">
+      <option *ngFor="let fecha of fechas" [value]="fecha">{{ fecha }}</option>
+    </select>
   </div>
+
+  <div class="form-group" *ngIf="fechaSeleccionada">
+    <label for="fecha">Selecciona una Hora:</label>
+    <select class="form-control" [(ngModel)]="horaSeleccionada">
+      <option *ngFor="let hora of horas" [value]="hora">{{ hora }}</option>
+    </select>
+  </div>
+
+  <button class="btn btn-primary" (click)="reservarTurno()">Reservar Turno</button>
 </div>

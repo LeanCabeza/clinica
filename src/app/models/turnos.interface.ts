@@ -1,6 +1,7 @@
 export interface Turno {
     especialistaDni?: string;
     pacienteDni?: string;
-    fecha?: Date;
+    fecha?: string;
+    hora?: string;
     atendido?:Boolean;
   }

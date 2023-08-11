@@ -1,6 +1,6 @@
     import { Injectable } from '@angular/core';
-    import { Turno } from '../models/turnos.interface';
     import { AngularFirestore } from '@angular/fire/compat/firestore';
+    import { Turno } from '../models/turnos.interface';
     
     @Injectable()
     export class TurnosService {
