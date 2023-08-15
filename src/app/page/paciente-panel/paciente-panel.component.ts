@@ -62,6 +62,7 @@ export class PacientePanelComponent implements OnInit {
           this.horas.push(horaFormateada);
         }
       }
+      
     console.log(this.horas)
   }
 
@@ -82,13 +83,12 @@ export class PacientePanelComponent implements OnInit {
   }
 
   reservarTurno() {
-    if (!this.horaSeleccionada) {
-      Swal.fire('Error', 'Debes seleccionar un horario.', 'error');
+    const turnoOcupado = this.turnosDisponibles.find(turno => turno.hora === this.horaSeleccionada);
+    if (turnoOcupado) {
+      Swal.fire('Error', 'Este turno ya está reservado.', 'error');
       return;
     }
-
-    console.log(this.dniDoctorSeleccionado);
-
+  
     const nuevoTurno: Turno = {
       especialistaDni: this.dniDoctorSeleccionado,
       pacienteDni: this.usuarioLogueado?.dni.toString(),
@@ -96,15 +96,24 @@ export class PacientePanelComponent implements OnInit {
       hora: this.horaSeleccionada,
       atendido: false
     };
-
+  
     this.turnosService.guardarTurno(nuevoTurno)
       .then(() => {
-        Swal.fire('Operacion exitosa!',`Turno guardado con éxito para el ${this.fechaSeleccionada} a las ${this.horaSeleccionada}.` , 'success');
-        // Actualizar la lista de turnos disponibles
-        // this.cargarTurnosOcupados(this.doctorSeleccionado);
+        Swal.fire('Operación exitosa!', `Turno guardado con éxito para el ${this.fechaSeleccionada} a las ${this.horaSeleccionada}.`, 'success');
+        this.cargarTurnosOcupados();
       })
       .catch(error => {
         Swal.fire('Error', 'Ha ocurrido un error al guardar turno. Por favor, inténtalo de nuevo.', 'error');
       });
+  }
+
+  turnoReservado(hora: string): boolean {
+    const turnoOcupado = this.turnosDisponibles.find(turno => turno.hora === hora);
+    return turnoOcupado !== undefined;
+  }
+
+  cargarTurnosOcupados() {
+    // Aquí deberías implementar la lógica para obtener los turnos ya reservados
+    // y almacenarlos en this.turnosDisponibles.
   }
 }

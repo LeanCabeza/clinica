@@ -19,11 +19,29 @@
     </select>
   </div>
 
-  <div class="form-group" *ngIf="fechaSeleccionada">
-    <label for="fecha">Selecciona una Hora:</label>
-    <select class="form-control" [(ngModel)]="horaSeleccionada">
-      <option *ngFor="let hora of horas" [value]="hora">{{ hora }}</option>
-    </select>
+  <div *ngIf="fechaSeleccionada">
+    <h3>Horarios Disponibles</h3>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Hora</th>
+          <th>Estado</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let hora of horas">
+          <td>{{ hora }}</td>
+          <td>
+            <ng-container *ngIf="turnoReservado(hora)">Reservado</ng-container>
+            <ng-container *ngIf="!turnoReservado(hora)">Disponible</ng-container>
+          </td>
+          <td>
+            <button class="btn btn-success" *ngIf="!turnoReservado(hora)" (click)="reservarTurno()">Reservar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <button class="btn btn-primary" (click)="reservarTurno()">Reservar Turno</button>
