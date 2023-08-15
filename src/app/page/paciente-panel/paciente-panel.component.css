@@ -1,0 +1,71 @@
+/* Estilos para el menú de opciones */
+.menu-option-card {
+    cursor: pointer;
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .menu-option-card:hover {
+    background-color: #e9ecef;
+    transform: scale(1.05);
+  }
+  
+  .menu-option-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .menu-option-content i {
+    font-size: 2rem;
+    color: #007bff;
+    margin-bottom: 10px;
+  }
+  
+  /* Estilos para el contenido del formulario */
+  .form-container {
+    background-color: #ffffff;
+    padding: 20px;
+    border: 1px solid #ced4da;
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+  }
+  
+  .form-group label {
+    font-weight: bold;
+  }
+  
+  .form-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+  }
+  
+  /* Estilos para la tabla de horarios */
+  .table {
+    margin-top: 20px;
+  }
+  
+  .table th,
+  .table td {
+    vertical-align: middle;
+    text-align: center;
+  }
+  
+  .btn-success {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .btn-danger {
+    background-color: #dc3545;
+    color: white;
+  }
+  

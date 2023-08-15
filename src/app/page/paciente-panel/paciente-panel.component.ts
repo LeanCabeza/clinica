@@ -20,7 +20,9 @@ export class PacientePanelComponent implements OnInit {
   fechaSeleccionada: string;
   horaSeleccionada: string;
   dniDoctorSeleccionado: any;
-  usuarioLogueado: Usuario | null = null;
+  usuarioLogueado: Usuario | null = null;  
+  showReservarTurno: boolean = false;
+  showHistorialClinico: boolean = false;
 
   constructor(private usuariosService: UsuariosService, private turnosService: TurnosService) {
     this.generarFechas();
@@ -66,7 +68,6 @@ export class PacientePanelComponent implements OnInit {
     
     this.turnosService.getTurnosByEspecialista(this.dniDoctorSeleccionado, this.fechaSeleccionada).subscribe(turnos => {
       for (const turno of turnos) {
-        console.log(turno);
         const horaOcupada = turno.hora;
         const horaIndex = this.arrayHorarios.findIndex(hora => hora.horario === horaOcupada);
         if (horaIndex !== -1) {
@@ -74,8 +75,6 @@ export class PacientePanelComponent implements OnInit {
         }
       }
       });
-    
-      console.log(this.arrayHorarios);
   }
   
 
@@ -106,15 +105,26 @@ export class PacientePanelComponent implements OnInit {
       hora: hora,
       atendido: false
     };
-  
-    this.turnosService.guardarTurno(nuevoTurno)
-      .then(() => {
-        Swal.fire('Operación exitosa!', `Turno guardado con éxito para el ${this.fechaSeleccionada} a las ${this.horaSeleccionada}.`, 'success');
-        this.cargarHorarios()
-      })
-      .catch(error => {
+    
+    Swal.fire({
+      title: 'Estas seguro que queres reservar el turno?',
+      showDenyButton: true,
+      confirmButtonText: 'Si',
+      denyButtonText: 'No'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.turnosService.guardarTurno(nuevoTurno)
+        .then(() => {
+          Swal.fire('Operación exitosa!', `Turno guardado con éxito para el ${this.fechaSeleccionada} a las ${nuevoTurno.hora}.`, 'success');
+          this.cargarHorarios()
+        })
+        .catch(error => {
+          Swal.fire('Error', 'Ha ocurrido un error al guardar turno. Por favor, inténtalo de nuevo.', 'error');
+        });
+      } else if (result.isDenied) {
         Swal.fire('Error', 'Ha ocurrido un error al guardar turno. Por favor, inténtalo de nuevo.', 'error');
-      });
+      }
+    })
   }
 
 }

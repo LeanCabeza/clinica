@@ -14,8 +14,7 @@ const routes: Routes = [
   {path:'login',component: LoginComponent},
   {path:'profile',component: MyProfileComponent},
   {path:'panelAdmin',component: AdminPanelComponent},
-  {path:'panelPaciente',component: PacientePanelComponent},
-  {path:'**',component: MainComponent},
+  {path:'panelPaciente',component: PacientePanelComponent}
 ];
 
 @NgModule({

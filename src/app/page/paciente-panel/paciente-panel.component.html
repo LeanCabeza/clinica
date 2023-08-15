@@ -1,45 +1,83 @@
 <div class="container">
-  <div class="form-group">
-    <label for="especialidad">Selecciona una especialidad:</label>
-    <select class="form-control" [(ngModel)]="especialidadSeleccionada" (change)="cargarDoctores()">
-      <option *ngFor="let especialidad of especialidades" [value]="especialidad">{{ especialidad }}</option>
-    </select>
-  </div>
-  <div class="form-group" *ngIf="doctores.length > 0">
-    <label for="doctor">Selecciona un doctor:</label>
-    <select class="form-control" [(ngModel)]="dniDoctorSeleccionado">
-      <option *ngFor="let doctor of doctores" [value]="doctor.dni">{{ doctor.nombre }} {{ doctor.apellido }}</option>
-    </select>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="menu-option-card" (click)="showReservarTurno = true; showHistorialClinico = false;">
+        <div class="menu-option-content">
+          <i class="fas fa-calendar-plus"></i>
+          <h4>Reservar Turno</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="menu-option-card" (click)="showHistorialClinico = true; showReservarTurno = false;">
+        <div class="menu-option-content">
+          <i class="fa-solid fa-business-time"></i>
+          <h4>Proximos Turnos</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="menu-option-card" (click)="showHistorialClinico = true; showReservarTurno = false;">
+        <div class="menu-option-content">
+          <i class="fas fa-file-medical-alt"></i>
+          <h4>Historial Clínico</h4>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="form-group" *ngIf="dniDoctorSeleccionado">
-    <label for="fecha">Selecciona una Fecha:</label>
-    <select class="form-control" [(ngModel)]="fechaSeleccionada" (change)="cargarHorarios()">
-      <option *ngFor="let fecha of fechas" [value]="fecha">{{ fecha }}</option>
-    </select>
-  </div>
+  <div class="content">
+    <div class="reservar-turno" *ngIf="showReservarTurno">
+      <div class="form-container">
+        <h2>Reservar Turno</h2>
+        <div class="form-group">
+          <label for="especialidad">Selecciona una especialidad:</label>
+          <select class="form-control" [(ngModel)]="especialidadSeleccionada" (change)="cargarDoctores()">
+            <option *ngFor="let especialidad of especialidades" [value]="especialidad">{{ especialidad }}</option>
+          </select>
+        </div>
+        <div class="form-group" *ngIf="doctores.length > 0">
+          <label for="doctor">Selecciona un doctor:</label>
+          <select class="form-control" [(ngModel)]="dniDoctorSeleccionado">
+            <option *ngFor="let doctor of doctores" [value]="doctor.dni">{{ doctor.nombre }} {{ doctor.apellido }}</option>
+          </select>
+        </div>
+        <div class="form-group" *ngIf="dniDoctorSeleccionado">
+          <label for="fecha">Selecciona una Fecha:</label>
+          <select class="form-control" [(ngModel)]="fechaSeleccionada" (change)="cargarHorarios()">
+            <option *ngFor="let fecha of fechas" [value]="fecha">{{ fecha }}</option>
+          </select>
+        </div>
+        <div *ngIf="fechaSeleccionada">
+          <h3>Horarios Disponibles</h3>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Hora</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let horario of arrayHorarios">
+                <td>{{ horario.horario }}</td>
+                <td>
+                  <button class="btn"
+                          [class.btn-success]="horario.estado === 'disponible'"
+                          [class.btn-danger]="horario.estado === 'ocupado'"
+                          [disabled]="horario.estado === 'ocupado'"
+                          (click)="reservarTurno(horario.horario)">
+                    {{ horario.estado === 'ocupado' ? 'Reservado' : 'Reservar' }}
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
 
-  <div *ngIf="fechaSeleccionada">
-    <h3>Horarios Disponibles</h3>
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>Hora</th>
-          <th>Acción</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let horario of arrayHorarios">
-          <td>{{ horario.horario }}</td>
-          <td>
-            <button class="btn" [class.btn-success]="horario.estado === 'disponible'"
-                    [class.btn-danger]="horario.estado === 'ocupado'" [disabled]="horario.estado === 'ocupado'"
-                    (click)="reservarTurno(horario.horario)">
-              {{ horario.estado === 'ocupado' ? 'Reservado' : 'Reservar' }}
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="historial-clinico" *ngIf="showHistorialClinico">
+      <!-- Contenido del historial clínico aquí... -->
+    </div>
   </div>
 </div>
