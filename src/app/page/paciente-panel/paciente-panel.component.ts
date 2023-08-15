@@ -15,8 +15,7 @@ export class PacientePanelComponent implements OnInit {
   especialidades: string[] = ['Pediatria', 'Traumatologia', 'Medico Clinico'];
   doctores: any[] = [];
   fechas:string[] = [];
-  horas:string[] = [];
-  turnosDisponibles: Turno[] = [];
+  arrayHorarios: { horario: string; estado: string }[] = [];
   especialidadSeleccionada: string;
   fechaSeleccionada: string;
   horaSeleccionada: string;
@@ -25,7 +24,6 @@ export class PacientePanelComponent implements OnInit {
 
   constructor(private usuariosService: UsuariosService, private turnosService: TurnosService) {
     this.generarFechas();
-    this.cargarHorarios();
    }
 
   ngOnInit() {
@@ -35,6 +33,7 @@ export class PacientePanelComponent implements OnInit {
   }
 
   generarFechas() {
+    console.log("Generando fechas...");
     const fechaActual = new Date();
 
     for (let i = 0; i < 10; i++) {
@@ -51,26 +50,42 @@ export class PacientePanelComponent implements OnInit {
   }
 
   cargarHorarios() {
-      this.horas = [];
-      const horaInicio = 9;
-      const horaFin = 13;
-      const intervalo = 30;
+    console.log("Cargando horarios...");
+
+    this.arrayHorarios = [];
+    const horaInicio = 9;
+    const horaFin = 13;
+    const intervalo = 30;
   
-      for (let hora = horaInicio; hora < horaFin; hora++) {
-        for (let minuto = 0; minuto < 60; minuto += intervalo) {
-          const horaFormateada = `${hora.toString().padStart(2, '0')}:${minuto.toString().padStart(2, '0')}`;
-          this.horas.push(horaFormateada);
+    for (let hora = horaInicio; hora < horaFin; hora++) {
+      for (let minuto = 0; minuto < 60; minuto += intervalo) {
+        const horaFormateada = `${hora.toString().padStart(2, '0')}:${minuto.toString().padStart(2, '0')}`;
+        this.arrayHorarios.push({ 'horario': horaFormateada, 'estado': 'disponible' });
+      }
+    }
+    
+    this.turnosService.getTurnosByEspecialista(this.dniDoctorSeleccionado, this.fechaSeleccionada).subscribe(turnos => {
+      for (const turno of turnos) {
+        console.log(turno);
+        const horaOcupada = turno.hora;
+        const horaIndex = this.arrayHorarios.findIndex(hora => hora.horario === horaOcupada);
+        if (horaIndex !== -1) {
+          this.arrayHorarios[horaIndex].estado = 'ocupado';
         }
       }
-      
-    console.log(this.horas)
+      });
+    
+      console.log(this.arrayHorarios);
   }
+  
 
   cargarDoctores() {
+
+    console.log("Cargando Doctores...");
     this.usuariosService.getEspecialistaByEspecialidad(this.especialidadSeleccionada)
       .subscribe(doctores => {
         this.doctores = doctores;
-        this.dniDoctorSeleccionado = null;
+        this.dniDoctorSeleccionado = "";
         this.fechaSeleccionada = "";
         this.horaSeleccionada = "";
       });
@@ -82,38 +97,24 @@ export class PacientePanelComponent implements OnInit {
     }
   }
 
-  reservarTurno() {
-    const turnoOcupado = this.turnosDisponibles.find(turno => turno.hora === this.horaSeleccionada);
-    if (turnoOcupado) {
-      Swal.fire('Error', 'Este turno ya está reservado.', 'error');
-      return;
-    }
-  
+  reservarTurno(hora: string) {
+
     const nuevoTurno: Turno = {
       especialistaDni: this.dniDoctorSeleccionado,
       pacienteDni: this.usuarioLogueado?.dni.toString(),
       fecha: this.fechaSeleccionada,
-      hora: this.horaSeleccionada,
+      hora: hora,
       atendido: false
     };
   
     this.turnosService.guardarTurno(nuevoTurno)
       .then(() => {
         Swal.fire('Operación exitosa!', `Turno guardado con éxito para el ${this.fechaSeleccionada} a las ${this.horaSeleccionada}.`, 'success');
-        this.cargarTurnosOcupados();
+        this.cargarHorarios()
       })
       .catch(error => {
         Swal.fire('Error', 'Ha ocurrido un error al guardar turno. Por favor, inténtalo de nuevo.', 'error');
       });
   }
 
-  turnoReservado(hora: string): boolean {
-    const turnoOcupado = this.turnosDisponibles.find(turno => turno.hora === hora);
-    return turnoOcupado !== undefined;
-  }
-
-  cargarTurnosOcupados() {
-    // Aquí deberías implementar la lógica para obtener los turnos ya reservados
-    // y almacenarlos en this.turnosDisponibles.
-  }
 }

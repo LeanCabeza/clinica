@@ -14,7 +14,7 @@
 
   <div class="form-group" *ngIf="dniDoctorSeleccionado">
     <label for="fecha">Selecciona una Fecha:</label>
-    <select class="form-control" [(ngModel)]="fechaSeleccionada">
+    <select class="form-control" [(ngModel)]="fechaSeleccionada" (change)="cargarHorarios()">
       <option *ngFor="let fecha of fechas" [value]="fecha">{{ fecha }}</option>
     </select>
   </div>
@@ -25,24 +25,21 @@
       <thead>
         <tr>
           <th>Hora</th>
-          <th>Estado</th>
           <th>Acción</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let hora of horas">
-          <td>{{ hora }}</td>
+        <tr *ngFor="let horario of arrayHorarios">
+          <td>{{ horario.horario }}</td>
           <td>
-            <ng-container *ngIf="turnoReservado(hora)">Reservado</ng-container>
-            <ng-container *ngIf="!turnoReservado(hora)">Disponible</ng-container>
-          </td>
-          <td>
-            <button class="btn btn-success" *ngIf="!turnoReservado(hora)" (click)="reservarTurno()">Reservar</button>
+            <button class="btn" [class.btn-success]="horario.estado === 'disponible'"
+                    [class.btn-danger]="horario.estado === 'ocupado'" [disabled]="horario.estado === 'ocupado'"
+                    (click)="reservarTurno(horario.horario)">
+              {{ horario.estado === 'ocupado' ? 'Reservado' : 'Reservar' }}
+            </button>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
-
-  <button class="btn btn-primary" (click)="reservarTurno()">Reservar Turno</button>
 </div>
