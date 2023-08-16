@@ -23,6 +23,9 @@ export class PacientePanelComponent implements OnInit {
   usuarioLogueado: Usuario | null = null;  
   showReservarTurno: boolean = false;
   showHistorialClinico: boolean = false;
+  showProximosTurnos: boolean = false;
+  historialClinico: Turno[] = [];
+  proximosTurnos: Turno[] = [];
 
   constructor(private usuariosService: UsuariosService, private turnosService: TurnosService) {
     this.generarFechas();
@@ -99,6 +102,7 @@ export class PacientePanelComponent implements OnInit {
   reservarTurno(hora: string) {
 
     const nuevoTurno: Turno = {
+      especialidad: this.especialidadSeleccionada,
       especialistaDni: this.dniDoctorSeleccionado,
       pacienteDni: this.usuarioLogueado?.dni.toString(),
       fecha: this.fechaSeleccionada,
@@ -125,6 +129,31 @@ export class PacientePanelComponent implements OnInit {
         Swal.fire('Error', 'Ha ocurrido un error al guardar turno. Por favor, inténtalo de nuevo.', 'error');
       }
     })
+  }
+
+  cargarHistorialClinico() {
+    if (this.usuarioLogueado) {
+      this.turnosService.getHistoriaClinica(this.usuarioLogueado.dni.toString())
+        .subscribe(historial => {
+          this.historialClinico =historial;
+        });
+    }
+  }
+
+  cargarProximosTurnos() {
+    if (this.usuarioLogueado) {
+      this.turnosService.getProximosTurnos(this.usuarioLogueado.dni.toString())
+        .subscribe(turnos => {
+          this.proximosTurnos = turnos;
+        });
+    }
+  }
+
+  verDetalle(turno: Turno) {
+    // Aquí puedes implementar la lógica para mostrar el detalle del turno seleccionado,
+    // por ejemplo, usando un modal o una nueva página.
+    // Puedes acceder a las propiedades del turno (especialidad, especialistaDni, fecha, hora, etc.)
+    // para mostrar la información necesaria.
   }
 
 }

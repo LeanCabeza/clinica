@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-md-4">
-      <div class="menu-option-card" (click)="showReservarTurno = true; showHistorialClinico = false;">
+      <div class="menu-option-card" (click)="showReservarTurno = true; showProximosTurnos = false;showHistorialClinico = false">
         <div class="menu-option-content">
           <i class="fas fa-calendar-plus"></i>
           <h4>Reservar Turno</h4>
@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="col-md-4">
-      <div class="menu-option-card" (click)="showHistorialClinico = true; showReservarTurno = false;">
+      <div class="menu-option-card" (click)="showProximosTurnos = true; showReservarTurno = false;showHistorialClinico=false; cargarProximosTurnos()">
         <div class="menu-option-content">
           <i class="fa-solid fa-business-time"></i>
           <h4>Proximos Turnos</h4>
@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="col-md-4">
-      <div class="menu-option-card" (click)="showHistorialClinico = true; showReservarTurno = false;">
+      <div class="menu-option-card" (click)="showProximosTurnos=false;showHistorialClinico = true; showReservarTurno = false; cargarHistorialClinico()">
         <div class="menu-option-content">
           <i class="fas fa-file-medical-alt"></i>
           <h4>Historial Clínico</h4>
@@ -76,8 +76,54 @@
       </div>
     </div>
 
+    <div class="proximos-turnos" *ngIf="showProximosTurnos">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Especialidad</th>
+            <th>Doctor</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let turno of proximosTurnos">
+            <td>{{ turno.especialidad }}</td>
+            <td>{{ turno.especialistaDni }}</td>
+            <td>{{ turno.fecha }}</td>
+            <td>{{ turno.hora }}</td>
+            <td>
+              <button class="btn btn-primary" (click)="verDetalle(turno)">Cancelar Turno</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
     <div class="historial-clinico" *ngIf="showHistorialClinico">
-      <!-- Contenido del historial clínico aquí... -->
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Especialidad</th>
+            <th>Doctor</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let turno of historialClinico">
+            <td>{{ turno.especialidad }}</td>
+            <td>{{ turno.especialistaDni }}</td>
+            <td>{{ turno.fecha }}</td>
+            <td>{{ turno.hora }}</td>
+            <td>
+              <button class="btn btn-primary" (click)="verDetalle(turno)">Ver Detalle</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

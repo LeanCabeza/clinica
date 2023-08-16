@@ -16,6 +16,24 @@
       ).valueChanges();
   }
 
+  getHistoriaClinica(dni: string) {
+    console.log("Tratando de obtener turnos firebase, servicio, dni:", dni);
+    
+    return this.firestore.collection<Turno>('turnos', ref =>
+        ref.where('pacienteDni', '==', dni)
+           .where('atendido', '==', true)
+    ).valueChanges();
+  }
+
+  getProximosTurnos(dni: string) {
+    console.log("Tratando de obtener turnos firebase, servicio, dni:", dni);
+    
+    return this.firestore.collection<Turno>('turnos', ref =>
+        ref.where('pacienteDni', '==', dni)
+           .where('atendido', '==', false)
+    ).valueChanges();
+  }
+
     guardarTurno(turno: Turno) {
         return this.firestore.collection('turnos').add(turno);
       }
