@@ -26,6 +26,8 @@ export class PacientePanelComponent implements OnInit {
   showProximosTurnos: boolean = false;
   historialClinico: Turno[] = [];
   proximosTurnos: Turno[] = [];
+  especialidadFiltro: string = '';
+  nombreApellidoFiltro: string = '';
 
   constructor(private usuariosService: UsuariosService, private turnosService: TurnosService) {
     this.generarFechas();
@@ -101,14 +103,19 @@ export class PacientePanelComponent implements OnInit {
 
   reservarTurno(hora: string) {
 
-    const nuevoTurno: Turno = {
-      especialidad: this.especialidadSeleccionada,
-      especialistaDni: this.dniDoctorSeleccionado,
-      pacienteDni: this.usuarioLogueado?.dni.toString(),
-      fecha: this.fechaSeleccionada,
-      hora: hora,
-      atendido: false
-    };
+    const doctorSeleccionado = this.doctores.find(doctor => doctor.dni == this.dniDoctorSeleccionado);
+
+    if (doctorSeleccionado) {
+      const nuevoTurno: Turno = {
+        especialidad: this.especialidadSeleccionada,
+        especialistaDni: this.dniDoctorSeleccionado,
+        nombreDoctor: doctorSeleccionado.nombre, 
+        apellidoDoctor: doctorSeleccionado.apellido,
+        pacienteDni: this.usuarioLogueado?.dni.toString(),
+        fecha: this.fechaSeleccionada,
+        hora: hora,
+        atendido: false
+      };
     
     Swal.fire({
       title: 'Estas seguro que queres reservar el turno?',
@@ -129,22 +136,29 @@ export class PacientePanelComponent implements OnInit {
         Swal.fire('Error', 'Ha ocurrido un error al guardar turno. Por favor, inténtalo de nuevo.', 'error');
       }
     })
+    }
   }
 
   cargarHistorialClinico() {
     if (this.usuarioLogueado) {
       this.turnosService.getHistoriaClinica(this.usuarioLogueado.dni.toString())
         .subscribe(historial => {
-          this.historialClinico =historial;
+          this.historialClinico = historial.filter(turno => 
+            turno.especialidad?.toLowerCase().includes(this.especialidadFiltro.toLowerCase()) &&
+            `${turno.nombreDoctor} ${turno.apellidoDoctor}`.toLowerCase().includes(this.nombreApellidoFiltro.toLowerCase())
+          );
         });
     }
   }
-
+  
   cargarProximosTurnos() {
     if (this.usuarioLogueado) {
       this.turnosService.getProximosTurnos(this.usuarioLogueado.dni.toString())
         .subscribe(turnos => {
-          this.proximosTurnos = turnos;
+          this.proximosTurnos = turnos.filter(turno => 
+            turno.especialidad?.toLowerCase().includes(this.especialidadFiltro.toLowerCase()) &&
+            `${turno.nombreDoctor} ${turno.apellidoDoctor}`.toLowerCase().includes(this.nombreApellidoFiltro.toLowerCase())
+          );
         });
     }
   }
@@ -155,5 +169,7 @@ export class PacientePanelComponent implements OnInit {
     // Puedes acceder a las propiedades del turno (especialidad, especialistaDni, fecha, hora, etc.)
     // para mostrar la información necesaria.
   }
+
+  
 
 }
