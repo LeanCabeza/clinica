@@ -127,7 +127,7 @@ export class PacientePanelComponent implements OnInit {
         this.turnosService.guardarTurno(nuevoTurno)
         .then(() => {
           Swal.fire('Operación exitosa!', `Turno guardado con éxito para el ${this.fechaSeleccionada} a las ${nuevoTurno.hora}.`, 'success');
-          this.cargarHorarios()
+          this.cargarHorarios();
         })
         .catch(error => {
           Swal.fire('Error', 'Ha ocurrido un error al guardar turno. Por favor, inténtalo de nuevo.', 'error');
@@ -168,6 +168,27 @@ export class PacientePanelComponent implements OnInit {
     // por ejemplo, usando un modal o una nueva página.
     // Puedes acceder a las propiedades del turno (especialidad, especialistaDni, fecha, hora, etc.)
     // para mostrar la información necesaria.
+  }
+
+  async cancelarTurno(turno: Turno) {
+    const result = await Swal.fire({
+      title: '¿Estás seguro de que deseas cancelar el turno?',
+      showDenyButton: true,
+      confirmButtonText: 'Sí',
+      denyButtonText: 'No'
+    });
+  
+    if (result.isConfirmed) {
+      try {
+        await this.turnosService.cancelarTurno(turno);
+        Swal.fire('¡Operación exitosa!', 'Turno cancelado con éxito.', 'success');
+        this.cargarHorarios();
+      } catch (error) {
+        Swal.fire('Error', 'Ha ocurrido un error al cancelar el turno. Por favor, inténtalo de nuevo.', 'error');
+      }
+    } else if (result.isDenied) {
+      Swal.fire('Operación Cancelada', 'No se ha cancelado el turno.', 'info');
+    }
   }
 
   

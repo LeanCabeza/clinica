@@ -96,7 +96,7 @@
             <td>{{ turno.fecha }}</td>
             <td>{{ turno.hora }}</td>
             <td>
-              <button class="btn btn-primary" (click)="verDetalle(turno)">Cancelar Turno</button>
+              <button class="btn btn-danger" (click)="cancelarTurno(turno)">Cancelar Turno</button>
             </td>
           </tr>
         </tbody>
@@ -139,7 +139,9 @@
             <td>{{ turno.fecha }}</td>
             <td>{{ turno.hora }}</td>
             <td>
-              <button class="btn btn-primary" (click)="verDetalle(turno)">Ver Detalle</button>
+              <button class="btn btn-primary" (click)="verDetalle(turno)">Ver Reseña</button>
+              <button class="btn btn-primary" (click)="verDetalle(turno)">Completar Encuesta</button>
+              <button class="btn btn-primary" (click)="verDetalle(turno)">Calificar Atencion</button>
             </td>
           </tr>
         </tbody>
