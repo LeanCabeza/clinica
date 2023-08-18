@@ -19,7 +19,7 @@ export class PacientePanelComponent implements OnInit {
   especialidadSeleccionada: string;
   fechaSeleccionada: string;
   horaSeleccionada: string;
-  dniDoctorSeleccionado: any;
+  dniDoctorSeleccionado: string;
   usuarioLogueado: Usuario | null = null;  
   showReservarTurno: boolean = false;
   showHistorialClinico: boolean = false;
@@ -56,30 +56,34 @@ export class PacientePanelComponent implements OnInit {
     }
   }
 
-  cargarHorarios() {
-    console.log("Cargando horarios...");
-
-    this.arrayHorarios = [];
-    const horaInicio = 9;
-    const horaFin = 13;
-    const intervalo = 30;
-  
-    for (let hora = horaInicio; hora < horaFin; hora++) {
-      for (let minuto = 0; minuto < 60; minuto += intervalo) {
-        const horaFormateada = `${hora.toString().padStart(2, '0')}:${minuto.toString().padStart(2, '0')}`;
-        this.arrayHorarios.push({ 'horario': horaFormateada, 'estado': 'disponible' });
-      }
-    }
+  cargarHorarios(dniDoctorSeleccionado?: string,fechaSeleccionada?:string) {
+    if ( dniDoctorSeleccionado != null && fechaSeleccionada != null)
+    {
+      console.log("Cargando horarios: ",dniDoctorSeleccionado,fechaSeleccionada);
+      this.arrayHorarios = [];
+      const horaInicio = 9;
+      const horaFin = 13;
+      const intervalo = 30;
     
-    this.turnosService.getTurnosByEspecialista(this.dniDoctorSeleccionado, this.fechaSeleccionada).subscribe(turnos => {
-      for (const turno of turnos) {
-        const horaOcupada = turno.hora;
-        const horaIndex = this.arrayHorarios.findIndex(hora => hora.horario === horaOcupada);
-        if (horaIndex !== -1) {
-          this.arrayHorarios[horaIndex].estado = 'ocupado';
+      for (let hora = horaInicio; hora < horaFin; hora++) {
+        for (let minuto = 0; minuto < 60; minuto += intervalo) {
+          const horaFormateada = `${hora.toString().padStart(2, '0')}:${minuto.toString().padStart(2, '0')}`;
+          this.arrayHorarios.push({ 'horario': horaFormateada, 'estado': 'disponible' });
         }
       }
-      });
+      
+      this.turnosService.getTurnosByEspecialista(dniDoctorSeleccionado, fechaSeleccionada).subscribe(turnos => {
+        for (const turno of turnos) {
+          const horaOcupada = turno.hora;
+          const horaIndex = this.arrayHorarios.findIndex(hora => hora.horario === horaOcupada);
+          if (horaIndex !== -1) {
+            this.arrayHorarios[horaIndex].estado = 'ocupado';
+          }
+        }
+        });
+    }else{
+      console.log("1ra Carga horaarios");
+    }
   }
   
 
@@ -97,7 +101,7 @@ export class PacientePanelComponent implements OnInit {
   
   seleccionarFecha() {
     if (this.dniDoctorSeleccionado && this.fechaSeleccionada) {
-      this.cargarHorarios();
+      this.cargarHorarios(this.dniDoctorSeleccionado,this.fechaSeleccionada);
     }
   }
 
@@ -127,7 +131,7 @@ export class PacientePanelComponent implements OnInit {
         this.turnosService.guardarTurno(nuevoTurno)
         .then(() => {
           Swal.fire('Operación exitosa!', `Turno guardado con éxito para el ${this.fechaSeleccionada} a las ${nuevoTurno.hora}.`, 'success');
-          this.cargarHorarios();
+          this.cargarHorarios(nuevoTurno.especialistaDni,nuevoTurno.fecha);
         })
         .catch(error => {
           Swal.fire('Error', 'Ha ocurrido un error al guardar turno. Por favor, inténtalo de nuevo.', 'error');
@@ -182,12 +186,44 @@ export class PacientePanelComponent implements OnInit {
       try {
         await this.turnosService.cancelarTurno(turno);
         Swal.fire('¡Operación exitosa!', 'Turno cancelado con éxito.', 'success');
-        this.cargarHorarios();
       } catch (error) {
         Swal.fire('Error', 'Ha ocurrido un error al cancelar el turno. Por favor, inténtalo de nuevo.', 'error');
       }
     } else if (result.isDenied) {
       Swal.fire('Operación Cancelada', 'No se ha cancelado el turno.', 'info');
+    }
+  }
+
+  async calificarAtencion(turno: Turno) {
+    const result = await Swal.fire({
+      title: 'Calificar Atención',
+      html: `
+        <p>Por favor, califica la atención:</p>
+        <select id="calificacion" class="swal2-input">
+          <option value="Espectacular">Espectacular</option>
+          <option value="Bien">Bien</option>
+          <option value="Conforme">Conforme</option>
+          <option value="Regular">Regular</option>
+          <option value="Mal">Mal</option>
+        </select>
+      `,
+      showCancelButton: true,
+      confirmButtonText: 'Calificar',
+      cancelButtonText: 'Cancelar'
+    });
+  
+    if (result.isConfirmed) {
+      const calificacion = (document.getElementById('calificacion') as HTMLSelectElement).value;
+      
+      try {
+        await this.turnosService.calificarTurno(turno, calificacion);
+        Swal.fire('¡Calificación exitosa!', 'Gracias por calificar la atención.', 'success');
+      } catch (error) {
+        console.log(error);
+        Swal.fire('Error', 'Ha ocurrido un error al calificar la atención. Por favor, inténtalo de nuevo.', 'error');
+      }
+    } else if (result.isDismissed) {
+      Swal.fire('Operación Cancelada', 'No se ha calificado la atención.', 'info');
     }
   }
 

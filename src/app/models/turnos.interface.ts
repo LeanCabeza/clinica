@@ -7,4 +7,6 @@ export interface Turno {
     fecha?: string;
     hora?: string;
     atendido?:Boolean;
+    calificacionPaciente?: string;
+    resenia?: string;
   }
