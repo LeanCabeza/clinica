@@ -8,6 +8,7 @@ export class Usuario{
     obraSocial:string;
     especialidad:string;
     aceptado:string;
-    fotoPerfil:string;
+    fotoPerfil1?:string;
+    fotoPerfil2?:string;
     tipoUsuario:string;
 }

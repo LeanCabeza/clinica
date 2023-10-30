@@ -139,9 +139,9 @@
             <td>{{ turno.fecha }}</td>
             <td>{{ turno.hora }}</td>
             <td>
-              <button class="btn btn-primary" *ngIf="turno.resenia != null" (click)="verDetalle(turno)">Ver Reseña</button>
-              <button class="btn btn-primary ms-2" (click)="verDetalle(turno)">Completar Encuesta</button>
-              <button class="btn btn-success ms-2" (click)="calificarAtencion(turno)">Calificar Atencion</button>
+              <button class="btn btn-primary" style="font-size: 12px;" *ngIf="turno.resenia != null" (click)="verDetalle(turno)">Ver Reseña</button>
+              <button class="btn btn-primary ms-2 mt-1" style="font-size: 12px;" (click)="verDetalle(turno)">Completar Encuesta</button>
+              <button class="btn btn-success ms-2 mt-1" style="font-size: 12px;" (click)="calificarAtencion(turno)">Calificar Atencion</button>
             </td>
           </tr>
         </tbody>

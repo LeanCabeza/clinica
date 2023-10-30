@@ -52,9 +52,16 @@
           <div>
             <label for="exampleFormControlFile1">Foto</label>
             <br>
-            <input type="file" class="form-control-file" id="exampleFormControlFile1" (change)="onFileSelected($event)">
+            <input type="file" class="form-control-file" id="exampleFormControlFile1" (change)="onFileSelected1($event)">
+          </div>
+          <div>
+            <label for="exampleFormControlFile1">Foto2</label>
+            <br>
+            <input type="file" class="form-control-file" id="exampleFormControlFile1" (change)="onFileSelected2($event)">
           </div>
         </div>
+
+        
         
         <div class="position-absolute bottom-0 end-0 p-4">
           <a class="registerBtn" (click)="registrar()">Registrarse</a>

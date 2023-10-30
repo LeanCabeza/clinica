@@ -6,19 +6,19 @@
         <!-- Contenido del usuario logueado -->
         <div *ngIf="usuarioLogueado" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
           <div class="profile-picture">
-            <img *ngIf="usuarioLogueado.fotoPerfil" [src]="usuarioLogueado.fotoPerfil" alt="Foto de perfil">
-            <span *ngIf="!usuarioLogueado.fotoPerfil" class="no-photo">Sin foto</span>
+            <img *ngIf="usuarioLogueado.fotoPerfil1" [src]="usuarioLogueado.fotoPerfil1" alt="Foto de perfil">
+            <span *ngIf="!usuarioLogueado.fotoPerfil1" class="no-photo">Sin foto</span>
           </div>
           <h3>{{ usuarioLogueado.nombre }} {{ usuarioLogueado.apellido }} {{userIcon}}</h3>
         </div>
 
         <!-- Resto del contenido del header -->
-        <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+        <a class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
           <img src="/assets/images/logo.png" alt="Logo de la pagina" height="60">
         </a>
         <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0">
           <li>
-            <a routerLink="" class="nav-link text-black">
+            <a routerLink="/home" class="nav-link text-black">
               <strong> 🏠 Inicio</strong>        
             </a>
           </li>

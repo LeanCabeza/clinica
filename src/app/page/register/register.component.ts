@@ -3,6 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { UsuariosService } from 'src/app/service/usuarios.service';
 import swal from 'sweetalert2';
 import { Usuario } from 'src/app/models/usuario.interface';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -22,22 +23,29 @@ export class RegisterComponent implements OnInit {
     obraSocial: "",
     especialidad: "",
     aceptado: "",
-    fotoPerfil: "",
+    fotoPerfil1: "",
+    fotoPerfil2: "",
     tipoUsuario: "",
   };
 
-  selectedImage: File | null;
+  selectedImage1: File | null;
+  selectedImage2: File | null;
 
   constructor(
     private snackBar: MatSnackBar,
-    private userService: UsuariosService
+    private userService: UsuariosService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
   }
 
-  onFileSelected(event: any) {
-    this.selectedImage = event.target.files[0] as File;
+  onFileSelected1(event: any) {
+    this.selectedImage1 = event.target.files[0] as File;
+  }
+
+  onFileSelected2(event: any) {
+    this.selectedImage2 = event.target.files[0] as File;
   }
 
   async registrar() {
@@ -49,16 +57,19 @@ export class RegisterComponent implements OnInit {
     this.usuario.aceptado = "true";
 
     try {
-      if (this.selectedImage) {
+      if (this.selectedImage1 && this.selectedImage2) {
         // Subir la imagen a Firebase Storage y obtener su URL de descarga
-        const imageRef = await this.userService.uploadImage(this.selectedImage);
-        this.usuario.fotoPerfil = imageRef;
+        const imageRef1 = await this.userService.uploadImage(this.selectedImage1);
+        const imageRef2 = await this.userService.uploadImage(this.selectedImage2);
+        this.usuario.fotoPerfil1 = imageRef1;
+        this.usuario.fotoPerfil2 = imageRef2;
       }
 
       // Crear el usuario en la base de datos de Firestore
       await this.userService.crearUsuario(this.usuario);
 
       swal.fire('Registro exitoso!', 'El usuario ha sido creado.', 'success');
+      this.router.navigate(['home']);
     } catch (error) {
       swal.fire('Error', 'Hubo un problema al crear el usuario.', 'error');
       console.error('Error al crear el usuario:', error);

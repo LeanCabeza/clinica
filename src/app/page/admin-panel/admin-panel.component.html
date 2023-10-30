@@ -18,8 +18,8 @@
       <tr *ngFor="let usuario of usuarios">
         <td>
           <div class="profile-picture">
-            <img *ngIf="usuario.fotoPerfil" [src]="usuario.fotoPerfil" alt="Foto de perfil">
-            <span *ngIf="!usuario.fotoPerfil" class="no-photo">Sin foto</span>
+            <img *ngIf="usuario.fotoPerfil1" [src]="usuario.fotoPerfil1" alt="Foto de perfil">
+            <span *ngIf="!usuario.fotoPerfil1" class="no-photo">Sin foto</span>
           </div>
         </td>
         <td>{{ usuario.nombre }}</td>
@@ -57,8 +57,8 @@
       <tr *ngFor="let especialista of especialistas">
         <td>
           <div class="profile-picture">
-            <img *ngIf="especialista.fotoPerfil" [src]="especialista.fotoPerfil" alt="Foto de perfil">
-            <span *ngIf="!especialista.fotoPerfil" class="no-photo">Sin foto</span>
+            <img *ngIf="especialista.fotoPerfil1" [src]="especialista.fotoPerfil1" alt="Foto de perfil">
+            <span *ngIf="!especialista.fotoPerfil1" class="no-photo">Sin foto</span>
           </div>
         </td>
         <td>{{ especialista.nombre }}</td>

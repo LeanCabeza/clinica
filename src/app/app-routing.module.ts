@@ -6,10 +6,12 @@ import { MainComponent } from './page/main/main.component';
 import { RegisterComponent } from './page/register/register.component';
 import { AdminPanelComponent } from './page/admin-panel/admin-panel.component';
 import { PacientePanelComponent } from './page/paciente-panel/paciente-panel.component';
+import { SpinnerComponent } from './page/spinner/spinner.component';
 
 
 const routes: Routes = [
-  {path:'',component: MainComponent},
+  {path:'',component: SpinnerComponent},
+  {path:'home',component: MainComponent},
   {path:'register',component: RegisterComponent},
   {path:'login',component: LoginComponent},
   {path:'profile',component: MyProfileComponent},
