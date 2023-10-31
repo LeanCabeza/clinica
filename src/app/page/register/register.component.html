@@ -2,10 +2,16 @@
   <div  id="shadow" class="contenedor scale-in-center">
     <div>
       <h1 class="text">
-          <b>Registrarse</b>
+          <b>Registrar {{this.tipo}}</b>
           <hr>
       </h1>
-      <form>
+      
+      <a class="registerBtn" (click)="this.tipo ='paciente'">Registrarse como Paciente</a>
+      <a class="registerBtn ms-5"  (click)="this.tipo ='especialista'">Registrarse como Especialista</a>
+      
+
+
+      <form *ngIf="this.tipo == 'paciente'">
 
         <div class="row">
           <div class="col">
@@ -55,20 +61,79 @@
             <input type="file" class="form-control-file" id="exampleFormControlFile1" (change)="onFileSelected1($event)">
           </div>
           <div>
-            <label for="exampleFormControlFile1">Foto2</label>
+            <label for="exampleFormControlFile2">Foto2</label>
             <br>
-            <input type="file" class="form-control-file" id="exampleFormControlFile1" (change)="onFileSelected2($event)">
+            <input type="file" class="form-control-file" id="exampleFormControlFile2" (change)="onFileSelected2($event)">
           </div>
         </div>
 
         
         
         <div class="position-absolute bottom-0 end-0 p-4">
-          <a class="registerBtn" (click)="registrar()">Registrarse</a>
-          <!-- <a class="loginGoogleBtn" (click)="loginConGoogle()">Ingresar con Google</a> -->
+          <a class="registerBtn" (click)="registrarPaciente()">Registrarse</a>
         </div>
         
       </form>
+
+      <form *ngIf="this.tipo == 'especialista'">
+
+        <div class="row">
+          <div class="col">
+            <label>Nombre</label>
+            <input type="text" class="form-control"  placeholder="Tu Nombre" [ngModelOptions]="{standalone: true}" [(ngModel)]="usuario.nombre">
+          </div>
+          <div class="col">
+            <label>Apellido</label>
+            <input type="text" class="form-control"  placeholder="Tu Apellido" [ngModelOptions]="{standalone: true}" [(ngModel)]="usuario.apellido">
+          </div>
+          <div>
+            <label>Email</label>
+            <input type="mail" class="form-control"  placeholder="email@ejemplo.com" [ngModelOptions]="{standalone: true}" [(ngModel)]="usuario.email">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <label>Edad</label>
+            <input type="number" class="form-control"  placeholder="18" [ngModelOptions]="{standalone: true}" [(ngModel)]="usuario.edad">
+          </div>
+          <div class="col">
+            <label>DNI</label>
+            <input type="number" class="form-control"  placeholder="44555333" [ngModelOptions]="{standalone: true}" [(ngModel)]="usuario.dni">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <label>Contraseña</label>
+            <input type="password" class="form-control"  placeholder="Contraseña" [ngModelOptions]="{standalone: true}" [(ngModel)]="usuario.password">
+          </div>
+          <div class="col">
+            <label>Especialidad</label>
+            <select class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="usuario.especialidad">
+              <option>Urologo</option>
+              <option>Flevologo</option>
+              <option>Dermatologo</option>
+              <option>Traumatologo</option>
+              <option>Oculista</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="exampleFormControlFileEspecialista">Foto</label>
+            <br>
+            <input type="file" class="form-control-file" id="exampleFormControlFileEspecialista" (change)="onFileSelected1($event)">
+          </div>
+        </div>
+
+        
+        
+        <div class="position-absolute bottom-0 end-0 p-4">
+          <a class="registerBtn" (click)="registrarEspecialista()">Registrarse</a>
+        </div>
+        
+      </form>
+
   </div>
 </div>
 

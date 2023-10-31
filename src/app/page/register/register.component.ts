@@ -27,7 +27,8 @@ export class RegisterComponent implements OnInit {
     fotoPerfil2: "",
     tipoUsuario: "",
   };
-
+  
+  tipo: string = "";
   selectedImage1: File | null;
   selectedImage2: File | null;
 
@@ -48,8 +49,8 @@ export class RegisterComponent implements OnInit {
     this.selectedImage2 = event.target.files[0] as File;
   }
 
-  async registrar() {
-    if (!this.validarCampos()) {
+  async registrarPaciente() {
+    if (!this.validarCampos(false)) {
       return;
     }
 
@@ -76,8 +77,34 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  validarCampos(): boolean {
-    const { nombre, apellido, email, edad, dni, password, obraSocial } = this.usuario;
+  async registrarEspecialista() {
+    if (!this.validarCampos(true)) {
+      return;
+    }
+
+    this.usuario.tipoUsuario = "especialista";
+    this.usuario.aceptado = "false";
+
+    try {
+      if (this.selectedImage1) {
+        // Subir la imagen a Firebase Storage y obtener su URL de descarga
+        const imageRef1 = await this.userService.uploadImage(this.selectedImage1);
+        this.usuario.fotoPerfil1 = imageRef1;
+      }
+
+      // Crear el usuario en la base de datos de Firestore
+      await this.userService.crearUsuario(this.usuario);
+
+      swal.fire('Registro exitoso!', 'El usuario ha sido creado.', 'success');
+      this.router.navigate(['home']);
+    } catch (error) {
+      swal.fire('Error', 'Hubo un problema al crear el usuario.', 'error');
+      console.error('Error al crear el usuario:', error);
+    }
+  }
+
+  validarCampos(especialista: boolean): boolean {
+    const { nombre, apellido, email, edad, dni, password, obraSocial, especialidad } = this.usuario;
 
     if (!nombre || nombre.trim().length < 2) {
       swal.fire('Error', 'El campo Nombre debe tener al menos 2 caracteres.', 'error');
@@ -109,8 +136,13 @@ export class RegisterComponent implements OnInit {
       return false;
     }
 
-    if (!obraSocial || obraSocial.trim().length < 2) {
+    if ( especialista == false && (!obraSocial || obraSocial.trim().length < 2)) {
       swal.fire('Error', 'El campo Obra Social debe tener al menos 2 caracteres.', 'error');
+      return false;
+    }
+
+    if ( especialista == true && ( !especialidad || especialidad.trim().length < 2)) {
+      swal.fire('Error', 'El campo Especialidad debe tener al menos 2 caracteres.', 'error');
       return false;
     }
 

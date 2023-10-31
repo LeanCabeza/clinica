@@ -102,3 +102,12 @@
       align-items: center;
       justify-content: center;
     }
+
+    .center-options {
+      justify-content: center; /* Centra horizontalmente */
+      align-items: center; /* Centra verticalmente si es necesario */
+    }
+    
+    .center-options a {
+      margin: 0 10px; /* Agrega margen horizontal entre las opciones */
+    }
