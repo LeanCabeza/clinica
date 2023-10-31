@@ -6,12 +6,13 @@
           <hr>
       </h1>
       
-      <a class="registerBtn" (click)="this.tipo ='paciente'">Registrarse como Paciente</a>
-      <a class="registerBtn ms-5"  (click)="this.tipo ='especialista'">Registrarse como Especialista</a>
+      <a class="registerBtn" (click)="this.tipo ='Paciente'">Registrar Paciente</a>
+      <a class="registerBtn ms-5"  (click)="this.tipo ='Especialista'">Registrar Especialista</a>
+      <a class="registerBtn ms-5" *ngIf="this.flagAdmin == true" (click)="this.tipo ='Admin'">Registrar ADMIN</a>
       
 
 
-      <form *ngIf="this.tipo == 'paciente'">
+      <form *ngIf="this.tipo == 'Paciente'">
 
         <div class="row">
           <div class="col">
@@ -75,7 +76,7 @@
         
       </form>
 
-      <form *ngIf="this.tipo == 'especialista'">
+      <form *ngIf="this.tipo == 'Especialista'">
 
         <div class="row">
           <div class="col">
@@ -130,6 +131,55 @@
         
         <div class="position-absolute bottom-0 end-0 p-4">
           <a class="registerBtn" (click)="registrarEspecialista()">Registrarse</a>
+        </div>
+        
+      </form>
+
+      <form *ngIf="this.tipo == 'Admin'">
+
+        <div class="row">
+          <div class="col">
+            <label>Nombre</label>
+            <input type="text" class="form-control"  placeholder="Tu Nombre" [ngModelOptions]="{standalone: true}" [(ngModel)]="usuario.nombre">
+          </div>
+          <div class="col">
+            <label>Apellido</label>
+            <input type="text" class="form-control"  placeholder="Tu Apellido" [ngModelOptions]="{standalone: true}" [(ngModel)]="usuario.apellido">
+          </div>
+          <div>
+            <label>Email</label>
+            <input type="mail" class="form-control"  placeholder="email@ejemplo.com" [ngModelOptions]="{standalone: true}" [(ngModel)]="usuario.email">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <label>Edad</label>
+            <input type="number" class="form-control"  placeholder="18" [ngModelOptions]="{standalone: true}" [(ngModel)]="usuario.edad">
+          </div>
+          <div class="col">
+            <label>DNI</label>
+            <input type="number" class="form-control"  placeholder="44555333" [ngModelOptions]="{standalone: true}" [(ngModel)]="usuario.dni">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <label>Contraseña</label>
+            <input type="password" class="form-control"  placeholder="Contraseña" [ngModelOptions]="{standalone: true}" [(ngModel)]="usuario.password">
+          </div>
+
+          <div>
+            <label for="exampleFormControlFileAdmin">Foto</label>
+            <br>
+            <input type="file" class="form-control-file" id="exampleFormControlFileAdmin" (change)="onFileSelected1($event)">
+          </div>
+        </div>
+
+        
+        
+        <div class="position-absolute bottom-0 end-0 p-4">
+          <a class="registerBtn" (click)="registrarAdmin()">Registrarse</a>
         </div>
         
       </form>

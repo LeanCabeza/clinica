@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
         swal.fire('Ingreso exitoso!', 'Inicio de sesión exitoso. Redirigiendo...', 'success');
         this.router.navigate(['home']);
       } else {
-        swal.fire('Error', 'Credenciales inválidas. Por favor, inténtalo de nuevo.', 'error');
+        swal.fire('Error', 'Credenciales inválidas o usuario no aceptado. Por favor, inténtalo de nuevo.', 'error');
       }
     } catch (error) {
       swal.fire('Error', 'Ha ocurrido un error. Por favor, inténtalo de nuevo.', 'error');

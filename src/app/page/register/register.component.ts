@@ -31,6 +31,7 @@ export class RegisterComponent implements OnInit {
   tipo: string = "";
   selectedImage1: File | null;
   selectedImage2: File | null;
+  flagAdmin: boolean = false;
 
   constructor(
     private snackBar: MatSnackBar,
@@ -39,6 +40,7 @@ export class RegisterComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.flagAdmin = this.userService.getUsuarioLogueado()?.tipoUsuario == "Admin"
   }
 
   onFileSelected1(event: any) {
@@ -50,11 +52,11 @@ export class RegisterComponent implements OnInit {
   }
 
   async registrarPaciente() {
-    if (!this.validarCampos(false)) {
+    if (!this.validarCampos(false,false)) {
       return;
     }
 
-    this.usuario.tipoUsuario = "paciente";
+    this.usuario.tipoUsuario = "Paciente";
     this.usuario.aceptado = "true";
 
     try {
@@ -70,7 +72,7 @@ export class RegisterComponent implements OnInit {
       await this.userService.crearUsuario(this.usuario);
 
       swal.fire('Registro exitoso!', 'El usuario ha sido creado.', 'success');
-      this.router.navigate(['home']);
+      if(this.flagAdmin == false)this.router.navigate(['home']);
     } catch (error) {
       swal.fire('Error', 'Hubo un problema al crear el usuario.', 'error');
       console.error('Error al crear el usuario:', error);
@@ -78,11 +80,11 @@ export class RegisterComponent implements OnInit {
   }
 
   async registrarEspecialista() {
-    if (!this.validarCampos(true)) {
+    if (!this.validarCampos(true,false)) {
       return;
     }
 
-    this.usuario.tipoUsuario = "especialista";
+    this.usuario.tipoUsuario = "Especialista";
     this.usuario.aceptado = "false";
 
     try {
@@ -96,14 +98,41 @@ export class RegisterComponent implements OnInit {
       await this.userService.crearUsuario(this.usuario);
 
       swal.fire('Registro exitoso!', 'El usuario ha sido creado.', 'success');
-      this.router.navigate(['home']);
+      if(this.flagAdmin == false)this.router.navigate(['home']);
     } catch (error) {
       swal.fire('Error', 'Hubo un problema al crear el usuario.', 'error');
       console.error('Error al crear el usuario:', error);
     }
   }
 
-  validarCampos(especialista: boolean): boolean {
+
+  async registrarAdmin() {
+    if (!this.validarCampos(false,true)) {
+      return;
+    }
+
+    this.usuario.tipoUsuario = "Admin";
+    this.usuario.aceptado = "true";
+
+    try {
+      if (this.selectedImage1) {
+        // Subir la imagen a Firebase Storage y obtener su URL de descarga
+        const imageRef1 = await this.userService.uploadImage(this.selectedImage1);
+        this.usuario.fotoPerfil1 = imageRef1;
+      }
+
+      // Crear el usuario en la base de datos de Firestore
+      await this.userService.crearUsuario(this.usuario);
+
+      swal.fire('Registro exitoso!', 'El usuario ha sido creado.', 'success');
+      if(this.flagAdmin == false)this.router.navigate(['home']);
+    } catch (error) {
+      swal.fire('Error', 'Hubo un problema al crear el usuario.', 'error');
+      console.error('Error al crear el usuario:', error);
+    }
+  }
+
+  validarCampos(especialista: boolean, admin:boolean): boolean {
     const { nombre, apellido, email, edad, dni, password, obraSocial, especialidad } = this.usuario;
 
     if (!nombre || nombre.trim().length < 2) {
@@ -136,14 +165,16 @@ export class RegisterComponent implements OnInit {
       return false;
     }
 
-    if ( especialista == false && (!obraSocial || obraSocial.trim().length < 2)) {
-      swal.fire('Error', 'El campo Obra Social debe tener al menos 2 caracteres.', 'error');
-      return false;
-    }
+    if ( admin == false && especialista == false)
+      if (!obraSocial || obraSocial.trim().length < 2) {
+        swal.fire('Error', 'El campo Obra Social debe tener al menos 2 caracteres.', 'error');
+        return false;
+      }
 
-    if ( especialista == true && ( !especialidad || especialidad.trim().length < 2)) {
-      swal.fire('Error', 'El campo Especialidad debe tener al menos 2 caracteres.', 'error');
-      return false;
+    if ( admin == false && especialista  == true )
+      if ( !especialidad || especialidad.trim().length < 2) {
+        swal.fire('Error', 'El campo Especialidad debe tener al menos 2 caracteres.', 'error');
+        return false;
     }
 
     return true;
