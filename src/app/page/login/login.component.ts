@@ -39,4 +39,27 @@ export class LoginComponent implements OnInit {
   }
 
 
+  ingresoRapido(numero: number) {
+    switch (numero) {
+      case 1:
+        // Realizar la acción correspondiente al ingreso rápido 1
+        this.usuario.email = 'paciente@paciente.com';
+        this.usuario.password = 'paciente';
+        break;
+      case 2:
+        // Realizar la acción correspondiente al ingreso rápido 2
+        this.usuario.email = 'especialista@especialista.com';
+        this.usuario.password = 'especialista';
+        break;
+      case 3:
+        // Realizar la acción correspondiente al ingreso rápido 3
+        this.usuario.email = 'admin@admin.com';
+        this.usuario.password = 'admin';
+        break;
+      default:
+        console.log('Número de ingreso rápido no válido');
+    }
+  }
+
+
 }

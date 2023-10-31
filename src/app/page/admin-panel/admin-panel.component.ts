@@ -19,7 +19,7 @@ export class AdminPanelComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUsuarios();
-    this.flagAdmin = this.usuariosService.getUsuarioLogueado()?.tipoUsuario == "admin"
+    this.flagAdmin = this.usuariosService.getUsuarioLogueado()?.tipoUsuario == "Admin"
   }
 
   getUsuarios() {
@@ -28,7 +28,7 @@ export class AdminPanelComponent implements OnInit {
         (usuarios: Usuario[]) => {
           // Filtrar usuarios según el valor de la especialidad
           this.usuarios = usuarios.filter((usuario: Usuario) =>  usuario.aceptado == "true");
-          this.especialistas = usuarios.filter((usuario: Usuario) => usuario.especialidad != null && usuario.aceptado == null);
+          this.especialistas = usuarios.filter((usuario: Usuario) => usuario.especialidad != null && usuario.aceptado == "false");
         },
         (error) => {
           console.log('Error al obtener los usuarios:', error);
