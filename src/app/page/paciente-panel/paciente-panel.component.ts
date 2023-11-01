@@ -4,6 +4,7 @@ import { UsuariosService } from 'src/app/service/usuarios.service';
 import { TurnosService } from 'src/app/service/turnos.service';
 import Swal from 'sweetalert2';
 import { Usuario } from 'src/app/models/usuario.interface';
+import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
   selector: 'app-paciente-panel',
@@ -29,13 +30,13 @@ export class PacientePanelComponent implements OnInit {
   especialidadFiltro: string = '';
   nombreApellidoFiltro: string = '';
 
-  constructor(private usuariosService: UsuariosService, private turnosService: TurnosService) {
+  constructor(private usuariosService: UsuariosService, private turnosService: TurnosService, private authService: AuthService) {
     this.generarFechas();
    }
 
   ngOnInit() {
-    this.usuariosService.usuarioLogueado$.subscribe((usuario) => {
-      this.usuarioLogueado = usuario;
+    this.authService.actualUser$.subscribe((user) => {
+      this.usuarioLogueado = user;
     });
   }
 

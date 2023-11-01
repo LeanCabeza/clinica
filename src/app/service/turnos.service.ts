@@ -35,6 +35,7 @@ export class TurnosService {
   }
 
   guardarTurno(turno: Turno) {
+    console.log("este es el turno que se trata de guardar",turno);
     return this.firestore.collection('turnos').add(turno);
   }
 
