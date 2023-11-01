@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Usuario } from 'src/app/models/usuario.interface';
+import { AuthService } from 'src/app/service/auth.service';
 import { UsuariosService } from 'src/app/service/usuarios.service';
-import swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +16,8 @@ export class LoginComponent implements OnInit {
   @ViewChild("loginForm") loginForm:NgForm | undefined;
 
   constructor(private usuariosService: UsuariosService,
-             private router: Router) {}
+             private router: Router,
+             private authService: AuthService) {}
 
   ngOnInit(): void {
   }
@@ -24,19 +27,15 @@ export class LoginComponent implements OnInit {
     password: ""
   }
 
-  async login() {
-    try {
-      const user = await this.usuariosService.login(this.usuario.email, this.usuario.password);
-      if (user) {
-        swal.fire('Ingreso exitoso!', 'Inicio de sesión exitoso. Redirigiendo...', 'success');
+
+  login(){
+      this.authService.login(this.usuario.email,this.usuario.password).then(res=>{
+        Swal.fire('Ingreso exitoso!', 'Inicio de sesión exitoso. Redirigiendo...', 'success');
         this.router.navigate(['home']);
-      } else {
-        swal.fire('Error', 'Credenciales inválidas o usuario no aceptado. Por favor, inténtalo de nuevo.', 'error');
-      }
-    } catch (error) {
-      swal.fire('Error', 'Ha ocurrido un error. Por favor, inténtalo de nuevo.', 'error');
+      }).catch(error=>{
+        Swal.fire('Error', 'Credenciales inválidas o usuario no aceptado. Por favor, inténtalo de nuevo.', 'error');
+      });
     }
-  }
 
 
   ingresoRapido(numero: number) {
@@ -54,7 +53,7 @@ export class LoginComponent implements OnInit {
       case 3:
         // Realizar la acción correspondiente al ingreso rápido 3
         this.usuario.email = 'admin@admin.com';
-        this.usuario.password = 'admin';
+        this.usuario.password = 'admin123';
         break;
       default:
         console.log('Número de ingreso rápido no válido');

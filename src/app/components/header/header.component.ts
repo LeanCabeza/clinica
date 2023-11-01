@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from 'src/app/models/usuario.interface';
+import { AuthService } from 'src/app/service/auth.service';
 import { UsuariosService } from 'src/app/service/usuarios.service';
 import swal from 'sweetalert2';
 
@@ -10,21 +11,29 @@ import swal from 'sweetalert2';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  usuarioLogueado: Usuario | null = null;
-  userIcon =  "";
+  usuarioLogueado: Usuario | null;
+  userIcon = '';
 
-  constructor(private usuariosService: UsuariosService) {}
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.usuariosService.usuarioLogueado$.subscribe((usuario) => {
-      this.usuarioLogueado = usuario;
+    this.authService.actualUser$.subscribe((user) => {
+      this.usuarioLogueado = user;
+      this.userIcon =
+        this.usuarioLogueado?.tipoUsuario === 'Especialista'
+          ? '🩺'
+          : this.usuarioLogueado?.tipoUsuario === 'Admin'
+          ? '🔨'
+          : '🟢';
     });
-    this.userIcon = this.usuarioLogueado?.tipoUsuario === 'especialista' ? '🩺' : this.usuarioLogueado?.tipoUsuario === 'admin' ? '🔨' : '🟢';
   }
 
   logout() {
-    this.usuariosService.logout();
-    swal.fire('Desloggeo exitoso!', 'Te desloggeaste correctemante, te esperamos pronto ❤', 'success');
+    this.authService.logout();
+    swal.fire(
+      'Desloggeo exitoso!',
+      'Te desloggeaste correctamente, te esperamos pronto ❤',
+      'success'
+    );
   }
-
 }
