@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from 'src/app/models/usuario.interface';
+import { AuthService } from 'src/app/service/auth.service';
 import { UsuariosService } from 'src/app/service/usuarios.service';
 import swal from 'sweetalert2';
 
@@ -14,12 +15,16 @@ export class AdminPanelComponent implements OnInit {
   usuarios: Usuario[];
   especialistas: Usuario[];
   flagAdmin: boolean = false;
+  usuarioLogueado: Usuario | null;
 
-  constructor(private usuariosService: UsuariosService) { }
+  constructor(private usuariosService: UsuariosService, private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.authService.actualUser$.subscribe((user) => {
+      this.usuarioLogueado = user;
+      this.flagAdmin = this.usuarioLogueado?.tipoUsuario == "Admin"
+    });
     this.getUsuarios();
-    this.flagAdmin = this.usuariosService.getUsuarioLogueado()?.tipoUsuario == "Admin"
   }
 
   getUsuarios() {

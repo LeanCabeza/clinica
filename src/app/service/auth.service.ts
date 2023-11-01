@@ -57,11 +57,10 @@ export class AuthService {
     }
   }
 
-  async register(email: string, password:string, rol: string){
+  async register(email: string, password:string){
     try {
         return await this.auth.createUserWithEmailAndPassword(email,password);
     } catch (error) {
-      console.log("Error al Registrar",error);
       throw error;
     }
   }

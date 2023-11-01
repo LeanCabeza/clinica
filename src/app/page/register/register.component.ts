@@ -4,6 +4,7 @@ import { UsuariosService } from 'src/app/service/usuarios.service';
 import swal from 'sweetalert2';
 import { Usuario } from 'src/app/models/usuario.interface';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/service/auth.service';
 
 
 @Component({
@@ -32,15 +33,21 @@ export class RegisterComponent implements OnInit {
   selectedImage1: File | null;
   selectedImage2: File | null;
   flagAdmin: boolean = false;
+  usuarioLogueado: Usuario | null;
+  
 
   constructor(
     private snackBar: MatSnackBar,
     private userService: UsuariosService,
-    private router: Router
+    private router: Router,
+    private authService:AuthService
   ) {}
 
   ngOnInit(): void {
-    this.flagAdmin = this.userService.getUsuarioLogueado()?.tipoUsuario == "Admin"
+    this.authService.actualUser$.subscribe((user) => {
+      this.usuarioLogueado = user;
+      this.flagAdmin = this.usuarioLogueado?.tipoUsuario == "Admin"
+    });
   }
 
   onFileSelected1(event: any) {
@@ -70,6 +77,7 @@ export class RegisterComponent implements OnInit {
 
       // Crear el usuario en la base de datos de Firestore
       await this.userService.crearUsuario(this.usuario);
+      this.authService.register(this.usuario.email,this.usuario.password);
 
       swal.fire('Registro exitoso!', 'El usuario ha sido creado.', 'success');
       if(this.flagAdmin == false)this.router.navigate(['home']);
@@ -96,6 +104,7 @@ export class RegisterComponent implements OnInit {
 
       // Crear el usuario en la base de datos de Firestore
       await this.userService.crearUsuario(this.usuario);
+      this.authService.register(this.usuario.email,this.usuario.password);
 
       swal.fire('Registro exitoso!', 'El usuario ha sido creado.', 'success');
       if(this.flagAdmin == false)this.router.navigate(['home']);
@@ -123,6 +132,7 @@ export class RegisterComponent implements OnInit {
 
       // Crear el usuario en la base de datos de Firestore
       await this.userService.crearUsuario(this.usuario);
+      this.authService.register(this.usuario.email,this.usuario.password);
 
       swal.fire('Registro exitoso!', 'El usuario ha sido creado.', 'success');
       if(this.flagAdmin == false)this.router.navigate(['home']);
