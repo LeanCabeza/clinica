@@ -5,6 +5,7 @@ import swal from 'sweetalert2';
 import { Usuario } from 'src/app/models/usuario.interface';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/service/auth.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -28,7 +29,8 @@ export class RegisterComponent implements OnInit {
     fotoPerfil2: "",
     tipoUsuario: "",
   };
-  
+
+  usuarioForm: FormGroup;
   tipo: string = "";
   selectedImage1: File | null;
   selectedImage2: File | null;
@@ -40,10 +42,22 @@ export class RegisterComponent implements OnInit {
     private snackBar: MatSnackBar,
     private userService: UsuariosService,
     private router: Router,
-    private authService:AuthService
+    private authService:AuthService,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
+    this.usuarioForm = this.fb.group({
+      nombre: ['', [Validators.required, Validators.minLength(2)]],
+      apellido: ['', [Validators.required, Validators.minLength(2)]],
+      email: ['', [Validators.required, Validators.email]],
+      edad: ['', [Validators.required, Validators.min(18)]],
+      dni: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      obraSocial: [''],
+      especialidad: [''],
+    });
+
     this.authService.actualUser$.subscribe((user) => {
       this.usuarioLogueado = user;
       this.flagAdmin = this.usuarioLogueado?.tipoUsuario == "Admin"
@@ -58,29 +72,30 @@ export class RegisterComponent implements OnInit {
     this.selectedImage2 = event.target.files[0] as File;
   }
 
-  async registrarPaciente() {
-    if (!this.validarCampos(false,false)) {
+async registrarPaciente() {
+    if (!this.usuarioForm.valid) {
       return;
     }
 
-    this.usuario.tipoUsuario = "Paciente";
-    this.usuario.aceptado = "true";
+    const usuario = { ...this.usuarioForm.value };
+    usuario.tipoUsuario = 'Paciente';
+    usuario.aceptado = 'true';
 
     try {
       if (this.selectedImage1 && this.selectedImage2) {
         // Subir la imagen a Firebase Storage y obtener su URL de descarga
         const imageRef1 = await this.userService.uploadImage(this.selectedImage1);
         const imageRef2 = await this.userService.uploadImage(this.selectedImage2);
-        this.usuario.fotoPerfil1 = imageRef1;
-        this.usuario.fotoPerfil2 = imageRef2;
+        usuario.fotoPerfil1 = imageRef1;
+        usuario.fotoPerfil2 = imageRef2;
       }
 
       // Crear el usuario en la base de datos de Firestore
-      await this.userService.crearUsuario(this.usuario);
-      this.authService.register(this.usuario.email,this.usuario.password);
+      await this.userService.crearUsuario(usuario);
+      await this.authService.register(usuario.email, usuario.password);
 
       swal.fire('Registro exitoso!', 'El usuario ha sido creado.', 'success');
-      if(this.flagAdmin == false)this.router.navigate(['home']);
+      if (!this.flagAdmin) this.router.navigate(['home']);
     } catch (error) {
       swal.fire('Error', 'Hubo un problema al crear el usuario.', 'error');
       console.error('Error al crear el usuario:', error);

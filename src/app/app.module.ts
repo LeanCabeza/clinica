@@ -13,7 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser'
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminPanelComponent } from './page/admin-panel/admin-panel.component';
 import { PacientePanelComponent } from './page/paciente-panel/paciente-panel.component';
 import { TurnosService } from './service/turnos.service';
@@ -41,6 +41,7 @@ import { UsuariosService } from './service/usuarios.service';
     MatSnackBarModule,
     CommonModule,
     FormsModule,
+    ReactiveFormsModule
   ],
   providers:  [TurnosService,UsuariosService],
   bootstrap: [AppComponent]

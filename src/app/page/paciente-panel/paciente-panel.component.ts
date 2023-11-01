@@ -12,7 +12,7 @@ import { Usuario } from 'src/app/models/usuario.interface';
 })
 export class PacientePanelComponent implements OnInit {
 
-  especialidades: string[] = ['Pediatria', 'Traumatologia', 'Medico Clinico'];
+  especialidades: string[] = ['Urologo', 'Flevologo', 'Dematologo','Traumatologo','Oculista'];
   doctores: any[] = [];
   fechas:string[] = [];
   arrayHorarios: { horario: string; estado: string }[] = [];

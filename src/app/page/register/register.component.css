@@ -111,3 +111,9 @@
     .center-options a {
       margin: 0 10px; /* Agrega margen horizontal entre las opciones */
     }
+
+    .error-message {
+      color: red; /* Color del texto en rojo */
+      font-size: 12px; /* Tamaño de fuente pequeño */
+      margin-top: 5px; /* Margen superior para separar el mensaje de error */
+    }

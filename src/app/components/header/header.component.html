@@ -27,6 +27,16 @@
               <strong> 📝 Registrarse</strong>     
             </a>
           </li>
+          <li *ngIf="usuarioLogueado?.tipoUsuario == 'Admin'">
+            <a routerLink="/panelAdmin" class="nav-link text-black">
+              <strong> 💎 Admin Panel</strong>     
+            </a>
+          </li>
+          <li *ngIf="usuarioLogueado?.tipoUsuario == 'Paciente'">
+            <a routerLink="/panelPaciente" class="nav-link text-black">
+              <strong> 🏥 Paciente Panel</strong>     
+            </a>
+          </li>
           <li>
             <a *ngIf="!usuarioLogueado"routerLink="/login" class="nav-link text-black">
               <strong> 📤 Ingresar</strong>     
