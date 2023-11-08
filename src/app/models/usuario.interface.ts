@@ -11,4 +11,6 @@ export class Usuario{
     fotoPerfil1?:string;
     fotoPerfil2?:string;
     tipoUsuario:string;
+    diasAtencion?: Array<string>;
+    horariosAtencion?:Array<string>;
 }

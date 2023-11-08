@@ -41,7 +41,12 @@ export class AdminPanelComponent implements OnInit {
       );
   }
 
-  actualizarEstado(dni: string, flag: string): void {
+  actualizarEstado(dni: string, flag: string,email:string|null,pass:string|null): void {
+    if (email != null && pass !=null)
+    {
+      this.authService.registerWithoutLogin(email, pass,this.usuarioLogueado)
+    }
+    
     const dniParse = Number(dni);
     this.usuariosService.actualizarAceptadoPorDNI(dniParse, flag)
       .then(() => {

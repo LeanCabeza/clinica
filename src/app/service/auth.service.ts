@@ -3,6 +3,9 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { Usuario } from '../models/usuario.interface';
 import { BehaviorSubject } from 'rxjs';
+import { initializeApp } from 'firebase/app';
+
+
 
 
 
@@ -63,6 +66,16 @@ export class AuthService {
     } catch (error) {
       throw error;
     }
+  }
+
+  async registerWithoutLogin(email: string, password:string,currentUser: Usuario|undefined|any){
+
+      try {
+          await this.auth.createUserWithEmailAndPassword(email,password);
+          this.login(currentUser.email,currentUser.password);
+      } catch (error) {
+        throw error;
+      }
   }
 
 

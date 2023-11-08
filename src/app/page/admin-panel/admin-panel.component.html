@@ -70,8 +70,8 @@
         <td>{{ especialista.tipoUsuario }}</td>
         <td>{{ especialista.especialidad }}</td>
         <td>
-          <button *ngIf="especialista.especialidad" class="btn btn-success" style="height: 35px" (click)="actualizarEstado(especialista.dni,'true')">Aceptar</button>
-          <button *ngIf="especialista.especialidad" class="btn btn-danger" style="height: 35px;margin-left: 5px;" (click)="actualizarEstado(especialista.dni,'false')">Rechazar</button>
+          <button *ngIf="especialista.especialidad" class="btn btn-success" style="height: 35px" (click)="actualizarEstado(especialista.dni,'true',especialista.email,especialista.password)">Aceptar</button>
+          <button *ngIf="especialista.especialidad" class="btn btn-danger" style="height: 35px;margin-left: 5px;" (click)="actualizarEstado(especialista.dni,'false',null,null)">Rechazar</button>
         </td>
       </tr>
     </tbody>
