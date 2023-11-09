@@ -10,7 +10,6 @@
         <th>Email</th>
         <th>Dni</th>
         <th>Edad</th>
-        <th>Obra Social</th>
         <th>Tipo Usuario</th>
       </tr>
     </thead>
@@ -27,7 +26,6 @@
         <td>{{ usuario.email }}</td>
         <td>{{ usuario.dni }}</td>
         <td>{{ usuario.edad }}</td>
-        <td>{{ usuario.obraSocial }}</td>
         <td>{{ usuario.tipoUsuario }}</td>
       </tr>
     </tbody>
@@ -47,9 +45,10 @@
         <th>Email</th>
         <th>Dni</th>
         <th>Edad</th>
-        <th>Obra Social</th>
         <th>Tipo Usuario</th>
         <th>Especialidad</th>
+        <th>Dias Atencion</th>
+        <th>Horario Atencion</th>
         <th>Acciones</th>
       </tr>
     </thead>
@@ -66,9 +65,10 @@
         <td>{{ especialista.email }}</td>
         <td>{{ especialista.dni }}</td>
         <td>{{ especialista.edad }}</td>
-        <td>{{ especialista.obraSocial }}</td>
         <td>{{ especialista.tipoUsuario }}</td>
         <td>{{ especialista.especialidad }}</td>
+        <td>{{ especialista.diasAtencion }}</td>
+        <td>{{ especialista.horariosAtencion }}</td>
         <td>
           <button *ngIf="especialista.especialidad" class="btn btn-success" style="height: 35px" (click)="actualizarEstado(especialista.dni,'true',especialista.email,especialista.password)">Aceptar</button>
           <button *ngIf="especialista.especialidad" class="btn btn-danger" style="height: 35px;margin-left: 5px;" (click)="actualizarEstado(especialista.dni,'false',null,null)">Rechazar</button>

@@ -51,11 +51,9 @@ export class AdminPanelComponent implements OnInit {
     this.usuariosService.actualizarAceptadoPorDNI(dniParse, flag)
       .then(() => {
         swal.fire('Procesamiento exitoso!', (flag === 'true') ? 'El usuario fue aceptado correctamente' : 'El usuario fue rechazado correctamente', 'success');
-        this.getUsuarios();
       })
       .catch((error) => {
         console.error('Error al actualizar el estado:', error);
-        this.getUsuarios();
       });
   }
 }

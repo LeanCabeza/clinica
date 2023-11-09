@@ -44,7 +44,7 @@ export class PacientePanelComponent implements OnInit {
     console.log("Generando fechas...");
     const fechaActual = new Date();
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 15; i++) {
       const fecha = new Date();
       fecha.setDate(fechaActual.getDate() + i);
 
@@ -169,10 +169,7 @@ export class PacientePanelComponent implements OnInit {
   }
 
   verDetalle(turno: Turno) {
-    // Aquí puedes implementar la lógica para mostrar el detalle del turno seleccionado,
-    // por ejemplo, usando un modal o una nueva página.
-    // Puedes acceder a las propiedades del turno (especialidad, especialistaDni, fecha, hora, etc.)
-    // para mostrar la información necesaria.
+
   }
 
   async cancelarTurno(turno: Turno) {
