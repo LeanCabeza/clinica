@@ -57,33 +57,71 @@ export class PacientePanelComponent implements OnInit {
     }
   }
 
-  cargarHorarios(dniDoctorSeleccionado?: string,fechaSeleccionada?:string) {
-    if ( dniDoctorSeleccionado != null && fechaSeleccionada != null)
-    {
-      console.log("Cargando horarios: ",dniDoctorSeleccionado,fechaSeleccionada);
-      this.arrayHorarios = [];
-      const horaInicio = 9;
-      const horaFin = 13;
-      const intervalo = 30;
-    
-      for (let hora = horaInicio; hora < horaFin; hora++) {
-        for (let minuto = 0; minuto < 60; minuto += intervalo) {
-          const horaFormateada = `${hora.toString().padStart(2, '0')}:${minuto.toString().padStart(2, '0')}`;
-          this.arrayHorarios.push({ 'horario': horaFormateada, 'estado': 'disponible' });
-        }
-      }
-      
-      this.turnosService.getTurnosByEspecialista(dniDoctorSeleccionado, fechaSeleccionada).subscribe(turnos => {
-        for (const turno of turnos) {
-          const horaOcupada = turno.hora;
-          const horaIndex = this.arrayHorarios.findIndex(hora => hora.horario === horaOcupada);
-          if (horaIndex !== -1) {
-            this.arrayHorarios[horaIndex].estado = 'ocupado';
+  cargarHorarios(dniDoctorSeleccionado?: string, fechaSeleccionada?: string) {
+    if (dniDoctorSeleccionado != null && fechaSeleccionada != null) {
+      console.log("Cargando horarios: ", dniDoctorSeleccionado, fechaSeleccionada);
+      console.log("Doctores", this.doctores);
+  
+      // Obtener el doctor seleccionado
+      const doctorSeleccionado = this.doctores.find((doctor) => doctor.dni == dniDoctorSeleccionado);
+  
+      if (doctorSeleccionado) {
+        const disponibilidad = doctorSeleccionado.horariosAtencion;
+  
+        if (disponibilidad && disponibilidad.length > 0) {
+          console.log("La disponibilidad de ese doctor es: ", disponibilidad);
+  
+          // Limpiar el array de horarios
+          this.arrayHorarios = [];
+  
+          // Generar una lista de todos los horarios disponibles en intervalos de 30 minutos
+          const horariosDisponibles: string[] = [];
+          disponibilidad.forEach((horarioDisponible: string) => {
+            const [horaInicio, horaFin] = horarioDisponible.split(" a ");
+            const [horaInicioStr, minutoInicioStr] = horaInicio.split(":");
+            const [horaFinStr, minutoFinStr] = horaFin.split(":");
+  
+            const horaInicioNum = parseInt(horaInicioStr);
+            const minutoInicioNum = parseInt(minutoInicioStr);
+            const horaFinNum = parseInt(horaFinStr);
+            const minutoFinNum = parseInt(minutoFinStr);
+  
+            for (let hora = horaInicioNum; hora < horaFinNum; hora++) {
+              for (let minuto = minutoInicioNum; minuto < 60; minuto += 30) {
+                const horaFormateada = `${hora.toString().padStart(2, '0')}:${minuto.toString().padStart(2, '0')}`;
+                horariosDisponibles.push(horaFormateada);
+              }
+            }
+          });
+  
+          // Ordenar los horarios en orden ascendente
+          horariosDisponibles.sort();
+  
+          // Llenar this.arrayHorarios con los horarios ordenados y marcarlos como 'disponible'
+          for (const horaFormateada of horariosDisponibles) {
+            this.arrayHorarios.push({ horario: horaFormateada, estado: 'disponible' });
           }
+  
+          console.log("ARRAY DE HORARIOS GENERADOS", this.arrayHorarios);
+  
+          // Consultar los turnos ocupados para marcarlos como 'ocupados'
+          this.turnosService.getTurnosByEspecialista(dniDoctorSeleccionado, fechaSeleccionada).subscribe(turnos => {
+            for (const turno of turnos) {
+              const horaOcupada = turno.hora;
+              const horaIndex = this.arrayHorarios.findIndex(hora => hora.horario === horaOcupada);
+              if (horaIndex !== -1) {
+                this.arrayHorarios[horaIndex].estado = 'ocupado';
+              }
+            }
+          });
+        } else {
+          console.log("El doctor seleccionado no tiene disponibilidad.");
         }
-        });
-    }else{
-      console.log("1ra Carga horaarios");
+      } else {
+        console.log("No se encontró el doctor seleccionado.");
+      }
+    } else {
+      console.log("Primera carga de horarios");
     }
   }
   
@@ -138,7 +176,7 @@ export class PacientePanelComponent implements OnInit {
           Swal.fire('Error', 'Ha ocurrido un error al guardar turno. Por favor, inténtalo de nuevo.', 'error');
         });
       } else if (result.isDenied) {
-        Swal.fire('Error', 'Ha ocurrido un error al guardar turno. Por favor, inténtalo de nuevo.', 'error');
+        Swal.fire('Operacion Cancelada', 'Se cancelo la operacion con exito.', 'warning');
       }
     })
     }
