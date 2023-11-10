@@ -31,7 +31,6 @@ export class PacientePanelComponent implements OnInit {
   nombreApellidoFiltro: string = '';
 
   constructor(private usuariosService: UsuariosService, private turnosService: TurnosService, private authService: AuthService) {
-    this.generarFechas();
    }
 
   ngOnInit() {
@@ -40,47 +39,70 @@ export class PacientePanelComponent implements OnInit {
     });
   }
 
-  generarFechas() {
-    console.log("Generando fechas...");
-    const fechaActual = new Date();
-
-    for (let i = 0; i < 15; i++) {
-      const fecha = new Date();
-      fecha.setDate(fechaActual.getDate() + i);
-
-      const dia = fecha.getDate().toString().padStart(2, '0');
-      const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
-      const anio = fecha.getFullYear();
-
-      const fechaFormateada = `${dia}-${mes}-${anio}`;
-      this.fechas.push(fechaFormateada);
+  generarFechas(dniDoctor: string) {
+    const doctorSeleccionado = this.doctores.find((doctor) => doctor.dni == dniDoctor);
+  
+    if (!doctorSeleccionado) {
+      console.log("Doctor no encontrado, dni:", dniDoctor);
+      return;
     }
+  
+    const diasAtencion = doctorSeleccionado.diasAtencion;
+    console.log("Generando fechas del doctor -> ", doctorSeleccionado.diasAtencion);
+  
+    const fechaActual = new Date();
+    const fecha = new Date(); // Crear una única instancia de fecha antes del bucle
+  
+    const fechasGeneradas:any = []; // Nuevo array para almacenar fechas únicas
+  
+    for (let i = 0; i < 15; i++) {
+      fecha.setDate(fechaActual.getDate() + i);
+  
+      // Verifica si el día de la semana coincide con uno de los días de atención y no es domingo.
+      const diaSemana = fecha.getDay(); // 0 para Domingo, 1 para Lunes, 2 para Martes, etc.
+  
+      if (diasAtencion.includes(this.getNombreDia(diaSemana)) && diaSemana !== 0) {
+        const dia = fecha.getDate().toString().padStart(2, '0');
+        const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+        const anio = fecha.getFullYear();
+  
+        const fechaFormateada = `${dia}-${mes}-${anio}`;
+        
+        // Verificar si la fecha ya existe en el array antes de agregarla
+        if (!fechasGeneradas.includes(fechaFormateada)) {
+          fechasGeneradas.push(fechaFormateada);
+        }
+      }
+    }
+  
+    console.log("ARRAY DE FECHAS GENERADO", fechasGeneradas);
+    this.fechas = fechasGeneradas; // Actualizar this.fechas con las fechas únicas
+  }
+  
+  
+  // Función para obtener el nombre del día a partir del número (0 para Domingo, 1 para Lunes, etc.).
+  getNombreDia(numeroDia:any) {
+    const dias = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+    return dias[numeroDia];
   }
 
   cargarHorarios(dniDoctorSeleccionado?: string, fechaSeleccionada?: string) {
     if (dniDoctorSeleccionado != null && fechaSeleccionada != null) {
-      console.log("Cargando horarios: ", dniDoctorSeleccionado, fechaSeleccionada);
-      console.log("Doctores", this.doctores);
-  
       // Obtener el doctor seleccionado
       const doctorSeleccionado = this.doctores.find((doctor) => doctor.dni == dniDoctorSeleccionado);
-  
+      console.log("Generando horarios para el doctor ->",doctorSeleccionado.horariosAtencion);
       if (doctorSeleccionado) {
         const disponibilidad = doctorSeleccionado.horariosAtencion;
   
         if (disponibilidad && disponibilidad.length > 0) {
-          console.log("La disponibilidad de ese doctor es: ", disponibilidad);
-  
           // Limpiar el array de horarios
           this.arrayHorarios = [];
-  
           // Generar una lista de todos los horarios disponibles en intervalos de 30 minutos
           const horariosDisponibles: string[] = [];
           disponibilidad.forEach((horarioDisponible: string) => {
             const [horaInicio, horaFin] = horarioDisponible.split(" a ");
             const [horaInicioStr, minutoInicioStr] = horaInicio.split(":");
             const [horaFinStr, minutoFinStr] = horaFin.split(":");
-  
             const horaInicioNum = parseInt(horaInicioStr);
             const minutoInicioNum = parseInt(minutoInicioStr);
             const horaFinNum = parseInt(horaFinStr);
@@ -101,8 +123,6 @@ export class PacientePanelComponent implements OnInit {
           for (const horaFormateada of horariosDisponibles) {
             this.arrayHorarios.push({ horario: horaFormateada, estado: 'disponible' });
           }
-  
-          console.log("ARRAY DE HORARIOS GENERADOS", this.arrayHorarios);
   
           // Consultar los turnos ocupados para marcarlos como 'ocupados'
           this.turnosService.getTurnosByEspecialista(dniDoctorSeleccionado, fechaSeleccionada).subscribe(turnos => {

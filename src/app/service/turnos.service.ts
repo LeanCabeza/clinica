@@ -8,8 +8,6 @@ export class TurnosService {
   constructor(private firestore: AngularFirestore) { }
 
   getTurnosByEspecialista(dni?: string, fecha?: string) {
-    console.log("Tratando de obtener turnos firebase, servicio, dni:", dni);
-
     return this.firestore.collection<Turno>('turnos', ref =>
       ref.where('especialistaDni', '==', dni)
         .where('fecha', '==', fecha)
@@ -17,8 +15,6 @@ export class TurnosService {
   }
 
   getHistoriaClinica(dni: string) {
-    console.log("Tratando de obtener turnos firebase, servicio, dni:", dni);
-
     return this.firestore.collection<Turno>('turnos', ref =>
       ref.where('pacienteDni', '==', dni)
         .where('atendido', '==', true)
@@ -27,7 +23,6 @@ export class TurnosService {
 
   getProximosTurnos(dni: string) {
     console.log("Tratando de obtener turnos firebase, servicio, dni:", dni);
-
     return this.firestore.collection<Turno>('turnos', ref =>
       ref.where('pacienteDni', '==', dni)
         .where('atendido', '==', false)
