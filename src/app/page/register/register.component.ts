@@ -6,6 +6,7 @@ import { Usuario } from 'src/app/models/usuario.interface';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/service/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -114,7 +115,64 @@ export class RegisterComponent implements OnInit {
     }
   }
 
+  async showCaptcha(): Promise<boolean> {
+    // Generar dos números aleatorios entre 1 y 10
+    const num1 = Math.floor(Math.random() * 10) + 1;
+    const num2 = Math.floor(Math.random() * 10) + 1;
+    const sumaCorrecta = num1 + num2;
+  
+    try {
+      const result = await Swal.fire({
+        title: "Verificación de Humano 🤖!",
+        html: `Por favor, ingrese la suma de los siguientes números:<br>${num1} + ${num2}`,
+        input: "text",
+        inputAttributes: {
+          autocapitalize: "off",
+          pattern: "[0-9]+",
+        },
+        showCancelButton: true,
+        confirmButtonText: "Verificar",
+        showLoaderOnConfirm: true,
+        preConfirm: (respuesta) => {
+          // Validar que la respuesta sea un número
+          const inputNumber = parseInt(respuesta, 10);
+  
+          if (isNaN(inputNumber)) {
+            Swal.showValidationMessage("Ingrese un número válido.");
+          } else if (inputNumber !== sumaCorrecta) {
+            Swal.showValidationMessage("La suma ingresada es incorrecta.");
+          }
+        },
+        allowOutsideClick: () => !Swal.isLoading(),
+      });
+  
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Correcto!",
+          text: "La verificación ha sido exitosa.",
+          icon: "success",
+        });
+        console.log("RETORNE TRUE CAPCHA");
+        return true;
+      } else {
+        console.log("RETORNE False CAPCHA");
+        return false;
+      }
+    } catch (error) {
+      console.error('Error during captcha verification:', error);
+      return false;
+    }
+  }
+
   async registrarPaciente() {
+    // Show captcha and wait for the user's response
+    const captchaValid: boolean = await this.showCaptcha();
+  
+    if (!captchaValid) {
+      swal.fire('No pasaste el Captcha', 'Sos sospechoso de ser un robot 🤖.', 'error');
+      return;
+    }
+  
     this.showSpinner = true; // Muestra el spinner al principio del proceso
   
     const usuario = { ...this.usuarioForm.value };
