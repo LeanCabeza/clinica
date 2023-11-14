@@ -42,6 +42,7 @@ export class RegisterComponent implements OnInit {
   usuarioLogueado: Usuario | null;
   diasAtencion: string[] = ['Lunes'];
   horariosAtencion: string[] = ['9:00 a 13:00'];
+  showSpinner = false;
   
 
   constructor(
@@ -113,95 +114,108 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-async registrarPaciente() {
-
+  async registrarPaciente() {
+    this.showSpinner = true; // Muestra el spinner al principio del proceso
+  
     const usuario = { ...this.usuarioForm.value };
     usuario.tipoUsuario = 'Paciente';
     usuario.aceptado = 'true';
-
-    console.log("Registrar Paciente Form",usuario);
-
+  
+    console.log("Registrar Paciente Form", usuario);
+  
     try {
       if (this.selectedImage1 && this.selectedImage2) {
-        // Subir la imagen a Firebase Storage y obtener su URL de descarga
+        // Subir las imágenes a Firebase Storage y obtener sus URL de descarga
         const imageRef1 = await this.userService.uploadImage(this.selectedImage1);
         const imageRef2 = await this.userService.uploadImage(this.selectedImage2);
         usuario.fotoPerfil1 = imageRef1;
         usuario.fotoPerfil2 = imageRef2;
       }
-
+  
       // Crear el usuario en la base de datos de Firestore
       await this.userService.crearUsuario(usuario);
-      if (this.usuarioLogueado?.tipoUsuario == "Admin")
-        {await this.authService.registerWithoutLogin(usuario.email, usuario.password,this.usuarioLogueado)}
-      else{await this.authService.register(usuario.email, usuario.password)}
-
-
+  
+      if (this.usuarioLogueado?.tipoUsuario == "Admin") {
+        await this.authService.registerWithoutLogin(usuario.email, usuario.password, this.usuarioLogueado);
+      } else {
+        await this.authService.register(usuario.email, usuario.password);
+      }
+  
       swal.fire('Registro exitoso!', 'El usuario ha sido creado.', 'success');
       if (!this.flagAdmin) this.router.navigate(['home']);
     } catch (error) {
       swal.fire('Error', 'Hubo un problema al crear el usuario.', 'error');
       console.error('Error al crear el usuario:', error);
+    } finally {
+      // Independientemente del resultado, oculta el spinner al final del proceso
+      this.showSpinner = false;
     }
   }
 
   async registrarEspecialista() {
-
+    this.showSpinner = true; // Muestra el spinner al principio del proceso
+  
     const usuario = { ...this.especialistaForm.value };
     usuario.tipoUsuario = "Especialista";
     usuario.aceptado = "false";
     usuario.diasAtencion = this.diasAtencion;
     usuario.horariosAtencion = this.horariosAtencion;
     usuario.especialidad = this.usuario.especialidad;
-
+  
     console.log("USUARIO EN EL registrarEspecialista", usuario)
-
+  
     try {
       if (this.selectedImage1) {
         // Subir la imagen a Firebase Storage y obtener su URL de descarga
         const imageRef1 = await this.userService.uploadImage(this.selectedImage1);
         usuario.fotoPerfil1 = imageRef1;
       }
-
+  
       // Crear el usuario en la base de datos de Firestore
       await this.userService.crearUsuario(usuario);
-      //this.authService.register(usuario.email,usuario.password);
-
+  
       swal.fire('Registro exitoso!', 'El usuario ha sido creado.', 'success');
       this.usuario.diasAtencion = [];
       this.usuario.horariosAtencion = [];
-      if(this.flagAdmin == false)this.router.navigate(['home']);
+      if (this.flagAdmin == false) this.router.navigate(['home']);
     } catch (error) {
       swal.fire('Error', 'Hubo un problema al crear el usuario.', 'error');
       console.error('Error al crear el usuario:', error);
+    } finally {
+      // Independientemente del resultado, oculta el spinner al final del proceso
+      this.showSpinner = false;
     }
   }
-
+  
 
   async registrarAdmin() {
-
+    this.showSpinner = true; // Muestra el spinner al principio del proceso
+  
     const usuario = { ...this.adminForm.value };
     usuario.tipoUsuario = "Admin";
     usuario.aceptado = "true";
-
-    console.log("Registrar Admin Form",usuario);
-
+  
+    console.log("Registrar Admin Form", usuario);
+  
     try {
       if (this.selectedImage1) {
         // Subir la imagen a Firebase Storage y obtener su URL de descarga
         const imageRef1 = await this.userService.uploadImage(this.selectedImage1);
         usuario.fotoPerfil1 = imageRef1;
       }
-
+  
       // Crear el usuario en la base de datos de Firestore
       await this.userService.crearUsuario(usuario);
-      this.authService.register(usuario.email,usuario.password);
-
+      await this.authService.register(usuario.email, usuario.password);
+  
       swal.fire('Registro exitoso!', 'El usuario ha sido creado.', 'success');
-      if(this.flagAdmin == false)this.router.navigate(['home']);
+      if (this.flagAdmin == false) this.router.navigate(['home']);
     } catch (error) {
       swal.fire('Error', 'Hubo un problema al crear el usuario.', 'error');
       console.error('Error al crear el usuario:', error);
+    } finally {
+      // Independientemente del resultado, oculta el spinner al final del proceso
+      this.showSpinner = false;
     }
   }
 
