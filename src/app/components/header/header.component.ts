@@ -23,7 +23,7 @@ export class HeaderComponent implements OnInit {
         this.usuarioLogueado?.tipoUsuario === 'Especialista'
           ? '🩺'
           : this.usuarioLogueado?.tipoUsuario === 'Admin'
-          ? '🔨'
+          ? '👑'
           : '🟢';
     });
   }
