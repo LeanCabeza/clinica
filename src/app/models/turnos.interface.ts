@@ -3,11 +3,15 @@ export interface Turno {
     especialistaDni?: string;
     nombreDoctor?:string;
     apellidoDoctor?:string;
-    pacienteDni?: string;
     fecha?: string;
     hora?: string;
     atendido?:Boolean;
     calificacionPaciente?: string;
     resenia?: string;
     confirmacionDoctor?:string;
+    pacienteDni?: string;
+    nombrePaciente?:string;
+    apellidoPaciente?: string;
+    edadPaciente?: string;
+    obraSocialPaciente?: string;
   }

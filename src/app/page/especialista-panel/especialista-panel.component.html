@@ -23,8 +23,10 @@
     <thead>
       <tr>
         <th>Especialidad</th>
-        <th>Doctor</th>
-        <th>Aceptado por Doctor</th>
+        <th>Dni</th>
+        <th>Paciente</th>
+        <th>Edad</th>
+        <th>Obra Social</th>
         <th>Fecha</th>
         <th>Hora</th>
         <th>Acción</th>
@@ -33,8 +35,10 @@
     <tbody>
       <tr *ngFor="let turno of proximosTurnos">
         <td>{{ turno.especialidad }}</td>
-        <td>{{ turno.nombreDoctor }} {{ turno.apellidoDoctor }} </td>
-        <td>{{ turno.confirmacionDoctor }}</td>
+        <td>{{ turno.pacienteDni }}</td>
+        <td>{{ turno.nombrePaciente }} {{ turno.apellidoPaciente }} </td>
+        <td>{{ turno.edadPaciente }}</td>
+        <td>{{ turno.obraSocialPaciente }}</td>
         <td>{{ turno.fecha }}</td>
         <td>{{ turno.hora }}</td>
         <td>

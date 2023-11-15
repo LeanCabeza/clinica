@@ -178,7 +178,11 @@ export class PacientePanelComponent implements OnInit {
         fecha: this.fechaSeleccionada,
         hora: hora,
         atendido: false,
-        confirmacionDoctor: "Pendiente Confirmacion"
+        confirmacionDoctor: "Pendiente Confirmacion",
+        nombrePaciente: this.usuarioLogueado?.nombre,
+        apellidoPaciente: this.usuarioLogueado?.apellido,
+        edadPaciente: this.usuarioLogueado?.edad,
+        obraSocialPaciente: this.usuarioLogueado?.obraSocial,
       };
     
     Swal.fire({
