@@ -1,16 +1,10 @@
 <div class="fondo">
-  <div id="shadow" class="contenedor scale-in-center flip-in-ver-left">
+  <div id="shadow" class="contenedor col-md-9 scale-in-center flip-in-ver-left">
     <div>
       <h1 class="text-center tracking-in-contract display-4">
         Ingresar
       </h1>
       <img src="../assets/images/loginImage.jpg" class="logo">
-          <!-- Agregar botones de ingreso rápido -->
-          <div class="mt-3 text-center">
-            <button class="btn btn-success" (click)="ingresoRapido(1)">👨‍👩‍👧‍👦Paciente</button>
-            <button class="btn btn-warning ms-1" (click)="ingresoRapido(2)">🥼🩺 Especialista</button>
-            <button class="btn btn-primary ms-1" (click)="ingresoRapido(3)">🔮 Admin</button>
-          </div>
       <div class="row mt-4">
         <div>
           <label>Email</label>
@@ -25,6 +19,30 @@
           
         </div>
       </div>
+    </div>
+  </div>
+  <div class="col-ms-3">
+    <!-- Botones de accesos rápidos -->
+    <div class="ms-2 text-center user-buttons">
+      <button class="btn btn-warning" (click)="ingresoRapido(1)">
+        👔
+      </button>
+      <button class="btn btn-success" (click)="ingresoRapido(2)">
+        🥼
+      </button>
+      <button class="btn btn-success" (click)="ingresoRapido(3)">
+        🩺
+      </button>
+      <!-- Repite el patrón para otros usuarios -->
+      <button class="btn btn-primary" (click)="ingresoRapido(4)">
+        🧔🏻
+      </button>
+      <button class="btn btn-primary ms-1" (click)="ingresoRapido(5)">
+        👶🏻
+      </button>
+      <button class="btn btn-primary" (click)="ingresoRapido(6)">
+        👲🏻
+      </button>
     </div>
   </div>
 </div>
