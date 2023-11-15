@@ -44,6 +44,8 @@ export class RegisterComponent implements OnInit {
   diasAtencion: string[] = ['Lunes'];
   horariosAtencion: string[] = ['9:00 a 13:00'];
   showSpinner = false;
+  showButtons: boolean = true;
+  showForms: boolean = false;
   
 
   constructor(
