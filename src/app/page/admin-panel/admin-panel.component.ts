@@ -16,6 +16,10 @@ export class AdminPanelComponent implements OnInit {
   especialistas: Usuario[];
   flagAdmin: boolean = false;
   usuarioLogueado: Usuario | null;
+  mostrarUsuarios = true;
+  mostrarAceptarEspecialistas = false;
+  mostrarRegistrarUsuarios = false;
+  mostrarTurnos = false;
 
   constructor(private usuariosService: UsuariosService, private authService: AuthService) { }
 

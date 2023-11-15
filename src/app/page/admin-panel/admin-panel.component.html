@@ -1,39 +1,76 @@
 <div class="container">
-  <h2 style="text-align: center;">Todos los usuarios 👥</h2>
 
-  <table class="table table-striped table-bordered">
-    <thead>
-      <tr>
-        <th>Usuario</th>
-        <th>Nombre</th>
-        <th>Apellido</th>
-        <th>Email</th>
-        <th>Dni</th>
-        <th>Edad</th>
-        <th>Tipo Usuario</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let usuario of usuarios">
-        <td>
-          <div class="profile-picture">
-            <img *ngIf="usuario.fotoPerfil1" [src]="usuario.fotoPerfil1" alt="Foto de perfil">
-            <span *ngIf="!usuario.fotoPerfil1" class="no-photo">Sin foto</span>
-          </div>
-        </td>
-        <td>{{ usuario.nombre }}</td>
-        <td>{{ usuario.apellido }}</td>
-        <td>{{ usuario.email }}</td>
-        <td>{{ usuario.dni }}</td>
-        <td>{{ usuario.edad }}</td>
-        <td>{{ usuario.tipoUsuario }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="menu-option-card" (click)="mostrarUsuarios = true ; mostrarAceptarEspecialistas = false ; mostrarRegistrarUsuarios = false ; mostrarTurnos = false">
+        <div class="menu-option-content">
+          <i class="fa-solid fa-users"></i>
+          <h4>Todos los Usuarios</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="menu-option-card" (click)="mostrarUsuarios = false ; mostrarAceptarEspecialistas = true ; mostrarRegistrarUsuarios = false ; mostrarTurnos = false">
+        <div class="menu-option-content">
+          <i class="fa-solid fa-gavel"></i>
+          <h4>Aceptar/Rechazar Especialistas</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="menu-option-card" (click)="mostrarUsuarios = false ; mostrarAceptarEspecialistas = false ; mostrarRegistrarUsuarios = true ; mostrarTurnos = false">
+        <div class="menu-option-content">
+          <i class="fa-solid fa-id-card"></i>
+          <h4>Registrar Usuarios</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3" (click)="mostrarUsuarios = false ; mostrarAceptarEspecialistas = false ; mostrarRegistrarUsuarios = false ; mostrarTurnos = true">
+      <div class="menu-option-card">
+        <div class="menu-option-content">
+          <i class="fa-solid fa-calendar-days"></i>
+          <h4>Turnos</h4>
+        </div>
+      </div>
+    </div>
+  </div>
 
+
+  <div *ngIf=" flagAdmin == true  && mostrarUsuarios == true && mostrarAceptarEspecialistas == false && mostrarRegistrarUsuarios == false && mostrarTurnos == false">
+    <h2 style="text-align: center;">Todos los usuarios 👥</h2>
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th>Usuario</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Email</th>
+          <th>Dni</th>
+          <th>Edad</th>
+          <th>Tipo Usuario</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let usuario of usuarios">
+          <td>
+            <div class="profile-picture">
+              <img *ngIf="usuario.fotoPerfil1" [src]="usuario.fotoPerfil1" alt="Foto de perfil">
+              <span *ngIf="!usuario.fotoPerfil1" class="no-photo">Sin foto</span>
+            </div>
+          </td>
+          <td>{{ usuario.nombre }}</td>
+          <td>{{ usuario.apellido }}</td>
+          <td>{{ usuario.email }}</td>
+          <td>{{ usuario.dni }}</td>
+          <td>{{ usuario.edad }}</td>
+          <td>{{ usuario.tipoUsuario }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
-<div *ngIf="flagAdmin == true" class="container">
+<div *ngIf="flagAdmin == true && mostrarAceptarEspecialistas == true && mostrarRegistrarUsuarios == false && mostrarUsuarios == false && mostrarTurnos == false " class="container">
   <h2 style="text-align: center;">Aceptar/Rechazar Especialistas 👨🏻‍⚖️🔨</h2>
 
   <table class="table table-striped table-bordered">
@@ -80,6 +117,6 @@
 </div>
 
 
-<div *ngIf="flagAdmin == true" class="container">
+<div *ngIf="flagAdmin == true && mostrarRegistrarUsuarios == true && mostrarUsuarios == false && mostrarTurnos == false && mostrarAceptarEspecialistas == false" class="container">
     <app-register></app-register>
 </div>
