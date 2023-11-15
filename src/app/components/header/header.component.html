@@ -22,6 +22,11 @@
               <strong> 🏠 Inicio</strong>        
             </a>
           </li>
+          <li *ngIf="usuarioLogueado">
+            <a routerLink="/profile" class="nav-link text-black">
+              <strong> 💻 Mi Perfil</strong>     
+            </a>
+          </li>
           <li *ngIf="!usuarioLogueado">
             <a routerLink="/register" class="nav-link text-black">
               <strong> 📝 Registrarse</strong>     
