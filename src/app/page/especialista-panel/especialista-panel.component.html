@@ -1,3 +1,49 @@
-<p>
-  especialista-panel works!
-</p>
+<div class="container" style="margin-bottom: 400px;">
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="menu-option-card" (click)="this.mostrarAceptarRechazar = true; this.mostrarTurnos = false">
+        <div class="menu-option-content">
+          <i class="fa-solid fa-gavel"></i>
+          <h4>Aceptar/Rechazar Turnos</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="menu-option-card" (click)="this.mostrarAceptarRechazar = false; this.mostrarTurnos = true">
+        <div class="menu-option-content">
+          <i class="fa-solid fa-calendar-days"></i>
+          <h4>Listado Turnos</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <table class="table table-bordered" *ngIf="mostrarAceptarRechazar == true && mostrarTurnos == false">
+    <thead>
+      <tr>
+        <th>Especialidad</th>
+        <th>Doctor</th>
+        <th>Aceptado por Doctor</th>
+        <th>Fecha</th>
+        <th>Hora</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let turno of proximosTurnos">
+        <td>{{ turno.especialidad }}</td>
+        <td>{{ turno.nombreDoctor }} {{ turno.apellidoDoctor }} </td>
+        <td>{{ turno.confirmacionDoctor }}</td>
+        <td>{{ turno.fecha }}</td>
+        <td>{{ turno.hora }}</td>
+        <td>
+          <button class="btn btn-success" (click)="this.turnosService.aceptarTurno(turno)">Aceptar</button>
+          <button class="btn btn-danger ms-2" (click)="this.turnosService.rechazarTurno(turno)">Rechazar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+

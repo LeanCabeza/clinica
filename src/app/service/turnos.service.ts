@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Turno } from '../models/turnos.interface';
+import Swal from 'sweetalert2';
 
 @Injectable()
 export class TurnosService {
@@ -11,6 +12,13 @@ export class TurnosService {
     return this.firestore.collection<Turno>('turnos', ref =>
       ref.where('especialistaDni', '==', dni)
         .where('fecha', '==', fecha)
+    ).valueChanges();
+  }
+
+  getTurnosPendientesAceptarByEspecialista(dni?: string) {
+    return this.firestore.collection<Turno>('turnos', ref =>
+      ref.where('especialistaDni', '==', dni)
+      .where('confirmacionDoctor','==','Pendiente Confirmacion')
     ).valueChanges();
   }
 
@@ -72,6 +80,58 @@ export class TurnosService {
           console.log('Campo "calificacionPaciente" modificado correctamente');
         }).catch(error => {
           console.error('Error al modificar el campo "calificacionPaciente":', error);
+        });
+      });
+    });
+  }
+
+  aceptarTurno(turno: Turno) {
+    const query = this.firestore.collection<Turno>('turnos', ref =>
+      ref.where('fecha', '==', turno.fecha)
+         .where('hora', '==', turno.hora)
+         .where('especialistaDni', '==', turno.especialistaDni)
+         .where('pacienteDni', '==', turno.pacienteDni)
+         .where('especialidad', '==', turno.especialidad)
+    );
+
+    query.get().subscribe(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        doc.ref.update({
+          confirmacionDoctor: 'Aceptado'
+        }).then(() => {
+          Swal.fire({
+            icon: "success",
+            title: "Turno Aceptado...",
+            text: "Se Acepto el turno correctamente",
+          });
+        }).catch(error => {
+          console.error('Error al aceptar el turno:', error);
+        });
+      });
+    });
+  }
+
+  rechazarTurno(turno: Turno) {
+    const query = this.firestore.collection<Turno>('turnos', ref =>
+      ref.where('fecha', '==', turno.fecha)
+         .where('hora', '==', turno.hora)
+         .where('especialistaDni', '==', turno.especialistaDni)
+         .where('pacienteDni', '==', turno.pacienteDni)
+         .where('especialidad', '==', turno.especialidad)
+    );
+
+    query.get().subscribe(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        doc.ref.update({
+          confirmacionDoctor: 'Rechazado'
+        }).then(() => {
+          Swal.fire({
+            icon: "success",
+            title: "Turno RECHAZADO...",
+            text: "Se rechazo el turno correctamente",
+          });
+        }).catch(error => {
+          console.error('Error al rechazar el turno:', error);
         });
       });
     });

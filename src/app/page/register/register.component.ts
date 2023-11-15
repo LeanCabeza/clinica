@@ -36,7 +36,7 @@ export class RegisterComponent implements OnInit {
   usuarioForm: FormGroup;
   especialistaForm: FormGroup;
   adminForm: FormGroup;
-  tipo: string = "Especialista";
+  tipo: string = "";
   selectedImage1: File | null;
   selectedImage2: File | null;
   flagAdmin: boolean = false;

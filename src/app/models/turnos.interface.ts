@@ -9,4 +9,5 @@ export interface Turno {
     atendido?:Boolean;
     calificacionPaciente?: string;
     resenia?: string;
+    confirmacionDoctor?:string;
   }

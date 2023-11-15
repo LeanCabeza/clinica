@@ -98,7 +98,7 @@
           <tr>
             <th>Especialidad</th>
             <th>Doctor</th>
-            <th>Estado</th>
+            <th>Confirmacion Doctor</th>
             <th>Fecha</th>
             <th>Hora</th>
             <th>Acción</th>
@@ -108,11 +108,11 @@
           <tr *ngFor="let turno of proximosTurnos">
             <td>{{ turno.especialidad }}</td>
             <td>{{ turno.nombreDoctor }} {{ turno.apellidoDoctor }} </td>
-            <td>{{ turno.atendido ? 'Atendido ✅' : 'Pendiente de atencion ⌛' }}</td>
+            <td>{{ turno.confirmacionDoctor }}</td>
             <td>{{ turno.fecha }}</td>
             <td>{{ turno.hora }}</td>
             <td>
-              <button class="btn btn-danger" (click)="cancelarTurno(turno)">Cancelar Turno</button>
+              <button class="btn btn-danger" *ngIf="turno.confirmacionDoctor != 'Rechazado'" (click)="cancelarTurno(turno)">Cancelar Turno</button>
             </td>
           </tr>
         </tbody>

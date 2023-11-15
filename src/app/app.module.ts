@@ -18,6 +18,7 @@ import { AdminPanelComponent } from './page/admin-panel/admin-panel.component';
 import { PacientePanelComponent } from './page/paciente-panel/paciente-panel.component';
 import { TurnosService } from './service/turnos.service';
 import { UsuariosService } from './service/usuarios.service';
+import { EspecialistaPanelComponent } from './page/especialista-panel/especialista-panel.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { UsuariosService } from './service/usuarios.service';
     RegisterComponent,
     MyProfileComponent,
     AdminPanelComponent,
-    PacientePanelComponent
+    PacientePanelComponent,
+    EspecialistaPanelComponent
   ],
   imports: [
     BrowserModule,
