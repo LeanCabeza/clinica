@@ -41,6 +41,10 @@
                     <p class="text-muted">{{this.usuarioLogueado.tipoUsuario}}</p>
                   </div>
                   <div class="col-6 mb-3" *ngIf="this.usuarioLogueado.tipoUsuario == 'Especialista'">
+                    <h6>Especialidad</h6>
+                    <p class="text-muted">{{this.usuarioLogueado.especialidad}}</p>
+                  </div>
+                  <div class="col-6 mb-3" *ngIf="this.usuarioLogueado.tipoUsuario == 'Especialista'">
                     <h6>Dias Atencion</h6>
                     <p class="text-muted">{{this.usuarioLogueado.diasAtencion}}</p>
                   </div>

@@ -42,6 +42,11 @@
               <strong> 🏥 Paciente Panel</strong>     
             </a>
           </li>
+          <li *ngIf="usuarioLogueado?.tipoUsuario == 'Especialista'">
+            <a routerLink="/panelEspecialista" class="nav-link text-black">
+              <strong> 🩺 Especialista Panel</strong>     
+            </a>
+          </li>
           <li>
             <a *ngIf="!usuarioLogueado"routerLink="/login" class="nav-link text-black">
               <strong> 📤 Ingresar</strong>     

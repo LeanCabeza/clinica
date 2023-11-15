@@ -7,6 +7,7 @@ import { RegisterComponent } from './page/register/register.component';
 import { AdminPanelComponent } from './page/admin-panel/admin-panel.component';
 import { PacientePanelComponent } from './page/paciente-panel/paciente-panel.component';
 import { SpinnerComponent } from './page/spinner/spinner.component';
+import { EspecialistaPanelComponent } from './page/especialista-panel/especialista-panel.component';
 
 
 const routes: Routes = [
@@ -16,7 +17,8 @@ const routes: Routes = [
   {path:'login',component: LoginComponent},
   {path:'profile',component: MyProfileComponent},
   {path:'panelAdmin',component: AdminPanelComponent},
-  {path:'panelPaciente',component: PacientePanelComponent}
+  {path:'panelPaciente',component: PacientePanelComponent},
+  {path:'panelEspecialista',component: EspecialistaPanelComponent}
 ];
 
 @NgModule({
