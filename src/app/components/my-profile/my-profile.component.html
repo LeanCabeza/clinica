@@ -24,8 +24,14 @@
                     <h6>Apellido</h6>
                     <p class="text-muted">{{this.usuarioLogueado.apellido}}</p>
                   </div>
-                </div>
-                <div class="row pt-1">
+                  <div class="col-6 mb-3">
+                    <h6>Edad</h6>
+                    <p class="text-muted">{{this.usuarioLogueado.edad}}</p>
+                  </div>
+                  <div class="col-6 mb-3">
+                    <h6>Dni</h6>
+                    <p class="text-muted">{{this.usuarioLogueado.dni}}</p>
+                  </div>
                   <div class="col-6 mb-3">
                     <h6>Email</h6>
                     <p class="text-muted">{{this.usuarioLogueado.email}}</p>
@@ -34,54 +40,20 @@
                     <h6>Tipo Usuario</h6>
                     <p class="text-muted">{{this.usuarioLogueado.tipoUsuario}}</p>
                   </div>
+                  <div class="col-6 mb-3" *ngIf="this.usuarioLogueado.tipoUsuario == 'Especialista'">
+                    <h6>Dias Atencion</h6>
+                    <p class="text-muted">{{this.usuarioLogueado.diasAtencion}}</p>
+                  </div>
+                  <div class="col-6 mb-3" *ngIf="this.usuarioLogueado.tipoUsuario == 'Especialista'">
+                    <h6>Horarios Atencion</h6>
+                    <p class="text-muted">{{this.usuarioLogueado.horariosAtencion}}</p>
+                  </div>
+                  <div class="col-6 mb-3" *ngIf="this.usuarioLogueado.tipoUsuario == 'Paciente'">
+                    <h6>Obra Social</h6>
+                    <p class="text-muted">{{this.usuarioLogueado.obraSocial}}</p>
+                  </div>
                 </div>
-                <hr class="mt-0 mb-4">
-                <h6>Ultimas conexiones</h6>
-                <hr class="mt-0 mb-4">
-                <div class="row pt-1">
-                  <table class="table align-middle mb-0 bg-white">
-                    <thead class="bg-light">
-                      <tr>
-                        <th>Dia</th>
-                        <th>Mes</th>
-                        <th>Año</th>
-                        <th>Hora</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>
-                          <div class="d-flex align-items-center">
-                            <div class="ms-3">
-                              <p class="fw-normal mb-1">30</p>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div class="d-flex align-items-center">
-                            <div class="ms-3">
-                              <p class="fw-normal mb-1">12</p>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div class="d-flex align-items-center">
-                            <div class="ms-3">
-                              <p class="fw-normal mb-1">2023</p>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div class="d-flex align-items-center">
-                            <div class="ms-3">
-                              <p class="fw-normal mb-1">14:25:30</p>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+                <hr class="mt-0 mb-3">
               </div>
             </div>
           </div>
