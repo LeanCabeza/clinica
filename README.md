@@ -61,7 +61,6 @@
 ![ReservarTurno](https://github.com/LeanCabeza/clinica/assets/60674663/61239196-06a0-4d77-a5a7-c7f04f56cdf9)
 ![CalificarAtencion](https://github.com/LeanCabeza/clinica/assets/60674663/82381d82-eb20-4988-aa82-a66a17bed5c3)
 ![EspecialistaPanel](https://github.com/LeanCabeza/clinica/assets/60674663/8ba51e37-ab06-4277-9277-2091bd8eae5a)
-g…]()
 
 
 ¡Gracias por confiar en la Clínica OSPI para tu gestión de turnos médicos!
