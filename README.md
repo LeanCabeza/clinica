@@ -1,4 +1,4 @@
-# OSPI Clinica Online
+# Clínica OSPI - Plataforma de Gestión de Turnos Médicos
 
 ## Bienvenido/a a la plataforma de gestión de turnos médicos de la Clínica OSPI. Este sistema permite a pacientes, especialistas y administradores acceder y gestionar de manera eficiente los turnos médicos. A continuación, se detallan las funcionalidades de cada sprint:
 
@@ -59,7 +59,7 @@
 ![MiPerfil](https://github.com/LeanCabeza/clinica/assets/60674663/8399d0bd-328d-4aa7-b794-fa6defe91746)
 ![AdminPanel](https://github.com/LeanCabeza/clinica/assets/60674663/7c59269a-4448-47aa-9446-5207a2196d15)
 ![ReservarTurno](https://github.com/LeanCabeza/clinica/assets/60674663/61239196-06a0-4d77-a5a7-c7f04f56cdf9)
-![CalificarAtencion](https://github.com/LeanCabeza/clinica/assets/60674663/82381d82-eb20-4988-aa82-a66a17bed5c3)# Clínica OSPI - Plataforma de Gestión de Turnos Médicos
+![CalificarAtencion](https://github.com/LeanCabeza/clinica/assets/60674663/82381d82-eb20-4988-aa82-a66a17bed5c3)
 ![EspecialistaPanel](https://github.com/LeanCabeza/clinica/assets/60674663/8ba51e37-ab06-4277-9277-2091bd8eae5a)
 g…]()
 
