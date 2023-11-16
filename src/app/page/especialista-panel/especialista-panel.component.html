@@ -42,8 +42,8 @@
         <td>{{ turno.edadPaciente }}</td>
         <td>{{ turno.obraSocialPaciente }}</td>
         <td>{{ turno.fecha }}</td>
-        <td>{{ turno.confirmacionDoctor }}</td>
         <td>{{ turno.hora }}</td>
+        <td>{{ turno.confirmacionDoctor }}</td>
         <td>
           <button class="btn btn-success" (click)="this.turnosService.aceptarTurno(turno)">Aceptar</button>
           <button class="btn btn-danger ms-2" (click)="this.turnosService.rechazarTurno(turno)">Rechazar</button>
