@@ -22,6 +22,13 @@ export class TurnosService {
     ).valueChanges();
   }
 
+  getTurnosAceptadosByEspecialista(dni?: string) {
+    return this.firestore.collection<Turno>('turnos', ref =>
+      ref.where('especialistaDni', '==', dni)
+      .where('confirmacionDoctor','!=','Pendiente Confirmacion')
+    ).valueChanges();
+  }
+
   getHistoriaClinica(dni: string) {
     return this.firestore.collection<Turno>('turnos', ref =>
       ref.where('pacienteDni', '==', dni)
@@ -75,7 +82,7 @@ export class TurnosService {
     query.get().subscribe(querySnapshot => {
       querySnapshot.forEach(doc => {
         doc.ref.update({
-          calificacionUsuario: calificacion
+          calificacionPaciente: calificacion
         }).then(() => {
           console.log('Campo "calificacionPaciente" modificado correctamente');
         }).catch(error => {
@@ -103,6 +110,33 @@ export class TurnosService {
             icon: "success",
             title: "Turno Aceptado...",
             text: "Se Acepto el turno correctamente",
+          });
+        }).catch(error => {
+          console.error('Error al aceptar el turno:', error);
+        });
+      });
+    });
+  }
+
+  finalizarTurno(turno: Turno) {
+    const query = this.firestore.collection<Turno>('turnos', ref =>
+      ref.where('fecha', '==', turno.fecha)
+         .where('hora', '==', turno.hora)
+         .where('especialistaDni', '==', turno.especialistaDni)
+         .where('pacienteDni', '==', turno.pacienteDni)
+         .where('especialidad', '==', turno.especialidad)
+    );
+
+    query.get().subscribe(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        doc.ref.update({
+          confirmacionDoctor: 'Atendido',
+          atendido: true
+        }).then(() => {
+          Swal.fire({
+            icon: "success",
+            title: "Turno Finalizado...",
+            text: "Se finalizo el turno",
           });
         }).catch(error => {
           console.error('Error al aceptar el turno:', error);

@@ -20,7 +20,7 @@
       <div class="menu-option-card" (click)="showProximosTurnos=false;showHistorialClinico = true; showReservarTurno = false; cargarHistorialClinico()">
         <div class="menu-option-content">
           <i class="fas fa-file-medical-alt"></i>
-          <h4>Historial Clínico</h4>
+          <h4>Historial Atenciones</h4>
         </div>
       </div>
     </div>
@@ -157,7 +157,7 @@
             <td>
               <button class="btn btn-primary" style="font-size: 12px;" *ngIf="turno.resenia != null" (click)="verDetalle(turno)">Ver Reseña</button>
               <button class="btn btn-primary ms-2 mt-1" style="font-size: 12px;" (click)="verDetalle(turno)">Completar Encuesta</button>
-              <button class="btn btn-success ms-2 mt-1" style="font-size: 12px;" (click)="calificarAtencion(turno)">Calificar Atencion</button>
+              <button class="btn btn-success ms-2 mt-1" style="font-size: 12px;" *ngIf="turno.calificacionPaciente == null" (click)="calificarAtencion(turno)">Calificar Atencion</button>
             </td>
           </tr>
         </tbody>

@@ -2,7 +2,7 @@
 
   <div class="row">
     <div class="col-md-6">
-      <div class="menu-option-card" (click)="this.mostrarAceptarRechazar = true; this.mostrarTurnos = false">
+      <div class="menu-option-card" (click)="this.mostrarAceptarRechazar = true; this.mostrarTurnos = false; this.cargarTurnosPendientesAceptar();">
         <div class="menu-option-content">
           <i class="fa-solid fa-gavel"></i>
           <h4>Aceptar/Rechazar Turnos</h4>
@@ -10,7 +10,7 @@
       </div>
     </div>
     <div class="col-md-6">
-      <div class="menu-option-card" (click)="this.mostrarAceptarRechazar = false; this.mostrarTurnos = true">
+      <div class="menu-option-card" (click)="this.mostrarAceptarRechazar = false; this.mostrarTurnos = true; this.cargarTurnos()">
         <div class="menu-option-content">
           <i class="fa-solid fa-calendar-days"></i>
           <h4>Listado Turnos</h4>
@@ -19,6 +19,7 @@
     </div>
   </div>
 
+  <h1 *ngIf="mostrarAceptarRechazar == true && mostrarTurnos == false">Aceptar ✅ - Rechazar ❌</h1>
   <table class="table table-bordered" *ngIf="mostrarAceptarRechazar == true && mostrarTurnos == false">
     <thead>
       <tr>
@@ -29,11 +30,61 @@
         <th>Obra Social</th>
         <th>Fecha</th>
         <th>Hora</th>
+        <th>Estado</th>
         <th>Acción</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let turno of proximosTurnos">
+      <tr *ngFor="let turno of turnosPendientesAceptar">
+        <td>{{ turno.especialidad }}</td>
+        <td>{{ turno.pacienteDni }}</td>
+        <td>{{ turno.nombrePaciente }} {{ turno.apellidoPaciente }} </td>
+        <td>{{ turno.edadPaciente }}</td>
+        <td>{{ turno.obraSocialPaciente }}</td>
+        <td>{{ turno.fecha }}</td>
+        <td>{{ turno.confirmacionDoctor }}</td>
+        <td>{{ turno.hora }}</td>
+        <td>
+          <button class="btn btn-success" (click)="this.turnosService.aceptarTurno(turno)">Aceptar</button>
+          <button class="btn btn-danger ms-2" (click)="this.turnosService.rechazarTurno(turno)">Rechazar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h1 *ngIf="mostrarAceptarRechazar == false && mostrarTurnos == true">Turnos 📑🥼</h1>
+  <div class="row" *ngIf="mostrarAceptarRechazar == false && mostrarTurnos == true">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="especialidadFiltro">Buscar por especialidad:</label>
+        <input class="form-control" type="text" [(ngModel)]="especialidadFiltro" (input)="cargarTurnos()">
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="nombreApellidoFiltro">Buscar por nombre y apellido del doctor:</label>
+        <input class="form-control" type="text" [(ngModel)]="nombreApellidoFiltro" (input)="cargarTurnos()">
+      </div>
+    </div>
+  </div>
+  <hr>
+  <table class="table table-bordered" *ngIf="mostrarAceptarRechazar == false && mostrarTurnos == true">
+
+    <thead>
+      <tr>
+        <th>Especialidad</th>
+        <th>Dni</th>
+        <th>Paciente</th>
+        <th>Edad</th>
+        <th>Obra Social</th>
+        <th>Fecha</th>
+        <th>Hora</th>
+        <th>Estado</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let turno of turnosDoctor">
         <td>{{ turno.especialidad }}</td>
         <td>{{ turno.pacienteDni }}</td>
         <td>{{ turno.nombrePaciente }} {{ turno.apellidoPaciente }} </td>
@@ -41,9 +92,17 @@
         <td>{{ turno.obraSocialPaciente }}</td>
         <td>{{ turno.fecha }}</td>
         <td>{{ turno.hora }}</td>
+        <td>{{
+          turno.confirmacionDoctor === 'Atendido' ? '🧬 Atendido 🧬' :
+          turno.confirmacionDoctor === 'Aceptado' ? '✅ Aceptado ✅' :
+          turno.confirmacionDoctor === 'Rechazado' ? '❌ Rechazado ❌' :
+          turno.confirmacionDoctor === 'Pendiente Confirmacion' ? '⌛ Pendiente Confirmacion ⌛ ' :
+          turno.confirmacionDoctor
+        }}</td>
         <td>
-          <button class="btn btn-success" (click)="this.turnosService.aceptarTurno(turno)">Aceptar</button>
-          <button class="btn btn-danger ms-2" (click)="this.turnosService.rechazarTurno(turno)">Rechazar</button>
+          <button class="btn btn-danger" *ngIf="turno.confirmacionDoctor != 'Atendido' && turno.confirmacionDoctor != 'Rechazado'" (click)="this.turnosService.cancelarTurno(turno)">Cancelar</button>
+          <button class="btn btn-success ms-2" *ngIf="turno.confirmacionDoctor != 'Atendido'" (click)="this.turnosService.finalizarTurno(turno)">Finalizar</button>
+          <button class="btn btn-warning ms-2" *ngIf="turno.calificacionPaciente != null" (click)="verResenia(turno)">Ver Reseña</button>
         </td>
       </tr>
     </tbody>

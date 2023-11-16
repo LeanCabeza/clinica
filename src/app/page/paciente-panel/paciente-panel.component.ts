@@ -22,7 +22,7 @@ export class PacientePanelComponent implements OnInit {
   horaSeleccionada: string;
   dniDoctorSeleccionado: string;
   usuarioLogueado: Usuario | null = null;  
-  showReservarTurno: boolean = false;
+  showReservarTurno: boolean = true;
   showHistorialClinico: boolean = false;
   showProximosTurnos: boolean = false;
   historialClinico: Turno[] = [];
@@ -256,6 +256,8 @@ export class PacientePanelComponent implements OnInit {
   }
 
   async calificarAtencion(turno: Turno) {
+    let calificacion = "";
+    let comentario = "";
     const result = await Swal.fire({
       title: 'Calificar Atención',
       html: `
@@ -267,17 +269,29 @@ export class PacientePanelComponent implements OnInit {
           <option value="Regular">Regular</option>
           <option value="Mal">Mal</option>
         </select>
+        <input id="comentario" class="swal2-input" placeholder="Deja tu comentario..." />
       `,
       showCancelButton: true,
       confirmButtonText: 'Calificar',
-      cancelButtonText: 'Cancelar'
+      cancelButtonText: 'Cancelar',
+      preConfirm: () => {
+        calificacion = (document.getElementById('calificacion') as HTMLSelectElement).value;
+        comentario = (document.getElementById('comentario') as HTMLInputElement).value;
+  
+        // Validaciones
+        if (!calificacion || !comentario) {
+          Swal.showValidationMessage('Por favor, completa tanto la calificación como el comentario.');
+        }
+        return { calificacion, comentario };
+      }
     });
   
     if (result.isConfirmed) {
-      const calificacion = (document.getElementById('calificacion') as HTMLSelectElement).value;
-      
+  
       try {
-        await this.turnosService.calificarTurno(turno, calificacion);
+        const calificacionConComentario = "⭐ Calificacion: " + calificacion + "💭 Comentario: " +  comentario;
+  
+        await this.turnosService.calificarTurno(turno, calificacionConComentario);
         Swal.fire('¡Calificación exitosa!', 'Gracias por calificar la atención.', 'success');
       } catch (error) {
         console.log(error);
