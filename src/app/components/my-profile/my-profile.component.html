@@ -15,7 +15,7 @@
               <div class="card-body p-4">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                   <h6 style="font-size: 35px;">Mi Perfil</h6>
-                  <button class="btn btn-success" (click)="guardarCambios()">Guardar</button>
+                  <button class="btn btn-success" *ngIf="this.usuarioLogueado.tipoUsuario == 'Especialista'" (click)="guardarCambios()">Guardar</button>
                 </div>
                 <hr class="mt-0 mb-4">
                 <div class="row pt-1">

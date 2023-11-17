@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/service/auth.service';
 import { UsuariosService } from 'src/app/service/usuarios.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-my-profile',
@@ -42,8 +43,19 @@ export class MyProfileComponent implements OnInit {
     }
   }
 
-  guardarCambios(){
-    this.usuarioService.actualizarDisponibilidad(this.usuarioLogueado,this.horariosAtencion,this.diasAtencion)
-  }
+  guardarCambios() {
+
+    Swal.fire({
+        title: '¿Estás seguro de que quieres actualizar tu disponibilidad?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí',
+        cancelButtonText: 'No',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            this.usuarioService.actualizarDisponibilidad(this.usuarioLogueado, this.horariosAtencion, this.diasAtencion);
+        }
+    });
+}
 
 }
