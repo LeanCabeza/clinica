@@ -3,6 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/comp
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { Usuario } from '../models/usuario.interface';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import Swal from 'sweetalert2';
 
 
 @Injectable({
@@ -102,6 +103,32 @@ export class UsuariosService {
   logout(): void {
     this.usuarioLogueadoSubject.next(null); 
     localStorage.removeItem(this.usuarioLocalStorageKey);
+  }
+
+  actualizarDisponibilidad(usuario: Usuario,horarios: Array<string>,dias:Array<string>) {
+    const query = this.db.collection<Usuario>('usuarios', ref =>
+      ref.where('dni', '==', usuario.dni)
+         .where('nombre', '==', usuario.nombre)
+         .where('apellido', '==', usuario.apellido)
+         .where('email', '==', usuario.email)
+    );
+
+    query.get().subscribe(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        doc.ref.update({
+          horariosAtencion: horarios,
+          diasAtencion: dias
+        }).then(() => {
+          Swal.fire({
+            icon: "success",
+            title: "Disponibilidad Actualizada...",
+            text: "Se actualizo la disponibilidad",
+          });
+        }).catch(error => {
+          console.error('Error al actualizar:', error);
+        });
+      });
+    });
   }
 
 }

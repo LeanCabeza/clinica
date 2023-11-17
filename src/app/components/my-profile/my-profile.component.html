@@ -13,7 +13,10 @@
             </div>
             <div class="col-md-8">
               <div class="card-body p-4">
-                <h6 style="font-size: 35px;">Mi Perfil</h6>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <h6 style="font-size: 35px;">Mi Perfil</h6>
+                  <button class="btn btn-success" (click)="guardarCambios()">Guardar</button>
+                </div>
                 <hr class="mt-0 mb-4">
                 <div class="row pt-1">
                   <div class="col-6 mb-3">
@@ -45,12 +48,22 @@
                     <p class="text-muted">{{this.usuarioLogueado.especialidad}}</p>
                   </div>
                   <div class="col-6 mb-3" *ngIf="this.usuarioLogueado.tipoUsuario == 'Especialista'">
-                    <h6>Dias Atencion</h6>
-                    <p class="text-muted">{{this.usuarioLogueado.diasAtencion}}</p>
+                    <h6>Horarios Atencion</h6>
+                    <div class="col" *ngFor="let horario of ['9:00 a 13:00', '14:00 a 18:00', '18:00 a 21:00']">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" [checked]="horariosAtencion.includes(horario)" (change)="toggleHorario(horario)">
+                        <label class="form-check-label" for="flexCheckChecked">{{ horario }}</label>
+                      </div>
+                    </div>
                   </div>
                   <div class="col-6 mb-3" *ngIf="this.usuarioLogueado.tipoUsuario == 'Especialista'">
-                    <h6>Horarios Atencion</h6>
-                    <p class="text-muted">{{this.usuarioLogueado.horariosAtencion}}</p>
+                    <h6>Dias Atencion</h6>
+                    <div class="col" *ngFor="let dia of ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" [checked]="diasAtencion.includes(dia)" (change)="toggleDia(dia)">
+                        <label class="form-check-label" for="flexCheckChecked">{{ dia }}</label>
+                      </div>
+                    </div>
                   </div>
                   <div class="col-6 mb-3" *ngIf="this.usuarioLogueado.tipoUsuario == 'Paciente'">
                     <h6>Obra Social</h6>
