@@ -19,6 +19,7 @@ import { PacientePanelComponent } from './page/paciente-panel/paciente-panel.com
 import { TurnosService } from './service/turnos.service';
 import { UsuariosService } from './service/usuarios.service';
 import { EspecialistaPanelComponent } from './page/especialista-panel/especialista-panel.component';
+import { HoraFormatoPipe } from './pipes/horaFormato.pipe';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { EspecialistaPanelComponent } from './page/especialista-panel/especialis
     MyProfileComponent,
     AdminPanelComponent,
     PacientePanelComponent,
-    EspecialistaPanelComponent
+    EspecialistaPanelComponent,
+    HoraFormatoPipe
   ],
   imports: [
     BrowserModule,

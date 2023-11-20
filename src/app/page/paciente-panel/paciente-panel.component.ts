@@ -6,6 +6,11 @@ import Swal from 'sweetalert2';
 import { Usuario } from 'src/app/models/usuario.interface';
 import { AuthService } from 'src/app/service/auth.service';
 
+interface Especialidad {
+  nombre: string;
+  imagen: string;
+}
+
 @Component({
   selector: 'app-paciente-panel',
   templateUrl: './paciente-panel.component.html',
@@ -13,7 +18,13 @@ import { AuthService } from 'src/app/service/auth.service';
 })
 export class PacientePanelComponent implements OnInit {
 
-  especialidades: string[] = ['Urologo', 'Flevologo', 'Dermatologo','Traumatologo','Oculista'];
+  especialidades: Especialidad[] = [
+    { nombre: 'Urologo', imagen: '/assets/images/urologo.png' },
+    { nombre: 'Flevologo', imagen: '/assets/images/flevologo.png' },
+    { nombre: 'Dermatologo', imagen: '/assets/images/dermatologo.png' },
+    { nombre: 'Traumatologo', imagen: '/assets/images/traumatologo.png' },
+    { nombre: 'Oculista', imagen: '/assets/images/oculista.png' },
+  ];
   doctores: any[] = [];
   fechas:string[] = [];
   arrayHorarios: { horario: string; estado: string }[] = [];
@@ -40,6 +51,9 @@ export class PacientePanelComponent implements OnInit {
   }
 
   generarFechas(dniDoctor: string) {
+    this.fechaSeleccionada = "";
+    this.horaSeleccionada = "";
+    
     const doctorSeleccionado = this.doctores.find((doctor) => doctor.dni == dniDoctor);
   
     if (!doctorSeleccionado) {
@@ -125,7 +139,7 @@ export class PacientePanelComponent implements OnInit {
           }
   
           // Consultar los turnos ocupados para marcarlos como 'ocupados'
-          this.turnosService.getTurnosByEspecialista(dniDoctorSeleccionado, fechaSeleccionada).subscribe(turnos => {
+          this.turnosService.getTurnosByEspecialista(dniDoctorSeleccionado.toString(), fechaSeleccionada).subscribe(turnos => {
             for (const turno of turnos) {
               const horaOcupada = turno.hora;
               const horaIndex = this.arrayHorarios.findIndex(hora => hora.horario === horaOcupada);
@@ -158,11 +172,6 @@ export class PacientePanelComponent implements OnInit {
       });
   }
   
-  seleccionarFecha() {
-    if (this.dniDoctorSeleccionado && this.fechaSeleccionada) {
-      this.cargarHorarios(this.dniDoctorSeleccionado,this.fechaSeleccionada);
-    }
-  }
 
   reservarTurno(hora: string) {
 
@@ -171,7 +180,7 @@ export class PacientePanelComponent implements OnInit {
     if (doctorSeleccionado) {
       const nuevoTurno: Turno = {
         especialidad: this.especialidadSeleccionada,
-        especialistaDni: this.dniDoctorSeleccionado,
+        especialistaDni: this.dniDoctorSeleccionado.toString(),
         nombreDoctor: doctorSeleccionado.nombre, 
         apellidoDoctor: doctorSeleccionado.apellido,
         pacienteDni: this.usuarioLogueado?.dni.toString(),

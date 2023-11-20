@@ -68,4 +68,116 @@
     background-color: #dc3545;
     color: white;
   }
-  
+
+  /* Agrega los estilos necesarios para los botones cuadrados, rectangulares, etc. */
+.botones-especialidades {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.btn-especialidad {
+  margin: 5px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+
+/* Estilos TURNOS */
+.selected {
+  background-color: #4CAF50;
+  color: white;
+}
+
+/* Estilos para especialidades*/ 
+
+.botones-especialidades {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.btn-especialidad {
+  height: 180px;
+  margin: 5px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.imagen-container {
+  width: 100px; 
+  height: 100px; 
+  overflow: hidden;
+  margin: 0 auto; 
+}
+
+.imagen-especialidad {
+  width: 100%;
+  height: auto;
+}
+
+.texto-especialidad {
+  margin-top: 5px;
+}
+
+/* Estilos para doctores */ 
+
+.botones-doctores {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.btn-doctores {
+  margin: 5px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  padding: 10px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.imagen-container {
+  width: 100px; 
+  height: 100px; 
+  overflow: hidden;
+  margin: 0 auto; 
+}
+
+.imagen-doctores {
+  width: 100%;
+  height: auto;
+}
+
+.texto-doctores {
+  margin-top: 5px;
+}
+
+.btn-fecha{
+  width: 100px; 
+  height: 100px; 
+  margin-left: 5px;
+  border-radius: 15px;
+  font-size: 15px;
+}
+
+.btn-horario{
+  height: 70px;
+  width: 150px;
+  font-size: 30px;
+  border-radius: 15px;
+  margin-left: 5px;
+  margin-top: 5px;
+}
+
+h2{
+  font-size: 30px;
+}
+
+label{
+  margin-top: 8px;
+  font-size: 22px;
+  margin-bottom: 5px;
+}
