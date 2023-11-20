@@ -121,7 +121,7 @@ export class RegisterComponent implements OnInit {
   async showCaptcha(): Promise<boolean> {
     const imageNames = ["2bg48","2cg58","2cgyx","2g7nm","2gyb6","3b4we","3bfnd","3bx86","3cpwb","3d7bd","3xcgg","3ygde","4cfw8","4d22m","4dw3w","4egem","4f8yp","4fc36","4gb3f","5bb66","enn7n","ennmm","enpw2","ep85x","eppg3","ewcf5","f35xp","f6ww8","f83pn","f85y3","f8f8g","gcx6f","gd8fb","gm7n8","gn2d3","gnbn4","gnc3n","gng6e","gp7c5","m8m4x","mgdwb","mgw3n","mmc5n","mmfm6","mmg2m","mmg38","mmy5n","ngn26","nm46n","nn4wx","nwg2m","nwncn","nxn4f","nxxf8","ny3nn","p6mn8","pcpg6","pdyc8"];
 
-    const randomImageName = imageNames[Math.floor(Math.random() * imageNames.length)];
+    let randomImageName = imageNames[Math.floor(Math.random() * imageNames.length)];
   
     try {
       const result = await Swal.fire({
@@ -137,7 +137,7 @@ export class RegisterComponent implements OnInit {
         preConfirm: (respuesta) => {
           // Validar que la respuesta sea el nombre correcto de la imagen
           if (respuesta !== randomImageName) {
-            Swal.showValidationMessage("Nombre de imagen incorrecto.");
+            Swal.showValidationMessage("Texto ingresado incorrecto, volve a intentarlo.");
           }
         },
         allowOutsideClick: () => !Swal.isLoading(),
@@ -208,6 +208,14 @@ export class RegisterComponent implements OnInit {
   }
 
   async registrarEspecialista() {
+    // Show captcha and wait for the user's response
+    const captchaValid: boolean = await this.showCaptcha();
+
+    if (!captchaValid) {
+      swal.fire('No pasaste el Captcha', 'Sos sospechoso de ser un robot 🤖.', 'error');
+      return;
+    }
+  
     this.showSpinner = true; // Muestra el spinner al principio del proceso
   
     const usuario = { ...this.especialistaForm.value };
@@ -244,6 +252,13 @@ export class RegisterComponent implements OnInit {
   
 
   async registrarAdmin() {
+    // Show captcha and wait for the user's response
+    const captchaValid: boolean = await this.showCaptcha();
+
+    if (!captchaValid) {
+      swal.fire('No pasaste el Captcha', 'Sos sospechoso de ser un robot 🤖.', 'error');
+      return;
+    }
     this.showSpinner = true; // Muestra el spinner al principio del proceso
   
     const usuario = { ...this.adminForm.value };
