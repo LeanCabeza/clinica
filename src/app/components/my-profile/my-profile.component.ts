@@ -13,6 +13,7 @@ export class MyProfileComponent implements OnInit {
   usuarioLogueado:any;
   diasAtencion: string[] = [];
   horariosAtencion: string[] = [];
+  fotoPerfil = true;
   
   constructor(public authService:AuthService,
               public usuarioService:UsuariosService) { }

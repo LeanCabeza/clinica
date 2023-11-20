@@ -6,10 +6,29 @@
           <div class="row g-0">
             <div class="col-md-4 gradient-custom text-center text-white"
               style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
-              <img src={{this.usuarioLogueado.fotoPerfil1}}
-                alt="Avatar" class="img-fluid my-5" style="width: 380px;" />
+              <div id="carouselExample" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                  <!-- Primera imagen -->
+                  <div *ngIf="fotoPerfil == true">
+                    <img src="{{this.usuarioLogueado.fotoPerfil1}}" alt="Avatar 1" class="d-block img-fluid my-5" style="width: 380px;">
+                  </div>
+              
+                  <!-- Segunda imagen (si está disponible) -->
+                    <div *ngIf="fotoPerfil == false">
+                      <img src="{{this.usuarioLogueado.fotoPerfil2}}" alt="Avatar 2" class="d-block img-fluid my-5" style="width: 380px;">
+                    </div>
+                </div>
+              
+                <a class="carousel-control-prev" role="button" *ngIf="this.usuarioLogueado.tipoUsuario == 'Paciente'" (click)="this.fotoPerfil = !this.fotoPerfil">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Anterior</span>
+                </a>
+                <a class="carousel-control-next" role="button" *ngIf="this.usuarioLogueado.tipoUsuario == 'Paciente'" (click)="this.fotoPerfil= !this.fotoPerfil">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Siguiente</span>
+                </a>
+              </div>
               <h1 style="font-size: 35px;">  <strong> {{this.usuarioLogueado.nombre}}  {{this.usuarioLogueado.apellido}} </strong></h1>
-              <!-- <i class="far fa-edit mb-5"></i> -->
             </div>
             <div class="col-md-8">
               <div class="card-body p-4">
