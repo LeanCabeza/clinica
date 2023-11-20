@@ -117,32 +117,27 @@ export class RegisterComponent implements OnInit {
     }
   }
 
+
   async showCaptcha(): Promise<boolean> {
-    // Generar dos números aleatorios entre 1 y 10
-    const num1 = Math.floor(Math.random() * 10) + 1;
-    const num2 = Math.floor(Math.random() * 10) + 1;
-    const sumaCorrecta = num1 + num2;
+    const imageNames = ["2bg48","2cg58","2cgyx","2g7nm","2gyb6","3b4we","3bfnd","3bx86","3cpwb","3d7bd","3xcgg","3ygde","4cfw8","4d22m","4dw3w","4egem","4f8yp","4fc36","4gb3f","5bb66","enn7n","ennmm","enpw2","ep85x","eppg3","ewcf5","f35xp","f6ww8","f83pn","f85y3","f8f8g","gcx6f","gd8fb","gm7n8","gn2d3","gnbn4","gnc3n","gng6e","gp7c5","m8m4x","mgdwb","mgw3n","mmc5n","mmfm6","mmg2m","mmg38","mmy5n","ngn26","nm46n","nn4wx","nwg2m","nwncn","nxn4f","nxxf8","ny3nn","p6mn8","pcpg6","pdyc8"];
+
+    const randomImageName = imageNames[Math.floor(Math.random() * imageNames.length)];
   
     try {
       const result = await Swal.fire({
         title: "Verificación de Humano 🤖!",
-        html: `Por favor, ingrese la suma de los siguientes números:<br>${num1} + ${num2}`,
+        html: `Por favor, ingrese el texto que ve en la siguiente imagen:<br><img src="/assets/images/captcha/${randomImageName}.png" alt="Captcha Image" width="200" height="80">`,
         input: "text",
         inputAttributes: {
           autocapitalize: "off",
-          pattern: "[0-9]+",
         },
         showCancelButton: true,
         confirmButtonText: "Verificar",
         showLoaderOnConfirm: true,
         preConfirm: (respuesta) => {
-          // Validar que la respuesta sea un número
-          const inputNumber = parseInt(respuesta, 10);
-  
-          if (isNaN(inputNumber)) {
-            Swal.showValidationMessage("Ingrese un número válido.");
-          } else if (inputNumber !== sumaCorrecta) {
-            Swal.showValidationMessage("La suma ingresada es incorrecta.");
+          // Validar que la respuesta sea el nombre correcto de la imagen
+          if (respuesta !== randomImageName) {
+            Swal.showValidationMessage("Nombre de imagen incorrecto.");
           }
         },
         allowOutsideClick: () => !Swal.isLoading(),
