@@ -3,6 +3,8 @@ import { Usuario } from 'src/app/models/usuario.interface';
 import { AuthService } from 'src/app/service/auth.service';
 import { UsuariosService } from 'src/app/service/usuarios.service';
 import swal from 'sweetalert2';
+import * as XLSX from 'xlsx';
+
 
 @Component({
   selector: 'app-admin-panel',
@@ -60,4 +62,27 @@ export class AdminPanelComponent implements OnInit {
         console.error('Error al actualizar el estado:', error);
       });
   }
+  
+  public downloadAllUsers() {
+    this.exportUsersToXls(this.usuarios, 'usuarios');
+  }
+
+  public exportUsersToXls(users: Usuario[], fileName: string) {
+    const usersMapped = users.map((user) => {
+      return {
+        Email: `${user.email}`,
+        Nombre: `${user.nombre}`,
+        Apellido: `${user.apellido}`,
+        Dni: `${user.dni}`,
+        Edad: `${user.edad}`,
+        TipoUsuario: `${user.tipoUsuario}`,
+      };
+    });
+
+    const workSheet = XLSX.utils.json_to_sheet(usersMapped);
+    const workBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workBook, workSheet, 'usuarios');
+    XLSX.writeFile(workBook, `${fileName}.xlsx`);
+  }
+
 }

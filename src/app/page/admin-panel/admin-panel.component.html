@@ -37,7 +37,10 @@
 
 
   <div *ngIf=" flagAdmin == true  && mostrarUsuarios == true && mostrarAceptarEspecialistas == false && mostrarRegistrarUsuarios == false && mostrarTurnos == false">
-    <h2 style="text-align: center;">Todos los usuarios 👥</h2>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 style="text-align: center;">Todos los usuarios 👥</h2>
+      <button class="btn btn-success" (click)="this.downloadAllUsers()" >Descargar CSV</button>
+    </div>
     <table class="table table-striped table-bordered">
       <thead>
         <tr>
