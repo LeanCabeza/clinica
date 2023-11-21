@@ -54,19 +54,15 @@
 
   <h1 *ngIf="mostrarAceptarRechazar == false && mostrarTurnos == true">Turnos 📑🥼</h1>
   <div class="row" *ngIf="mostrarAceptarRechazar == false && mostrarTurnos == true">
-    <div class="col-md-6">
-      <div class="form-group">
-        <label for="especialidadFiltro">Buscar por especialidad:</label>
-        <input class="form-control" type="text" [(ngModel)]="especialidadFiltro" (input)="cargarTurnos()">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="especialidadFiltro">Buscar por cualquier campo:</label>
+          <input class="form-control" type="text" [(ngModel)]="filtroFull" (input)="cargarTurnos()">
+        </div>
       </div>
     </div>
-    <div class="col-md-6">
-      <div class="form-group">
-        <label for="nombreApellidoFiltro">Buscar por nombre y apellido del doctor:</label>
-        <input class="form-control" type="text" [(ngModel)]="nombreApellidoFiltro" (input)="cargarTurnos()">
-      </div>
-    </div>
-  </div>
+
   <hr>
   <table class="table table-bordered" *ngIf="mostrarAceptarRechazar == false && mostrarTurnos == true">
 

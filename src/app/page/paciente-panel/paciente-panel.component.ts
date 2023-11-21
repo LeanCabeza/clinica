@@ -40,6 +40,7 @@ export class PacientePanelComponent implements OnInit {
   proximosTurnos: Turno[] = [];
   especialidadFiltro: string = '';
   nombreApellidoFiltro: string = '';
+  filtroFull: string = '';
 
   constructor(private usuariosService: UsuariosService, private turnosService: TurnosService, private authService: AuthService) {
    }
@@ -221,8 +222,7 @@ export class PacientePanelComponent implements OnInit {
       this.turnosService.getHistoriaClinica(this.usuarioLogueado.dni.toString())
         .subscribe(historial => {
           this.historialClinico = historial.filter(turno => 
-            turno.especialidad?.toLowerCase().includes(this.especialidadFiltro.toLowerCase()) &&
-            `${turno.nombreDoctor} ${turno.apellidoDoctor}`.toLowerCase().includes(this.nombreApellidoFiltro.toLowerCase())
+            this.concatenatedFields(turno).toLowerCase().includes(this.filtroFull.toLowerCase())
           );
         });
     }
@@ -233,11 +233,38 @@ export class PacientePanelComponent implements OnInit {
       this.turnosService.getProximosTurnos(this.usuarioLogueado.dni.toString())
         .subscribe(turnos => {
           this.proximosTurnos = turnos.filter(turno => 
-            turno.especialidad?.toLowerCase().includes(this.especialidadFiltro.toLowerCase()) &&
-            `${turno.nombreDoctor} ${turno.apellidoDoctor}`.toLowerCase().includes(this.nombreApellidoFiltro.toLowerCase())
+            this.concatenatedFields(turno).toLowerCase().includes(this.filtroFull.toLowerCase())
           );
         });
     }
+  }
+  
+  concatenatedFields(turno: any): string {
+    // Función auxiliar para asignar un valor predeterminado si es undefined o null
+    const defaultValue = (value: any, defaultVal: any = '') => value !== undefined && value !== null ? value : defaultVal;
+  
+    // Aplicar la lógica para todos los campos
+    const apellidoDoctor = defaultValue(turno.apellidoDoctor);
+    const apellidoPaciente = defaultValue(turno.apellidoPaciente);
+    const altura = defaultValue(turno.atencionDoc?.altura);
+    const peso = defaultValue(turno.atencionDoc?.peso);
+    const presion = defaultValue(turno.atencionDoc?.presion);
+    const temperatura = defaultValue(turno.atencionDoc?.temperatura);
+    const key1 =  defaultValue(turno.atencionDoc?.datosDinamicos[0].clave);
+    const value1 =  defaultValue(turno.atencionDoc?.datosDinamicos[0].valor);
+    const key2 =  defaultValue(turno.atencionDoc?.datosDinamicos[1].clave);
+    const value2 =  defaultValue(turno.atencionDoc?.datosDinamicos[1].valor);
+    const key3 =  defaultValue(turno.atencionDoc?.datosDinamicos[2].clave);
+    const value3 =  defaultValue(turno.atencionDoc?.datosDinamicos[2].valor);
+    const confirmacionDoctor = defaultValue(turno.confirmacionDoctor);
+    const especialidad = defaultValue(turno.especialidad);
+    const fecha = defaultValue(turno.fecha);
+    const hora = defaultValue(turno.hora);
+    const nombreDoctor = defaultValue(turno.nombreDoctor);
+    const nombrePaciente = defaultValue(turno.nombrePaciente);
+    const obraSocialPaciente = defaultValue(turno.obraSocialPaciente);
+    //console.log(`DATOS TURNOS",${nombreDoctor} ${apellidoDoctor} ${nombrePaciente} ${apellidoPaciente} ${altura} ${peso} ${presion} ${temperatura} ${confirmacionDoctor} ${especialidad} ${fecha} ${hora} ${nombrePaciente} ${obraSocialPaciente} ${key1} ${value1} ${key2} ${value2} ${key3} ${value3}`);
+    return `${nombreDoctor} ${apellidoDoctor} ${nombrePaciente} ${apellidoPaciente} ${altura} ${peso} ${presion} ${temperatura} ${confirmacionDoctor} ${especialidad} ${fecha} ${hora} ${nombrePaciente} ${obraSocialPaciente} ${key1} ${value1} ${key2} ${value2} ${key3} ${value3}`;
   }
 
   verDetalle(turno: Turno) {
