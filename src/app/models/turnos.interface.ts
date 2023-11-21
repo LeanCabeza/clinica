@@ -14,4 +14,5 @@ export interface Turno {
     apellidoPaciente?: string;
     edadPaciente?: string;
     obraSocialPaciente?: string;
+    atencionDoc?:object;
   }

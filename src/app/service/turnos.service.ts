@@ -118,6 +118,24 @@ export class TurnosService {
     });
   }
 
+  guardarAtencion(turno: Turno, atencion: any) {
+    const query = this.firestore.collection<Turno>('turnos', ref =>
+      ref.where('fecha', '==', turno.fecha)
+        .where('hora', '==', turno.hora)
+        .where('especialistaDni', '==', turno.especialistaDni)
+        .where('pacienteDni', '==', turno.pacienteDni)
+        .where('especialidad', '==', turno.especialidad)
+    );
+  
+    query.get().subscribe(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        doc.ref.update({
+          atencionDoc: atencion
+        })
+      });
+    });
+  }
+
   finalizarTurno(turno: Turno) {
     const query = this.firestore.collection<Turno>('turnos', ref =>
       ref.where('fecha', '==', turno.fecha)
@@ -139,7 +157,7 @@ export class TurnosService {
             text: "Se finalizo el turno",
           });
         }).catch(error => {
-          console.error('Error al aceptar el turno:', error);
+          console.error('Error al finalizar el turno:', error);
         });
       });
     });

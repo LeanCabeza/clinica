@@ -101,7 +101,7 @@
         }}</td>
         <td>
           <button class="btn btn-danger" *ngIf="turno.confirmacionDoctor != 'Atendido' && turno.confirmacionDoctor != 'Rechazado'" (click)="this.turnosService.cancelarTurno(turno)">Cancelar</button>
-          <button class="btn btn-success ms-2" *ngIf="turno.confirmacionDoctor != 'Atendido' && turno.confirmacionDoctor != 'Rechazado'" (click)="this.turnosService.finalizarTurno(turno)">Finalizar</button>
+          <button class="btn btn-success ms-2" *ngIf="turno.confirmacionDoctor != 'Atendido' && turno.confirmacionDoctor != 'Rechazado'" (click)="this.finalizarTurno(turno)">Finalizar</button>
           <button class="btn btn-warning ms-2" *ngIf="turno.calificacionPaciente != null" (click)="verResenia(turno)">Ver Reseña</button>
         </td>
       </tr>

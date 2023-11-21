@@ -63,6 +63,51 @@ export class EspecialistaPanelComponent implements OnInit {
     }
   }
 
+  finalizarTurno(turno: Turno) {
+    Swal.fire({
+      title: 'Ingrese datos de la atencion',
+      html:
+        '<input type="number" id="altura" class="swal2-input" placeholder="📏Altura"> <br>' +
+        '<input type="number" id="peso" class="swal2-input" placeholder="⚖ Peso"><br>' +
+        '<input type="number" id="temperatura" class="swal2-input" placeholder="🌡 Temperatura"><br>' +
+        '<input type="number" id="presion" class="swal2-input" placeholder="🅿 Presión"><br>' +
+        '<input type="text" id="clave1" class="swal2-input" placeholder="🔑Clave"><br>' +
+        '<input type="text" id="valor1" class="swal2-input" placeholder="🧾Valor"><br>' +
+        '<input type="text" id="clave2" class="swal2-input" placeholder="🔑Clave"><br>' +
+        '<input type="text" id="valor2" class="swal2-input" placeholder="🧾Valor"><br>' +
+        '<input type="text" id="clave3" class="swal2-input" placeholder="🔑Clave"><br>' +
+        '<input type="text" id="valor3" class="swal2-input" placeholder="🧾Valor"><br>'
+        ,
+      focusConfirm: false,
+      preConfirm: () => {
+        const altura = (document.getElementById('altura') as HTMLInputElement).value;
+        const peso = (document.getElementById('peso') as HTMLInputElement).value;
+        const temperatura = (document.getElementById('temperatura') as HTMLInputElement).value;
+        const presion = (document.getElementById('presion') as HTMLInputElement).value;
+        const clave1 = (document.getElementById('clave1') as HTMLInputElement).value;
+        const valor1 = (document.getElementById('valor1') as HTMLInputElement).value;
+        const clave2 = (document.getElementById('clave2') as HTMLInputElement).value;
+        const valor2 = (document.getElementById('valor2') as HTMLInputElement).value;
+        const clave3 = (document.getElementById('clave3') as HTMLInputElement).value;
+        const valor3 = (document.getElementById('valor3') as HTMLInputElement).value;
+  
+        const atencionDoc = {
+          altura,
+          peso,
+          temperatura,
+          presion,
+          datosDinamicos: [
+            { clave: clave1, valor: valor1 },
+            { clave: clave2, valor: valor2 },
+            { clave: clave3, valor: valor3 },
+          ],
+        };
+        this.turnosService.finalizarTurno(turno);
+        this.turnosService.guardarAtencion(turno,atencionDoc)
+      },
+    });
+  }
+
   verResenia(turno: Turno){
     Swal.fire({
       title: "Reseña del Paciente",
