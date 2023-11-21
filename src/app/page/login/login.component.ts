@@ -5,11 +5,13 @@ import { Usuario } from 'src/app/models/usuario.interface';
 import { AuthService } from 'src/app/service/auth.service';
 import { UsuariosService } from 'src/app/service/usuarios.service';
 import Swal from 'sweetalert2';
+import { animations } from 'src/app/animations/animations';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  animations: [animations.scaleInCenter, animations.trackingInContract,animations.bounceTop]
 })
 export class LoginComponent implements OnInit {
 

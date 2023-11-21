@@ -7,12 +7,15 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/service/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { animations } from 'src/app/animations/animations';
+
 
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  styleUrls: ['./register.component.css'],
+  animations: [animations.scaleInCenter, animations.rotateVertLeft]
 })
 export class RegisterComponent implements OnInit {
 
