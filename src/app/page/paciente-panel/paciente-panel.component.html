@@ -37,7 +37,8 @@
           <label for="especialidad">Selecciona una especialidad:</label>
           <div class="botones-especialidades">
             <button *ngFor="let especialidad of especialidades" class="btn-especialidad"
-              (click)="especialidadSeleccionada = especialidad.nombre; cargarDoctores()">
+              (click)="especialidadSeleccionada = especialidad.nombre; cargarDoctores()"
+              [ngClass]="{'selected': especialidad.nombre == especialidadSeleccionada}">
               <div class="imagen-container">
                 <img [src]="especialidad.imagen" alt="{{especialidad.nombre}}" class="imagen-especialidad" />
               </div>
@@ -51,7 +52,9 @@
           <label for="doctor">Selecciona un doctor:</label>
           <div class="botones-doctores">
             <button *ngFor="let doctor of doctores" class="btn-doctores"
-              (click)="dniDoctorSeleccionado = doctor.dni; generarFechas(dniDoctorSeleccionado)">
+              (click)="dniDoctorSeleccionado = doctor.dni; generarFechas(dniDoctorSeleccionado)"
+              [ngClass]="{'selected': doctor.dni == dniDoctorSeleccionado}"
+              >
               <div class="imagen-container">
                 <img [src]="doctor.fotoPerfil1" alt="{{doctor.nombre}}" class="imagen-doctores" />
               </div>
@@ -66,6 +69,7 @@
           <div class="botones-fechas">
             <button *ngFor="let fecha of fechas" class="btn-fecha"
               (click)="this.fechaSeleccionada = fecha; this.cargarHorarios(this.dniDoctorSeleccionado,fecha)"
+              [ngClass]="{'selected': fecha == fechaSeleccionada}"
               >
               {{ fecha }}
             </button>
@@ -161,8 +165,7 @@
             <td>{{ turno.fecha }}</td>
             <td>{{ turno.hora }}</td>
             <td>
-              <button class="btn btn-primary" style="font-size: 12px;" *ngIf="turno.resenia != null" (click)="verDetalle(turno)">Ver Reseña</button>
-              <button class="btn btn-primary ms-2 mt-1" style="font-size: 12px;" (click)="verDetalle(turno)">Completar Encuesta</button>
+              <button class="btn btn-info" style="font-size: 12px;" *ngIf="turno.atencionDoc != null" (click)="verDetalle(turno)">Ver Reseña Doctor</button>
               <button class="btn btn-success ms-2 mt-1" style="font-size: 12px;" *ngIf="turno.calificacionPaciente == null" (click)="calificarAtencion(turno)">Calificar Atencion</button>
             </td>
           </tr>

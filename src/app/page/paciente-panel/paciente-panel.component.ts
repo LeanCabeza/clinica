@@ -267,9 +267,39 @@ export class PacientePanelComponent implements OnInit {
     return `${nombreDoctor} ${apellidoDoctor} ${nombrePaciente} ${apellidoPaciente} ${altura} ${peso} ${presion} ${temperatura} ${confirmacionDoctor} ${especialidad} ${fecha} ${hora} ${nombrePaciente} ${obraSocialPaciente} ${key1} ${value1} ${key2} ${value2} ${key3} ${value3}`;
   }
 
-  verDetalle(turno: Turno) {
-
+  verDetalle(turno: any) {
+    const { altura, datosDinamicos, peso, presion, temperatura } = turno.atencionDoc;
+  
+    let mensaje = `
+      <p><strong>Altura:</strong> ${altura}</p>
+      <p><strong>Peso:</strong> ${peso}</p>
+      <p><strong>Presión:</strong> ${presion}</p>
+      <p><strong>Temperatura:</strong> ${temperatura}</p>
+    `;
+  
+    if (datosDinamicos && datosDinamicos.length > 0) {
+      mensaje += '<p> <strong>Datos Dinámicos:</strong></p><ul>';
+      datosDinamicos.forEach((dato: any) => {
+        mensaje += `<li>${dato.clave}: ${dato.valor}</li>`;
+      });
+      mensaje += '</ul>';
+    }
+  
+    Swal.fire({
+      title: "Reseña brindada por el doctor",
+      html: mensaje,
+      width: 600,
+      padding: "3em",
+      color: "#716add",
+      backdrop: `
+        rgba(0,0,123,0.4)
+        left top
+        no-repeat
+      `
+    });
   }
+
+  
 
   async cancelarTurno(turno: Turno) {
     const result = await Swal.fire({

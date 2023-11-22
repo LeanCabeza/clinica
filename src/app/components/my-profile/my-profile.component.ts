@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/service/auth.service';
 import { UsuariosService } from 'src/app/service/usuarios.service';
 import Swal from 'sweetalert2';
+import { animations } from 'src/app/animations/animations';
 
 @Component({
   selector: 'app-my-profile',
   templateUrl: './my-profile.component.html',
-  styleUrls: ['./my-profile.component.css']
+  styleUrls: ['./my-profile.component.css'],
+  animations: [animations.scaleInCenter, animations.trackingInContract,animations.bounceTop]
 })
 export class MyProfileComponent implements OnInit {
 
