@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ElementRef, ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/service/auth.service';
 import { UsuariosService } from 'src/app/service/usuarios.service';
 import Swal from 'sweetalert2';
 import { animations } from 'src/app/animations/animations';
 import { Turno } from 'src/app/models/turnos.interface';
 import { TurnosService } from 'src/app/service/turnos.service';
+import * as jspdf from 'jspdf';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-my-profile',
@@ -14,11 +16,12 @@ import { TurnosService } from 'src/app/service/turnos.service';
 })
 export class MyProfileComponent implements OnInit {
 
+  @ViewChild('content') content: ElementRef;
   usuarioLogueado:any;
   diasAtencion: string[] = [];
   horariosAtencion: string[] = [];
   fotoPerfil = true;
-  historialClinico: Turno[] = [];
+  historialClinico: any[] = [];
   
   constructor(public authService:AuthService,
               public usuarioService:UsuariosService,
@@ -105,6 +108,56 @@ export class MyProfileComponent implements OnInit {
             this.usuarioService.actualizarDisponibilidad(this.usuarioLogueado, this.horariosAtencion, this.diasAtencion);
         }
     });
-}
+  }
+
+  descargarPdf() {
+    const content = this.content.nativeElement;
+    const pdf = new jspdf.jsPDF();
+  
+    // Agregar el logo
+    const logoImg = new Image();
+    logoImg.src = "/assets/images/logo.png";
+  
+    pdf.addImage(logoImg, 'PNG', 10, 10, 30, 30);
+  
+    // Agregar el título
+    pdf.setFontSize(16);
+    pdf.text('Obra Social Personal Informatica', 50, 20); // Ajusta la posición y el nombre de tu clínica
+  
+    pdf.setFontSize(14);
+    pdf.text("Historia Clinica", 10, 50);
+  
+    // Agregar la fecha de emisión
+    pdf.text(`Fecha de Emisión: ${new Date().toLocaleDateString()}`, 10, 70);
+  
+    // Convertir el contenido de la tabla en una imagen
+    html2canvas(content).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const imgWidth = 190; // Ancho de la página en mm
+      const pageHeight = 297; // Alto de la página en mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      let heightLeft = imgHeight;
+  
+      let position = 0;
+  
+      // Agregar la imagen de la tabla al PDF
+      pdf.addImage(imgData, 'PNG', 10, 80, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+  
+      // Agregar páginas adicionales si es necesario
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+  
+      // Descargar el archivo PDF
+      pdf.save('informe_turnos.pdf');
+    });
+    
+  }
+
+  
 
 }

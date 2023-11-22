@@ -23,6 +23,8 @@
     "@angular/router": "~13.1.0",
     "@firebase/auth": "^0.20.3",
     "firebase": "^9.8.3",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.1",
     "ngx-sweetalert2": "^0.2.7",
     "rxjs": "~7.4.0",
     "sweetalert2": "^11.7.20",

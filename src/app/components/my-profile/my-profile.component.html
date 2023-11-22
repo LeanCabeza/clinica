@@ -35,6 +35,7 @@
                 <div class="d-flex justify-content-between align-items-center mb-3">
                   <h6 style="font-size: 35px;">Mi Perfil</h6>
                   <button class="btn btn-success" *ngIf="this.usuarioLogueado.tipoUsuario == 'Especialista'" (click)="guardarCambios()">Guardar</button>
+                  <button class="btn btn-success" *ngIf="this.usuarioLogueado.tipoUsuario == 'Paciente'" (click)="descargarPdf()">Descargar Historia Clinica</button>
                 </div>
                 <hr class="mt-0 mb-4">
                 <div class="row pt-1">
@@ -90,35 +91,36 @@
                   </div>
                 </div>
                 <hr class="mt-0 mb-3">
-                <div class="row pt-1"  *ngIf="this.usuarioLogueado.tipoUsuario == 'Paciente'">
+                <div #content class="row pt-1"  *ngIf="this.usuarioLogueado.tipoUsuario == 'Paciente'">
                   <h6>Historia Clinica</h6>
                   <table class="table table-bordered">
                     <thead>
                       <tr>
                         <th>Especialidad</th>
                         <th>Doctor</th>
-                        <th>Estado Atencion</th>
+                        <th>Reseña Doctor</th>
                         <th>Fecha</th>
                         <th>Hora</th>
-                        <th>Acción</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr *ngFor="let turno of historialClinico">
                         <td>{{ turno.especialidad }}</td>
                         <td>{{ turno.nombreDoctor }} {{ turno.apellidoDoctor }} </td>
-                        <td>{{
-                          turno.confirmacionDoctor === 'Atendido' ? '🧬 Atendido 🧬' :
-                          turno.confirmacionDoctor === 'Aceptado' ? '✅ Aceptado ✅' :
-                          turno.confirmacionDoctor === 'Rechazado' ? '❌ Rechazado ❌' :
-                          turno.confirmacionDoctor === 'Pendiente Confirmacion' ? '⌛ Pendiente Confirmacion ⌛ ' :
-                          turno.confirmacionDoctor
-                        }}</td>
+                        <td>
+                          <div *ngIf="turno.atencionDoc">
+                            <strong>Altura:</strong> {{ turno.atencionDoc.altura }} <br>
+                            <strong>Peso:</strong> {{ turno.atencionDoc.peso }} <br>
+                            <strong>Presion:</strong> {{ turno.atencionDoc.presion }} <br>
+                            <strong>Temperatura:</strong> {{ turno.atencionDoc.temperatura }} <br>
+                            <strong>Datos Dinámicos:</strong>
+                            <div *ngFor="let item of turno.atencionDoc.datosDinamicos">
+                              <strong>Clave:</strong> {{ item.clave }}, <strong>Valor:</strong> {{ item.valor }} <br>
+                            </div>
+                          </div>
+                        </td>
                         <td>{{ turno.fecha }}</td>
                         <td>{{ turno.hora }}</td>
-                        <td>
-                          <button class="btn btn-info" *ngIf="turno.confirmacionDoctor != 'Rechazado'" (click)="verDetalle(turno)">Ver Reseña Doc</button>
-                        </td>
                       </tr>
                     </tbody>
                   </table>
