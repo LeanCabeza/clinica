@@ -10,12 +10,12 @@
                 <div class="carousel-inner">
                   <!-- Primera imagen -->
                   <div *ngIf="fotoPerfil == true">
-                    <img src="{{this.usuarioLogueado.fotoPerfil1}}" alt="Avatar 1" class="d-block img-fluid my-5" style="width: 380px;">
+                    <img [@scaleInCenter] src="{{this.usuarioLogueado.fotoPerfil1}}" alt="Avatar 1" class="d-block img-fluid my-5" style="width: 380px;">
                   </div>
               
                   <!-- Segunda imagen (si está disponible) -->
                     <div *ngIf="fotoPerfil == false">
-                      <img src="{{this.usuarioLogueado.fotoPerfil2}}" alt="Avatar 2" class="d-block img-fluid my-5" style="width: 380px;">
+                      <img [@scaleInCenter] src="{{this.usuarioLogueado.fotoPerfil2}}" alt="Avatar 2" class="d-block img-fluid my-5" style="width: 380px;">
                     </div>
                 </div>
               
