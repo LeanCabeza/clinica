@@ -123,3 +123,7 @@
 <div *ngIf="flagAdmin == true && mostrarRegistrarUsuarios == true && mostrarUsuarios == false && mostrarTurnos == false && mostrarAceptarEspecialistas == false" class="container">
     <app-register></app-register>
 </div>
+
+<div *ngIf="flagAdmin == true && mostrarRegistrarUsuarios == false && mostrarUsuarios == false && mostrarTurnos == true && mostrarAceptarEspecialistas == false" class="container">
+  <app-paciente-panel></app-paciente-panel>
+</div>

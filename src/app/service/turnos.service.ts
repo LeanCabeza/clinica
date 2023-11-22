@@ -36,11 +36,24 @@ export class TurnosService {
     ).valueChanges();
   }
 
+  getHistoriaFull() {
+    return this.firestore.collection<Turno>('turnos', ref =>
+      ref.where('atendido', '==', true)
+    ).valueChanges();
+  }
+
   getProximosTurnos(dni: string) {
     console.log("Tratando de obtener turnos firebase, servicio, dni:", dni);
     return this.firestore.collection<Turno>('turnos', ref =>
       ref.where('pacienteDni', '==', dni)
         .where('atendido', '==', false)
+    ).valueChanges();
+  }
+
+  
+  getProximosTurnosFull() {
+    return this.firestore.collection<Turno>('turnos', ref =>
+      ref.where('atendido', '==', false)
     ).valueChanges();
   }
 

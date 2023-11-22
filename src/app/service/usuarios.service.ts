@@ -40,6 +40,12 @@ export class UsuariosService {
     return this.usuarioColleccion.valueChanges();
   }
 
+  getPacientes() {
+    return this.db.collection<Usuario>('usuarios', ref =>
+      ref.where('tipoUsuario', '==', "Paciente")
+    ).valueChanges();
+  }
+
   getEspecialistaByEspecialidad(especialidad: string): Observable<Usuario[]> {
     return this.usuarioColleccion
       .valueChanges()

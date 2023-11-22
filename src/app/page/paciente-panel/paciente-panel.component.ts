@@ -41,6 +41,8 @@ export class PacientePanelComponent implements OnInit {
   especialidadFiltro: string = '';
   nombreApellidoFiltro: string = '';
   filtroFull: string = '';
+  pacientes: any;
+  pacienteSeleccionado: any;
 
   constructor(private usuariosService: UsuariosService, private turnosService: TurnosService, private authService: AuthService) {
    }
@@ -49,6 +51,7 @@ export class PacientePanelComponent implements OnInit {
     this.authService.actualUser$.subscribe((user) => {
       this.usuarioLogueado = user;
     });
+    this.cargarPacientes();
   }
 
   generarFechas(dniDoctor: string) {
@@ -172,29 +175,43 @@ export class PacientePanelComponent implements OnInit {
         this.horaSeleccionada = "";
       });
   }
+
+  cargarPacientes() {
+
+    console.log("Cargando Pacientes...");
+    this.usuariosService.getPacientes()
+      .subscribe(pacientes => {
+        this.pacientes = pacientes;
+        this.pacienteSeleccionado = "",
+        this.dniDoctorSeleccionado = "";
+        this.fechaSeleccionada = "";
+        this.horaSeleccionada = "";
+      });
+  }
   
 
   reservarTurno(hora: string) {
-
+    
     const doctorSeleccionado = this.doctores.find(doctor => doctor.dni == this.dniDoctorSeleccionado);
-
+    
     if (doctorSeleccionado) {
       const nuevoTurno: Turno = {
         especialidad: this.especialidadSeleccionada,
         especialistaDni: this.dniDoctorSeleccionado.toString(),
         nombreDoctor: doctorSeleccionado.nombre, 
         apellidoDoctor: doctorSeleccionado.apellido,
-        pacienteDni: this.usuarioLogueado?.dni.toString(),
+        pacienteDni: this.usuarioLogueado?.tipoUsuario === "Admin" ? this.pacienteSeleccionado.dni.toString() : this.usuarioLogueado?.dni.toString(),
         fecha: this.fechaSeleccionada,
         hora: hora,
         atendido: false,
         confirmacionDoctor: "Pendiente Confirmacion",
-        nombrePaciente: this.usuarioLogueado?.nombre,
-        apellidoPaciente: this.usuarioLogueado?.apellido,
-        edadPaciente: this.usuarioLogueado?.edad,
-        obraSocialPaciente: this.usuarioLogueado?.obraSocial,
+        nombrePaciente: this.usuarioLogueado?.tipoUsuario === "Admin" ? this.pacienteSeleccionado.nombre : this.usuarioLogueado?.nombre,
+        apellidoPaciente: this.usuarioLogueado?.tipoUsuario === "Admin" ? this.pacienteSeleccionado.apellido : this.usuarioLogueado?.apellido,
+        edadPaciente: this.usuarioLogueado?.tipoUsuario === "Admin" ? this.pacienteSeleccionado.edad : this.usuarioLogueado?.edad,
+        obraSocialPaciente: this.usuarioLogueado?.tipoUsuario === "Admin" ? this.pacienteSeleccionado.obraSocial : this.usuarioLogueado?.obraSocial
       };
-    
+      console.log("Turnito a reservar:",nuevoTurno);
+      
     Swal.fire({
       title: 'Estas seguro que queres reservar el turno?',
       showDenyButton: true,
@@ -218,25 +235,39 @@ export class PacientePanelComponent implements OnInit {
   }
 
   cargarHistorialClinico() {
-    if (this.usuarioLogueado) {
+    if (this.usuarioLogueado?.tipoUsuario == "Paciente") {
       this.turnosService.getHistoriaClinica(this.usuarioLogueado.dni.toString())
         .subscribe(historial => {
           this.historialClinico = historial.filter(turno => 
             this.concatenatedFields(turno).toLowerCase().includes(this.filtroFull.toLowerCase())
           );
         });
+    }else if (this.usuarioLogueado?.tipoUsuario == "Admin"){
+      this.turnosService.getHistoriaFull()
+      .subscribe(historial => {
+        this.historialClinico = historial.filter(turno => 
+          this.concatenatedFields(turno).toLowerCase().includes(this.filtroFull.toLowerCase())
+        );
+      });
     }
   }
   
   cargarProximosTurnos() {
-    if (this.usuarioLogueado) {
+    if (this.usuarioLogueado?.tipoUsuario == "Paciente") {
       this.turnosService.getProximosTurnos(this.usuarioLogueado.dni.toString())
         .subscribe(turnos => {
           this.proximosTurnos = turnos.filter(turno => 
             this.concatenatedFields(turno).toLowerCase().includes(this.filtroFull.toLowerCase())
           );
         });
-    }
+      }else if (this.usuarioLogueado?.tipoUsuario == "Admin"){
+        this.turnosService.getProximosTurnosFull()
+        .subscribe(turnos => {
+          this.proximosTurnos = turnos.filter(turno => 
+            this.concatenatedFields(turno).toLowerCase().includes(this.filtroFull.toLowerCase())
+          );
+        });
+      }
   }
   
   concatenatedFields(turno: any): string {
@@ -265,6 +296,21 @@ export class PacientePanelComponent implements OnInit {
     const obraSocialPaciente = defaultValue(turno.obraSocialPaciente);
     //console.log(`DATOS TURNOS",${nombreDoctor} ${apellidoDoctor} ${nombrePaciente} ${apellidoPaciente} ${altura} ${peso} ${presion} ${temperatura} ${confirmacionDoctor} ${especialidad} ${fecha} ${hora} ${nombrePaciente} ${obraSocialPaciente} ${key1} ${value1} ${key2} ${value2} ${key3} ${value3}`);
     return `${nombreDoctor} ${apellidoDoctor} ${nombrePaciente} ${apellidoPaciente} ${altura} ${peso} ${presion} ${temperatura} ${confirmacionDoctor} ${especialidad} ${fecha} ${hora} ${nombrePaciente} ${obraSocialPaciente} ${key1} ${value1} ${key2} ${value2} ${key3} ${value3}`;
+  }
+
+  verResenia(turno: Turno){
+    Swal.fire({
+      title: "Reseña del Paciente",
+      text: turno.calificacionPaciente,
+      width: 600,
+      padding: "3em",
+      color: "#716add",
+      backdrop: `
+        rgba(0,0,123,0.4)
+        left top
+        no-repeat
+      `
+    });
   }
 
   verDetalle(turno: any) {

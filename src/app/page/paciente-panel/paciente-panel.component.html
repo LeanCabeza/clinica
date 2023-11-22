@@ -12,7 +12,8 @@
       <div class="menu-option-card" (click)="showProximosTurnos = true; showReservarTurno = false;showHistorialClinico=false; cargarProximosTurnos()">
         <div class="menu-option-content">
           <i class="fa-solid fa-business-time"></i>
-          <h4>Mis Turnos</h4>
+          <h4 *ngIf="this.usuarioLogueado?.tipoUsuario == 'Paciente'">Mis Turnos</h4>
+          <h4 *ngIf="this.usuarioLogueado?.tipoUsuario == 'Admin'">Todos los Turnos</h4>
         </div>
       </div>
     </div>
@@ -31,6 +32,22 @@
     <div class="reservar-turno" *ngIf="showReservarTurno">
       <div class="form-container">
         <h2>Reservar Turno</h2>
+
+        <!-- Selección de Paciente -->
+        <div class="form-group" *ngIf="pacientes.length > 0 && this.usuarioLogueado?.tipoUsuario == 'Admin'">
+          <label for="doctor">Selecciona un Paciente:</label>
+          <div class="botones-doctores">
+            <button *ngFor="let paciente of pacientes" class="btn-doctores"
+              (click)="pacienteSeleccionado = paciente;"
+              [ngClass]="{'selected': paciente.dni == pacienteSeleccionado.dni}"
+              >
+              <div class="imagen-container">
+                <img [src]="paciente.fotoPerfil1" alt="{{paciente.nombre}}" class="imagen-doctores" />
+              </div>
+              <div class="texto-doctores">{{ paciente.nombre }} {{ paciente.apellido }}</div>
+            </button>
+          </div>
+        </div>
 
         <!-- Selección de Especialidad -->
         <div class="form-group">
@@ -166,7 +183,8 @@
             <td>{{ turno.hora }}</td>
             <td>
               <button class="btn btn-info" style="font-size: 12px;" *ngIf="turno.atencionDoc != null" (click)="verDetalle(turno)">Ver Reseña Doctor</button>
-              <button class="btn btn-success ms-2 mt-1" style="font-size: 12px;" *ngIf="turno.calificacionPaciente == null" (click)="calificarAtencion(turno)">Calificar Atencion</button>
+              <button class="btn btn-success ms-2 mt-1" style="font-size: 12px;" *ngIf="turno.calificacionPaciente == null && this.usuarioLogueado?.tipoUsuario == 'Paciente'" (click)="calificarAtencion(turno)">Calificar Atencion</button>
+              <button class="btn btn-success ms-2 mt-1" style="font-size: 12px;" *ngIf="turno.calificacionPaciente != null && this.usuarioLogueado?.tipoUsuario == 'Admin'" (click)="verResenia(turno)">Ver  Reseña Paciente</button>
             </td>
           </tr>
         </tbody>
