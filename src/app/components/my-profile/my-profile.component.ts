@@ -3,6 +3,8 @@ import { AuthService } from 'src/app/service/auth.service';
 import { UsuariosService } from 'src/app/service/usuarios.service';
 import Swal from 'sweetalert2';
 import { animations } from 'src/app/animations/animations';
+import { Turno } from 'src/app/models/turnos.interface';
+import { TurnosService } from 'src/app/service/turnos.service';
 
 @Component({
   selector: 'app-my-profile',
@@ -16,9 +18,11 @@ export class MyProfileComponent implements OnInit {
   diasAtencion: string[] = [];
   horariosAtencion: string[] = [];
   fotoPerfil = true;
+  historialClinico: Turno[] = [];
   
   constructor(public authService:AuthService,
-              public usuarioService:UsuariosService) { }
+              public usuarioService:UsuariosService,
+              public turnosService: TurnosService) { }
 
   ngOnInit(): void {
     this.authService.actualUser$.subscribe((user) => {
@@ -28,6 +32,7 @@ export class MyProfileComponent implements OnInit {
         this.horariosAtencion = this.usuarioLogueado.horariosAtencion;
       }
     });
+    this.cargarHistorialClinico();
   }
 
   toggleDia(dia: string) {
@@ -37,6 +42,15 @@ export class MyProfileComponent implements OnInit {
       this.diasAtencion.push(dia);
     }
   }
+
+  cargarHistorialClinico() {
+    if (this.usuarioLogueado) {
+      this.turnosService.getHistoriaClinica(this.usuarioLogueado.dni.toString())
+        .subscribe(historial => {
+          this.historialClinico = historial.filter(item => item.atendido == true);
+        });
+    }
+  }
   
   toggleHorario(horario: string) {
     if (this.horariosAtencion.includes(horario)) {
@@ -44,6 +58,38 @@ export class MyProfileComponent implements OnInit {
     } else {
       this.horariosAtencion.push(horario);
     }
+  }
+
+  verDetalle(turno: any) {
+    const { altura, datosDinamicos, peso, presion, temperatura } = turno.atencionDoc;
+  
+    let mensaje = `
+      <p><strong>Altura:</strong> ${altura}</p>
+      <p><strong>Peso:</strong> ${peso}</p>
+      <p><strong>Presión:</strong> ${presion}</p>
+      <p><strong>Temperatura:</strong> ${temperatura}</p>
+    `;
+  
+    if (datosDinamicos && datosDinamicos.length > 0) {
+      mensaje += '<p> <strong>Datos Dinámicos:</strong></p><ul>';
+      datosDinamicos.forEach((dato: any) => {
+        mensaje += `<li>${dato.clave}: ${dato.valor}</li>`;
+      });
+      mensaje += '</ul>';
+    }
+  
+    Swal.fire({
+      title: "Reseña brindada por el doctor",
+      html: mensaje,
+      width: 600,
+      padding: "3em",
+      color: "#716add",
+      backdrop: `
+        rgba(0,0,123,0.4)
+        left top
+        no-repeat
+      `
+    });
   }
 
   guardarCambios() {

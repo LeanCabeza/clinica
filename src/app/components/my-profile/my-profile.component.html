@@ -90,6 +90,39 @@
                   </div>
                 </div>
                 <hr class="mt-0 mb-3">
+                <div class="row pt-1"  *ngIf="this.usuarioLogueado.tipoUsuario == 'Paciente'">
+                  <h6>Historia Clinica</h6>
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>Especialidad</th>
+                        <th>Doctor</th>
+                        <th>Estado Atencion</th>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Acción</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let turno of historialClinico">
+                        <td>{{ turno.especialidad }}</td>
+                        <td>{{ turno.nombreDoctor }} {{ turno.apellidoDoctor }} </td>
+                        <td>{{
+                          turno.confirmacionDoctor === 'Atendido' ? '🧬 Atendido 🧬' :
+                          turno.confirmacionDoctor === 'Aceptado' ? '✅ Aceptado ✅' :
+                          turno.confirmacionDoctor === 'Rechazado' ? '❌ Rechazado ❌' :
+                          turno.confirmacionDoctor === 'Pendiente Confirmacion' ? '⌛ Pendiente Confirmacion ⌛ ' :
+                          turno.confirmacionDoctor
+                        }}</td>
+                        <td>{{ turno.fecha }}</td>
+                        <td>{{ turno.hora }}</td>
+                        <td>
+                          <button class="btn btn-info" *ngIf="turno.confirmacionDoctor != 'Rechazado'" (click)="verDetalle(turno)">Ver Reseña Doc</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
