@@ -23,6 +23,8 @@ import { HoraFormatoPipe } from './pipes/horaFormato.pipe';
 import { UserIconPipe } from './pipes/userIcon.pipe'; 
 import { EstadoTurnoPipe } from './pipes/estadoTurno.pipe';
 import { ExpandOnHoverDirective } from './directives/expand-on-hover.directive';
+import { HighlightRowDirective } from './directives/highlight-row.directive';
+import { HighlightElementDirective } from './directives/highlight-element.directive';
 
 
 @NgModule({
@@ -40,7 +42,9 @@ import { ExpandOnHoverDirective } from './directives/expand-on-hover.directive';
     HoraFormatoPipe,
     UserIconPipe,
     EstadoTurnoPipe,
-    ExpandOnHoverDirective
+    ExpandOnHoverDirective,
+    HighlightRowDirective,
+    HighlightElementDirective
   ],
   imports: [
     BrowserModule,

@@ -37,7 +37,7 @@
         <div class="form-group" *ngIf="pacientes.length > 0 && this.usuarioLogueado?.tipoUsuario == 'Admin'">
           <label for="doctor">Selecciona un Paciente:</label>
           <div class="botones-doctores">
-            <button *ngFor="let paciente of pacientes" class="btn-doctores"
+            <button appHighlightElement appExpandOnHover *ngFor="let paciente of pacientes" class="btn-doctores"
               (click)="pacienteSeleccionado = paciente;"
               [ngClass]="{'selected': paciente.dni == pacienteSeleccionado.dni}"
               >
@@ -53,7 +53,7 @@
         <div class="form-group">
           <label for="especialidad">Selecciona una especialidad:</label>
           <div class="botones-especialidades">
-            <button *ngFor="let especialidad of especialidades" class="btn-especialidad"
+            <button appHighlightElement appExpandOnHover *ngFor="let especialidad of especialidades" class="btn-especialidad"
               (click)="especialidadSeleccionada = especialidad.nombre; cargarDoctores()"
               [ngClass]="{'selected': especialidad.nombre == especialidadSeleccionada}">
               <div class="imagen-container">
@@ -68,7 +68,7 @@
         <div class="form-group" *ngIf="doctores.length > 0">
           <label for="doctor">Selecciona un doctor:</label>
           <div class="botones-doctores">
-            <button *ngFor="let doctor of doctores" class="btn-doctores"
+            <button appHighlightElement appExpandOnHover *ngFor="let doctor of doctores" class="btn-doctores"
               (click)="dniDoctorSeleccionado = doctor.dni; generarFechas(dniDoctorSeleccionado)"
               [ngClass]="{'selected': doctor.dni == dniDoctorSeleccionado}"
               >
@@ -84,7 +84,7 @@
         <div class="form-group" *ngIf="dniDoctorSeleccionado">
           <label for="fecha">Selecciona una Fecha:</label>
           <div class="botones-fechas">
-            <button *ngFor="let fecha of fechas" class="btn-fecha"
+            <button appHighlightElement appExpandOnHover *ngFor="let fecha of fechas" class="btn-fecha"
               (click)="this.fechaSeleccionada = fecha; this.cargarHorarios(this.dniDoctorSeleccionado,fecha)"
               [ngClass]="{'selected': fecha == fechaSeleccionada}"
               >
@@ -97,7 +97,7 @@
         <div *ngIf="fechaSeleccionada">
           <label>Horarios Disponibles</label>
           <div class="botones-horarios">
-            <button *ngFor="let horario of arrayHorarios" class="btn-horario"
+            <button appExpandOnHover *ngFor="let horario of arrayHorarios" class="btn-horario"
               [class.btn-success]="horario.estado == 'disponible'"
               [class.btn-danger]="horario.estado == 'ocupado'"
               [disabled]="horario.estado == 'ocupado'"
@@ -132,7 +132,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let turno of proximosTurnos">
+          <tr appHighlightRow *ngFor="let turno of proximosTurnos">
             <td>{{ turno.especialidad }}</td>
             <td>{{ turno.nombreDoctor }} {{ turno.apellidoDoctor }} </td>
             <td>{{ turno.confirmacionDoctor | estadoTurno }}</td>
@@ -169,7 +169,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let turno of historialClinico">
+          <tr appHighlightRow *ngFor="let turno of historialClinico">
             <td>{{ turno.especialidad }}</td>
             <td>{{ turno.nombreDoctor }} {{ turno.apellidoDoctor }} </td>
             <td>{{ turno.atendido ? 'Atendido ✅' : 'Pendiente de atencion ⌛' }}</td>

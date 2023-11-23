@@ -35,7 +35,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let turno of turnosPendientesAceptar">
+      <tr appHighlightRow *ngFor="let turno of turnosPendientesAceptar">
         <td>{{ turno.especialidad }}</td>
         <td>{{ turno.pacienteDni }}</td>
         <td>{{ turno.nombrePaciente }} {{ turno.apellidoPaciente }} </td>
@@ -80,7 +80,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let turno of turnosDoctor">
+      <tr appHighlightRow *ngFor="let turno of turnosDoctor">
         <td>{{ turno.especialidad }}</td>
         <td>{{ turno.pacienteDni }}</td>
         <td>{{ turno.nombrePaciente }} {{ turno.apellidoPaciente }} </td>
