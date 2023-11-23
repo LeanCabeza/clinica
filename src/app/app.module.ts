@@ -22,6 +22,7 @@ import { EspecialistaPanelComponent } from './page/especialista-panel/especialis
 import { HoraFormatoPipe } from './pipes/horaFormato.pipe';
 import { UserIconPipe } from './pipes/userIcon.pipe'; 
 import { EstadoTurnoPipe } from './pipes/estadoTurno.pipe';
+import { ExpandOnHoverDirective } from './directives/expand-on-hover.directive';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { EstadoTurnoPipe } from './pipes/estadoTurno.pipe';
     EspecialistaPanelComponent,
     HoraFormatoPipe,
     UserIconPipe,
-    EstadoTurnoPipe
+    EstadoTurnoPipe,
+    ExpandOnHoverDirective
   ],
   imports: [
     BrowserModule,

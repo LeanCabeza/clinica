@@ -15,46 +15,46 @@
 
         <!-- Resto del contenido del header -->
         <a class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
-          <img src="/assets/images/logo.png" alt="Logo de la pagina" height="60">
+          <img appExpandOnHover src="/assets/images/logo.png" alt="Logo de la pagina" height="60">
         </a>
         <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0">
           <li>
-            <a routerLink="/home" class="nav-link text-black">
+            <a appExpandOnHover routerLink="/home" class="nav-link text-black">
               <strong> 🏠 Inicio</strong>        
             </a>
           </li>
           <li *ngIf="usuarioLogueado">
-            <a routerLink="/profile" class="nav-link text-black">
+            <a appExpandOnHover routerLink="/profile" class="nav-link text-black">
               <strong> 💻 Mi Perfil</strong>     
             </a>
           </li>
           <li *ngIf="!usuarioLogueado">
-            <a routerLink="/register" class="nav-link text-black">
+            <a appExpandOnHover routerLink="/register" class="nav-link text-black">
               <strong> 📝 Registrarse</strong>     
             </a>
           </li>
           <li *ngIf="usuarioLogueado?.tipoUsuario == 'Admin'">
-            <a routerLink="/panelAdmin" class="nav-link text-black">
+            <a appExpandOnHover routerLink="/panelAdmin" class="nav-link text-black">
               <strong> 💎 Admin Panel</strong>     
             </a>
           </li>
           <li *ngIf="usuarioLogueado?.tipoUsuario == 'Paciente'">
-            <a routerLink="/panelPaciente" class="nav-link text-black">
+            <a appExpandOnHover routerLink="/panelPaciente" class="nav-link text-black">
               <strong> 🏥 Paciente Panel</strong>     
             </a>
           </li>
           <li *ngIf="usuarioLogueado?.tipoUsuario == 'Especialista'">
-            <a routerLink="/panelEspecialista" class="nav-link text-black">
+            <a appExpandOnHover routerLink="/panelEspecialista" class="nav-link text-black">
               <strong> 🩺 Especialista Panel</strong>     
             </a>
           </li>
           <li>
-            <a *ngIf="!usuarioLogueado"routerLink="/login" class="nav-link text-black">
+            <a appExpandOnHover *ngIf="!usuarioLogueado"routerLink="/login" class="nav-link text-black">
               <strong> 📤 Ingresar</strong>     
             </a>
           </li>
           <li>
-            <a *ngIf="usuarioLogueado" (click)="logout()" routerLink="" class="nav-link text-black">
+            <a appExpandOnHover *ngIf="usuarioLogueado" (click)="logout()" routerLink="" class="nav-link text-black">
               <strong> ⛔ Salir</strong>     
             </a>
           </li>

@@ -10,7 +10,7 @@
                 <div class="carousel-inner">
                   <!-- Primera imagen -->
                   <div *ngIf="fotoPerfil == true">
-                    <img [@scaleInCenter] src="{{this.usuarioLogueado.fotoPerfil1}}" alt="Avatar 1" class="d-block img-fluid my-5" style="width: 380px;">
+                    <img appExpandOnHover [@scaleInCenter] src="{{this.usuarioLogueado.fotoPerfil1}}" alt="Avatar 1" class="d-block img-fluid my-5" style="width: 380px;">
                   </div>
               
                   <!-- Segunda imagen (si está disponible) -->
@@ -34,8 +34,8 @@
               <div class="card-body p-4">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                   <h6 style="font-size: 35px;">Mi Perfil</h6>
-                  <button class="btn btn-success" *ngIf="this.usuarioLogueado.tipoUsuario == 'Especialista'" (click)="guardarCambios()">Guardar</button>
-                  <button class="btn btn-success" *ngIf="this.usuarioLogueado.tipoUsuario == 'Paciente'" (click)="descargarPdf()">Descargar Historia Clinica</button>
+                  <button appExpandOnHover class="btn btn-success" *ngIf="this.usuarioLogueado.tipoUsuario == 'Especialista'" (click)="guardarCambios()">Guardar</button>
+                  <button appExpandOnHover class="btn btn-success" *ngIf="this.usuarioLogueado.tipoUsuario == 'Paciente'" (click)="descargarPdf()">Descargar Historia Clinica</button>
                 </div>
                 <hr class="mt-0 mb-4">
                 <div class="row pt-1">
@@ -72,7 +72,7 @@
                     <div class="col" *ngFor="let horario of ['9:00 a 13:00', '14:00 a 18:00', '18:00 a 21:00']">
                       <div class="form-check">
                         <input class="form-check-input" type="checkbox" [checked]="horariosAtencion.includes(horario)" (change)="toggleHorario(horario)">
-                        <label class="form-check-label" for="flexCheckChecked">{{ horario }}</label>
+                        <label appExpandOnHover class="form-check-label" for="flexCheckChecked">{{ horario }}</label>
                       </div>
                     </div>
                   </div>
@@ -81,7 +81,7 @@
                     <div class="col" *ngFor="let dia of ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']">
                       <div class="form-check">
                         <input class="form-check-input" type="checkbox" [checked]="diasAtencion.includes(dia)" (change)="toggleDia(dia)">
-                        <label class="form-check-label" for="flexCheckChecked">{{ dia }}</label>
+                        <label appExpandOnHover class="form-check-label" for="flexCheckChecked">{{ dia }}</label>
                       </div>
                     </div>
                   </div>
