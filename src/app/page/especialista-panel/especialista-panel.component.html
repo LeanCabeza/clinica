@@ -88,13 +88,7 @@
         <td>{{ turno.obraSocialPaciente }}</td>
         <td>{{ turno.fecha }}</td>
         <td>{{ turno.hora }}</td>
-        <td>{{
-          turno.confirmacionDoctor === 'Atendido' ? '🧬 Atendido 🧬' :
-          turno.confirmacionDoctor === 'Aceptado' ? '✅ Aceptado ✅' :
-          turno.confirmacionDoctor === 'Rechazado' ? '❌ Rechazado ❌' :
-          turno.confirmacionDoctor === 'Pendiente Confirmacion' ? '⌛ Pendiente Confirmacion ⌛ ' :
-          turno.confirmacionDoctor
-        }}</td>
+        <td>{{ turno.confirmacionDoctor | estadoTurno }}</td>
         <td>
           <button class="btn btn-danger" *ngIf="turno.confirmacionDoctor != 'Atendido' && turno.confirmacionDoctor != 'Rechazado'" (click)="this.turnosService.cancelarTurno(turno)">Cancelar</button>
           <button class="btn btn-success ms-2" *ngIf="turno.confirmacionDoctor != 'Atendido' && turno.confirmacionDoctor != 'Rechazado'" (click)="this.finalizarTurno(turno)">Finalizar</button>

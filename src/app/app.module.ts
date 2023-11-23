@@ -20,6 +20,8 @@ import { TurnosService } from './service/turnos.service';
 import { UsuariosService } from './service/usuarios.service';
 import { EspecialistaPanelComponent } from './page/especialista-panel/especialista-panel.component';
 import { HoraFormatoPipe } from './pipes/horaFormato.pipe';
+import { UserIconPipe } from './pipes/userIcon.pipe'; 
+import { EstadoTurnoPipe } from './pipes/estadoTurno.pipe';
 
 
 @NgModule({
@@ -34,7 +36,9 @@ import { HoraFormatoPipe } from './pipes/horaFormato.pipe';
     AdminPanelComponent,
     PacientePanelComponent,
     EspecialistaPanelComponent,
-    HoraFormatoPipe
+    HoraFormatoPipe,
+    UserIconPipe,
+    EstadoTurnoPipe
   ],
   imports: [
     BrowserModule,

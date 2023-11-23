@@ -12,19 +12,12 @@ import swal from 'sweetalert2';
 })
 export class HeaderComponent implements OnInit {
   usuarioLogueado: Usuario | null;
-  userIcon = '';
 
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     this.authService.actualUser$.subscribe((user) => {
       this.usuarioLogueado = user;
-      this.userIcon =
-        this.usuarioLogueado?.tipoUsuario === 'Especialista'
-          ? '🩺'
-          : this.usuarioLogueado?.tipoUsuario === 'Admin'
-          ? '👑'
-          : '🟢';
     });
   }
 

@@ -135,13 +135,7 @@
           <tr *ngFor="let turno of proximosTurnos">
             <td>{{ turno.especialidad }}</td>
             <td>{{ turno.nombreDoctor }} {{ turno.apellidoDoctor }} </td>
-            <td>{{
-              turno.confirmacionDoctor === 'Atendido' ? '🧬 Atendido 🧬' :
-              turno.confirmacionDoctor === 'Aceptado' ? '✅ Aceptado ✅' :
-              turno.confirmacionDoctor === 'Rechazado' ? '❌ Rechazado ❌' :
-              turno.confirmacionDoctor === 'Pendiente Confirmacion' ? '⌛ Pendiente Confirmacion ⌛ ' :
-              turno.confirmacionDoctor
-            }}</td>
+            <td>{{ turno.confirmacionDoctor | estadoTurno }}</td>
             <td>{{ turno.fecha }}</td>
             <td>{{ turno.hora }}</td>
             <td>
