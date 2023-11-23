@@ -34,6 +34,11 @@
             </a>
           </li>
           <li *ngIf="usuarioLogueado?.tipoUsuario == 'Admin'">
+            <a appExpandOnHover routerLink="/informes" class="nav-link text-black">
+              <strong> 🔍 Informes</strong>     
+            </a>
+          </li>
+          <li *ngIf="usuarioLogueado?.tipoUsuario == 'Admin'">
             <a appExpandOnHover routerLink="/panelAdmin" class="nav-link text-black">
               <strong> 💎 Admin Panel</strong>     
             </a>

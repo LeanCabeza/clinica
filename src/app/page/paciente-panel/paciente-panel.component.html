@@ -42,7 +42,7 @@
               [ngClass]="{'selected': paciente.dni == pacienteSeleccionado.dni}"
               >
               <div class="imagen-container">
-                <img [src]="paciente.fotoPerfil1" alt="{{paciente.nombre}}" class="imagen-doctores" />
+                <img appDefaultImage [src]="paciente.fotoPerfil1" alt="{{paciente.nombre}}" class="imagen-doctores" />
               </div>
               <div class="texto-doctores">{{ paciente.nombre }} {{ paciente.apellido }}</div>
             </button>
@@ -57,7 +57,7 @@
               (click)="especialidadSeleccionada = especialidad.nombre; cargarDoctores()"
               [ngClass]="{'selected': especialidad.nombre == especialidadSeleccionada}">
               <div class="imagen-container">
-                <img [src]="especialidad.imagen" alt="{{especialidad.nombre}}" class="imagen-especialidad" />
+                <img appDefaultImage [src]="especialidad.imagen" alt="{{especialidad.nombre}}" class="imagen-especialidad" />
               </div>
               <div class="texto-especialidad">{{ especialidad.nombre }}</div>
             </button>
@@ -73,7 +73,7 @@
               [ngClass]="{'selected': doctor.dni == dniDoctorSeleccionado}"
               >
               <div class="imagen-container">
-                <img [src]="doctor.fotoPerfil1" alt="{{doctor.nombre}}" class="imagen-doctores" />
+                <img appDefaultImage [src]="doctor.fotoPerfil1" alt="{{doctor.nombre}}" class="imagen-doctores" />
               </div>
               <div class="texto-doctores">{{ doctor.nombre }} {{ doctor.apellido }}</div>
             </button>

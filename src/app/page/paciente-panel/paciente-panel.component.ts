@@ -23,7 +23,7 @@ export class PacientePanelComponent implements OnInit {
     { nombre: 'Flevologo', imagen: '/assets/images/flevologo.png' },
     { nombre: 'Dermatologo', imagen: '/assets/images/dermatologo.png' },
     { nombre: 'Traumatologo', imagen: '/assets/images/traumatologo.png' },
-    { nombre: 'Oculista', imagen: '/assets/images/oculista.png' },
+    { nombre: 'Oculista', imagen: '/assets/images/oculista.pngERROR' },
   ];
   doctores: any[] = [];
   fechas:string[] = [];

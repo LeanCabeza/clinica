@@ -25,6 +25,7 @@ import { EstadoTurnoPipe } from './pipes/estadoTurno.pipe';
 import { ExpandOnHoverDirective } from './directives/expand-on-hover.directive';
 import { HighlightRowDirective } from './directives/highlight-row.directive';
 import { HighlightElementDirective } from './directives/highlight-element.directive';
+import { DefaultImageDirective } from './directives/default-image.directive';
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { HighlightElementDirective } from './directives/highlight-element.direct
     EstadoTurnoPipe,
     ExpandOnHoverDirective,
     HighlightRowDirective,
-    HighlightElementDirective
+    HighlightElementDirective,
+    DefaultImageDirective
   ],
   imports: [
     BrowserModule,
