@@ -6,15 +6,15 @@
         <hr>
       </h1>
 
-      <a *ngIf="showButtons" class="registerButton" (click)="showButtons = false; showForms = true; this.tipo ='Paciente'">
+      <a appExpandOnHover *ngIf="showButtons" class="registerButton" (click)="showButtons = false; showForms = true; this.tipo ='Paciente'">
         <img src="/assets/images/paciente.png" alt="Paciente" class="button-icon">
       </a>
       
-      <a *ngIf="showButtons" class="registerButton" (click)="showButtons = false; showForms = true; this.tipo ='Especialista'">
+      <a appExpandOnHover *ngIf="showButtons" class="registerButton" (click)="showButtons = false; showForms = true; this.tipo ='Especialista'">
         <img src="/assets/images/doctor.png" alt="Especialista" class="button-icon">
       </a>
       
-      <a *ngIf="this.flagAdmin == true && showButtons" class="registerButton" (click)="showButtons = false; showForms = true; this.tipo ='Admin'">
+      <a appExpandOnHover *ngIf="this.flagAdmin == true && showButtons" class="registerButton" (click)="showButtons = false; showForms = true; this.tipo ='Admin'">
         <img src="/assets/images/admin.png" alt="Admin" class="button-icon">
       </a>
 
