@@ -91,47 +91,80 @@ export class EspecialistaPanelComponent implements OnInit {
 
   finalizarTurno(turno: Turno) {
     Swal.fire({
-      title: 'Ingrese datos de la atencion',
+      title: 'Ingrese datos de la atención',
       html:
-        '<input type="number" id="altura" class="swal2-input" placeholder="📏Altura"> <br>' +
-        '<input type="number" id="peso" class="swal2-input" placeholder="⚖ Peso"><br>' +
-        '<input type="number" id="temperatura" class="swal2-input" placeholder="🌡 Temperatura"><br>' +
-        '<input type="number" id="presion" class="swal2-input" placeholder="🅿 Presión"><br>' +
+        '<form id="atencionForm">' +
+        '<div style="display: flex; justify-content: space-between; width: 800px;">' +
+        '<div style="flex: 1; margin-right: 10px;">' +
+        '<input type="number" id="altura" class="swal2-input" placeholder="📏Altura" required><br>' +
+        '<input type="number" id="peso" class="swal2-input" placeholder="⚖ Peso" required><br>' +
+        '<input type="number" id="temperatura" class="swal2-input" placeholder="🌡 Temperatura" required><br>' +
+        '<input type="number" id="presion" class="swal2-input" placeholder="🅿 Presión" required><br>' +
+        '</div>' +
+        '<div style="flex: 1; margin-left: 10px;">' +
+        '<label for="clave1">Clave 1:</label>' +
         '<input type="text" id="clave1" class="swal2-input" placeholder="🔑Clave"><br>' +
+        '<label for="valor1">Valor 1:</label>' +
         '<input type="text" id="valor1" class="swal2-input" placeholder="🧾Valor"><br>' +
+        '<label for="clave2">Clave 2:</label>' +
         '<input type="text" id="clave2" class="swal2-input" placeholder="🔑Clave"><br>' +
+        '<label for="valor2">Valor 2:</label>' +
         '<input type="text" id="valor2" class="swal2-input" placeholder="🧾Valor"><br>' +
+        '<label for="clave3">Clave 3:</label>' +
         '<input type="text" id="clave3" class="swal2-input" placeholder="🔑Clave"><br>' +
-        '<input type="text" id="valor3" class="swal2-input" placeholder="🧾Valor"><br>'
-        ,
+        '<label for="valor3">Valor 3:</label>' +
+        '<input type="text" id="valor3" class="swal2-input" placeholder="🧾Valor"><br>' +
+        '</div>' +
+        '</div>' +
+        '</form>',
       focusConfirm: false,
       preConfirm: () => {
-        const altura = (document.getElementById('altura') as HTMLInputElement).value;
-        const peso = (document.getElementById('peso') as HTMLInputElement).value;
-        const temperatura = (document.getElementById('temperatura') as HTMLInputElement).value;
-        const presion = (document.getElementById('presion') as HTMLInputElement).value;
-        const clave1 = (document.getElementById('clave1') as HTMLInputElement).value;
-        const valor1 = (document.getElementById('valor1') as HTMLInputElement).value;
-        const clave2 = (document.getElementById('clave2') as HTMLInputElement).value;
-        const valor2 = (document.getElementById('valor2') as HTMLInputElement).value;
-        const clave3 = (document.getElementById('clave3') as HTMLInputElement).value;
-        const valor3 = (document.getElementById('valor3') as HTMLInputElement).value;
-  
-        const atencionDoc = {
-          altura,
-          peso,
-          temperatura,
-          presion,
-          datosDinamicos: [
-            { clave: clave1, valor: valor1 },
-            { clave: clave2, valor: valor2 },
-            { clave: clave3, valor: valor3 },
-          ],
-        };
-        this.turnosService.finalizarTurno(turno);
-        this.turnosService.guardarAtencion(turno,atencionDoc)
+        if (!this.validateFields()) {
+          Swal.showValidationMessage('Todos los campos obligatorios deben ser completados.');
+        } else {
+          const atencionDoc = this.extractDataFromForm();
+          this.turnosService.finalizarTurno(turno);
+          this.turnosService.guardarAtencion(turno, atencionDoc);
+        }
       },
+      width: 900,  // Puedes ajustar este valor según tus necesidades
     });
+  }
+  
+  validateFields(): boolean {
+    const requiredFields = ['altura', 'peso', 'temperatura', 'presion'];
+    for (const field of requiredFields) {
+      const value = (document.getElementById(field) as HTMLInputElement).value;
+      if (!value) {
+        return false;
+      }
+    }
+    return true;
+  }
+  
+  extractDataFromForm(): any {
+    const altura = (document.getElementById('altura') as HTMLInputElement).value;
+    const peso = (document.getElementById('peso') as HTMLInputElement).value;
+    const temperatura = (document.getElementById('temperatura') as HTMLInputElement).value;
+    const presion = (document.getElementById('presion') as HTMLInputElement).value;
+    const clave1 = (document.getElementById('clave1') as HTMLInputElement).value;
+    const valor1 = (document.getElementById('valor1') as HTMLInputElement).value;
+    const clave2 = (document.getElementById('clave2') as HTMLInputElement).value;
+    const valor2 = (document.getElementById('valor2') as HTMLInputElement).value;
+    const clave3 = (document.getElementById('clave3') as HTMLInputElement).value;
+    const valor3 = (document.getElementById('valor3') as HTMLInputElement).value;
+  
+    return {
+      altura,
+      peso,
+      temperatura,
+      presion,
+      datosDinamicos: [
+        { clave: clave1, valor: valor1 },
+        { clave: clave2, valor: valor2 },
+        { clave: clave3, valor: valor3 },
+      ],
+    };
   }
 
   verResenia(turno: Turno){
