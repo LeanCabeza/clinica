@@ -33,6 +33,7 @@ export class LoginComponent implements OnInit {
   login(){
       this.authService.login(this.usuario.email,this.usuario.password).then(res=>{
         Swal.fire('Ingreso exitoso!', 'Inicio de sesión exitoso. Redirigiendo...', 'success');
+        this.usuariosService.crearLogIngreso(this.usuario.email);
         this.router.navigate(['home']);
       }).catch(error=>{
         Swal.fire('Error', 'Credenciales inválidas o usuario no aceptado. Por favor, inténtalo de nuevo.', 'error');

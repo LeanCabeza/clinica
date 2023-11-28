@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable, map } from 'rxjs';
 import { Usuario } from '../models/usuario.interface';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import Swal from 'sweetalert2';
+import { Log } from '../models/log';
 
 
 @Injectable({
@@ -11,6 +12,8 @@ import Swal from 'sweetalert2';
 })
 export class UsuariosService {
 
+  fecha: Date;
+  logColleccion!: AngularFirestoreCollection<Log>;
   usuarioColleccion!: AngularFirestoreCollection<Usuario>;
   usuarios!: Observable<Usuario[]>;
   private usuarioLogueadoSubject: BehaviorSubject<Usuario | null> = new BehaviorSubject<Usuario | null>(null);
@@ -22,11 +25,7 @@ export class UsuariosService {
     private db: AngularFirestore,
     private storage: AngularFireStorage) {
       this.usuarioColleccion = this.db.collection<Usuario>('usuarios');
-      const usuarioGuardado = localStorage.getItem(this.usuarioLocalStorageKey);
-      if (usuarioGuardado) {
-        this.usuarioLogueadoSubject.next(JSON.parse(usuarioGuardado));
-        this.setTiempoExpiracion();
-      }
+      this.logColleccion = this.db.collection<Log>('logs');
     }
 
   async uploadImage(image: File): Promise<string> {
@@ -56,6 +55,14 @@ export class UsuariosService {
 
   crearUsuario(usuario: Usuario) {
     return this.usuarioColleccion?.add(usuario);
+  }
+
+  crearLogIngreso(email: string) {
+    const log: Log = {
+      usuarioEmail: email,
+      fecha: new Date(),
+    };
+    return this.logColleccion?.add(log);
   }
 
   actualizarAceptadoPorDNI(dni: number, flag: string): Promise<void> {
