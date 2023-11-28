@@ -4,6 +4,8 @@ import { AuthService } from 'src/app/service/auth.service';
 import { TurnosService } from 'src/app/service/turnos.service';
 import Swal from 'sweetalert2';
 import { animations } from 'src/app/animations/animations';
+import { UsuariosService } from 'src/app/service/usuarios.service';
+import { Usuario } from 'src/app/models/usuario.interface';
 
 
 @Component({
@@ -19,12 +21,16 @@ export class EspecialistaPanelComponent implements OnInit {
   turnosDoctor: Turno[] = [];
   mostrarAceptarRechazar = true;
   mostrarTurnos = false;
+  mostrarPacientes = false;
   especialidadFiltro: string = '';
   nombreApellidoFiltro: string = '';
   filtroFull: string = '';
+  showSpinner = false;
+  pacientes: Usuario[];
 
   constructor(public authService:AuthService,
-              public turnosService: TurnosService            
+              public turnosService: TurnosService,
+              public usuariosService:UsuariosService            
   ) { }
 
   ngOnInit() {
@@ -33,6 +39,7 @@ export class EspecialistaPanelComponent implements OnInit {
     });
     this.cargarTurnosPendientesAceptar();
     this.cargarTurnos();
+    this.getPacientes();
   }
 
 
@@ -215,6 +222,61 @@ export class EspecialistaPanelComponent implements OnInit {
         no-repeat
       `
     });
+  }
+
+  getPacientes() {
+    if (this.usuarioLogueado) {
+      this.turnosService.getTurnosAceptadosByEspecialista(this.usuarioLogueado.dni.toString())
+        .subscribe(turnos => {
+          const pacientesConTurnos = turnos.map(turno => turno.pacienteDni);
+
+          console.log("Pacientes con turno",pacientesConTurnos);
+
+          this.usuariosService.getUsuarios()
+            .subscribe(
+              (usuarios: Usuario[]) => {
+                console.log("Isiarops", usuarios);
+                this.pacientes = usuarios.filter((usuario: Usuario) => {
+                  return usuario.aceptado == "true" && pacientesConTurnos.includes(usuario.dni.toString());
+                });
+                console.log("Pacientes",this.pacientes);
+              },
+              (error) => {
+                console.log('Error al obtener los usuarios:', error);
+              }
+            );
+        });
+    }
+  }
+
+  mostrarDatos(usuario:Usuario){
+    console.log("Mostrando Datos");
+    // Primero deberia filtrar en el array de turnos, los turnos unicamente de este paciente y luego mostrar todos los datos del turno en una tabla dentro de un modal de bootstrap o un sweet alert.
+    /*
+    Estos son los datos del turno  Especialidad: turno.especialidad || '',
+              EspecialistaDni: turno.especialistaDni || '',
+              NombreDoctor: turno.nombreDoctor || '',
+              ApellidoDoctor: turno.apellidoDoctor || '',
+              Fecha: turno.fecha || '',
+              Hora: turno.hora || '',
+              Atendido: turno.atendido ? 'Sí' : 'No',
+              CalificacionPaciente: turno.calificacionPaciente || '',
+              Resenia: turno.resenia || '',
+              ConfirmacionDoctor: turno.confirmacionDoctor || '',
+              PacienteDni: turno.pacienteDni || '',
+              NombrePaciente: turno.nombrePaciente || '',
+              ApellidoPaciente: turno.apellidoPaciente || '',
+              EdadPaciente: turno.edadPaciente || '',
+              ObraSocialPaciente: turno.obraSocialPaciente || '',
+              Altura: turno.atencionDoc?.altura || '',
+              Peso: turno.atencionDoc?.peso || '',
+              Presion: turno.atencionDoc?.presion || '',
+              Temperatura: turno.atencionDoc?.temperatura || '',
+              DatosDinamicos: turno.atencionDoc?.datosDinamicos
+                ? turno.atencionDoc?.datosDinamicos.map((item: any) => `${item.clave}: ${item.valor}`).join(', ')
+                : '',
+            };
+    */
   }
 
 

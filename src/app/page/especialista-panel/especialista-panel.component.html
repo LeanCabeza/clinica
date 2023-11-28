@@ -1,26 +1,53 @@
 <div class="container" style="margin-bottom: 450px;">
 
   <div class="row">
-    <div class="col-md-6">
-      <div class="menu-option-card" (click)="this.mostrarAceptarRechazar = true; this.mostrarTurnos = false; this.cargarTurnosPendientesAceptar();">
+    <div class="col-md-4">
+      <div class="menu-option-card" (click)="this.mostrarAceptarRechazar = true; this.mostrarTurnos = false; this.mostrarPacientes = false; this.cargarTurnosPendientesAceptar();">
         <div class="menu-option-content">
           <i class="fa-solid fa-gavel"></i>
           <h4>Aceptar/Rechazar Turnos</h4>
         </div>
       </div>
     </div>
-    <div class="col-md-6">
-      <div class="menu-option-card" (click)="this.mostrarAceptarRechazar = false; this.mostrarTurnos = true; this.cargarTurnos()">
+    <div class="col-md-4">
+      <div class="menu-option-card" (click)="this.mostrarAceptarRechazar = false; this.mostrarTurnos = true;this.mostrarPacientes = false; this.cargarTurnos()">
         <div class="menu-option-content">
           <i class="fa-solid fa-calendar-days"></i>
           <h4>Listado Turnos</h4>
         </div>
       </div>
     </div>
+    <div class="col-md-4">
+      <div class="menu-option-card" (click)="this.mostrarAceptarRechazar = false; this.mostrarTurnos = false;this.mostrarPacientes = true ; this.getPacientes()">
+        <div class="menu-option-content">
+          <i class="fa-solid fa-hospital-user"></i>
+          <h4>Pacientes</h4>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <h1 *ngIf="mostrarAceptarRechazar == true && mostrarTurnos == false">Aceptar ✅ - Rechazar ❌</h1>
-  <table [@slideInTop] class="table table-bordered" *ngIf="mostrarAceptarRechazar == true && mostrarTurnos == false">
+  <div [@slideInTop] *ngIf="mostrarAceptarRechazar == false && mostrarTurnos == false && mostrarPacientes == true">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 style="text-align: center;">Todos los Pacientes 👥</h2>
+    </div>
+    <div  class="user-grid">
+      <div *ngFor="let usuario of pacientes" class="user-item">
+        <div class="profile-picture-list" (click)="mostrarDatos(usuario)">
+          <img appExpandOnHover *ngIf="usuario.fotoPerfil1" [src]="usuario.fotoPerfil1" alt="Foto de perfil">
+          <span *ngIf="!usuario.fotoPerfil1" class="no-photo">Sin foto</span>
+        </div>
+        <div class="user-details">
+          <h5 style="font-size: 22px;font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">
+            {{ usuario.tipoUsuario | userIcon }} {{ usuario.nombre }} {{ usuario.apellido }}</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <h1 *ngIf="mostrarAceptarRechazar == true && mostrarTurnos == false && mostrarPacientes == false">Aceptar ✅ - Rechazar ❌</h1>
+  <table [@slideInTop] class="table table-bordered" *ngIf="mostrarAceptarRechazar == true && mostrarTurnos == false  && mostrarPacientes == false">
     <thead>
       <tr>
         <th>Especialidad</th>
@@ -52,8 +79,8 @@
     </tbody>
   </table>
 
-  <h1 *ngIf="mostrarAceptarRechazar == false && mostrarTurnos == true">Turnos 📑🥼</h1>
-  <div [@slideInTop] class="row" *ngIf="mostrarAceptarRechazar == false && mostrarTurnos == true">
+  <h1 *ngIf="mostrarAceptarRechazar == false && mostrarTurnos == true  && mostrarPacientes == false">Turnos 📑🥼</h1>
+  <div [@slideInTop] class="row" *ngIf="mostrarAceptarRechazar == false && mostrarTurnos == true  && mostrarPacientes == false">
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">
@@ -98,6 +125,5 @@
       </tr>
     </tbody>
   </table>
-
 </div>
 
