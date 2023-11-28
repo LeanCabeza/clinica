@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Turno } from 'src/app/models/turnos.interface';
 import { Usuario } from 'src/app/models/usuario.interface';
 import { AuthService } from 'src/app/service/auth.service';
+import { TurnosService } from 'src/app/service/turnos.service';
 import { UsuariosService } from 'src/app/service/usuarios.service';
+import Swal from 'sweetalert2';
 import swal from 'sweetalert2';
 import * as XLSX from 'xlsx';
 
@@ -22,8 +25,12 @@ export class AdminPanelComponent implements OnInit {
   mostrarAceptarEspecialistas = false;
   mostrarRegistrarUsuarios = false;
   mostrarTurnos = false;
+  historialClinico: Turno[] = [];
+  showSpinner = false;
 
-  constructor(private usuariosService: UsuariosService, private authService: AuthService) { }
+  constructor(private usuariosService: UsuariosService, 
+              private authService: AuthService,
+              public turnosService:TurnosService) { }
 
   ngOnInit(): void {
     this.authService.actualUser$.subscribe((user) => {
@@ -83,6 +90,79 @@ export class AdminPanelComponent implements OnInit {
     const workBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workBook, workSheet, 'usuarios');
     XLSX.writeFile(workBook, `${fileName}.xlsx`);
+  }
+
+  descargarDatos(usuario: Usuario) {
+    if (usuario.tipoUsuario === "Paciente") {
+      this.showSpinner = true;
+  
+      setTimeout(() => {
+        this.obtenerHistorialClinico(usuario)
+          .then(() => {
+            this.showSpinner = false;
+  
+            const fileName = `${usuario.nombre}_${usuario.apellido}_historial_clinico`;
+            const historialMapped = this.historialClinico.map((turno: any) => {
+              return {
+                Especialidad: turno.especialidad || '',
+                EspecialistaDni: turno.especialistaDni || '',
+                NombreDoctor: turno.nombreDoctor || '',
+                ApellidoDoctor: turno.apellidoDoctor || '',
+                Fecha: turno.fecha || '',
+                Hora: turno.hora || '',
+                Atendido: turno.atendido ? 'Sí' : 'No',
+                CalificacionPaciente: turno.calificacionPaciente || '',
+                Resenia: turno.resenia || '',
+                ConfirmacionDoctor: turno.confirmacionDoctor || '',
+                PacienteDni: turno.pacienteDni || '',
+                NombrePaciente: turno.nombrePaciente || '',
+                ApellidoPaciente: turno.apellidoPaciente || '',
+                EdadPaciente: turno.edadPaciente || '',
+                ObraSocialPaciente: turno.obraSocialPaciente || '',
+                Altura: turno.atencionDoc?.altura || '',
+                Peso: turno.atencionDoc?.peso || '',
+                Presion: turno.atencionDoc?.presion || '',
+                Temperatura: turno.atencionDoc?.temperatura || '',
+                DatosDinamicos: turno.atencionDoc?.datosDinamicos
+                  ? turno.atencionDoc?.datosDinamicos.map((item: any) => `${item.clave}: ${item.valor}`).join(', ')
+                  : '',
+              };
+            });
+  
+            if (historialMapped.length > 0) {
+              const workSheet = XLSX.utils.json_to_sheet(historialMapped);
+              const workBook = XLSX.utils.book_new();
+              XLSX.utils.book_append_sheet(workBook, workSheet, 'historial_clinico');
+              XLSX.writeFile(workBook, `${fileName}.xlsx`);
+            } else {
+              Swal.fire('Historial Clínico Vacío', 'El historial clínico del paciente está vacío.', 'info');
+            }
+          })
+          .catch((error) => {
+            this.showSpinner = false;
+            console.error('Error al obtener historial clínico:', error);
+            Swal.fire('Error', 'Hubo un error al obtener el historial clínico.', 'error');
+          });
+      }, 2000);
+  
+    } else {
+      Swal.fire('Operación Rechazada', 'El usuario seleccionado debe ser paciente para poder descargar el historial clínico.', 'info');
+    }
+  }
+  
+  obtenerHistorialClinico(usuario: Usuario) {
+    return new Promise<void>((resolve, reject) => {
+      this.turnosService.getHistoriaFull()
+        .subscribe(historial => {
+          this.historialClinico = historial.filter(turno =>
+            turno.apellidoPaciente == usuario.apellido &&
+            turno.nombrePaciente == usuario.nombre
+          );
+          resolve();
+        }, error => {
+          reject(error);
+        });
+    });
   }
 
 }

@@ -37,40 +37,28 @@
 
 
   <div *ngIf=" flagAdmin == true  && mostrarUsuarios == true && mostrarAceptarEspecialistas == false && mostrarRegistrarUsuarios == false && mostrarTurnos == false">
+    <div *ngIf="showSpinner" class="custom-spinner">
+      <img src="/assets/images/logo1.png"/>
+    </div>
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h2 style="text-align: center;">Todos los usuarios 👥</h2>
-      <button class="btn btn-success" (click)="this.downloadAllUsers()" >Descargar CSV</button>
+      <button class="btn btn-success" (click)="downloadAllUsers()">Descargar CSV</button>
     </div>
-    <table class="table table-striped table-bordered">
-      <thead>
-        <tr>
-          <th>Usuario</th>
-          <th>Nombre</th>
-          <th>Apellido</th>
-          <th>Email</th>
-          <th>Dni</th>
-          <th>Edad</th>
-          <th>Tipo Usuario</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let usuario of usuarios">
-          <td>
-            <div class="profile-picture">
-              <img *ngIf="usuario.fotoPerfil1" [src]="usuario.fotoPerfil1" alt="Foto de perfil">
-              <span *ngIf="!usuario.fotoPerfil1" class="no-photo">Sin foto</span>
-            </div>
-          </td>
-          <td>{{ usuario.nombre }}</td>
-          <td>{{ usuario.apellido }}</td>
-          <td>{{ usuario.email }}</td>
-          <td>{{ usuario.dni }}</td>
-          <td>{{ usuario.edad }}</td>
-          <td>{{ usuario.tipoUsuario }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div  class="user-grid">
+      <div *ngFor="let usuario of usuarios" class="user-item">
+        <div class="profile-picture-list" (click)="descargarDatos(usuario)">
+          <img appExpandOnHover *ngIf="usuario.fotoPerfil1" [src]="usuario.fotoPerfil1" alt="Foto de perfil">
+          <span *ngIf="!usuario.fotoPerfil1" class="no-photo">Sin foto</span>
+        </div>
+        <div class="user-details">
+          <h5 style="font-size: 22px;font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">
+            {{ usuario.tipoUsuario | userIcon }} {{ usuario.nombre }} {{ usuario.apellido }}</h5>
+        </div>
+      </div>
+    </div>
   </div>
+
+  
 </div>
 
 <div *ngIf="flagAdmin == true && mostrarAceptarEspecialistas == true && mostrarRegistrarUsuarios == false && mostrarUsuarios == false && mostrarTurnos == false " class="container">
