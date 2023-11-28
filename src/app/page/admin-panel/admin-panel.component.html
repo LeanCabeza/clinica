@@ -64,7 +64,7 @@
 <div *ngIf="flagAdmin == true && mostrarAceptarEspecialistas == true && mostrarRegistrarUsuarios == false && mostrarUsuarios == false && mostrarTurnos == false " class="container">
   <h2 style="text-align: center;">Aceptar/Rechazar Especialistas 👨🏻‍⚖️🔨</h2>
 
-  <table class="table table-striped table-bordered">
+  <table class="table table-bordered">
     <thead>
       <tr>
         <th>Usuario</th>
@@ -81,7 +81,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let especialista of especialistas">
+      <tr appHighlightRow *ngFor="let especialista of especialistas">
         <td>
           <div class="profile-picture">
             <img *ngIf="especialista.fotoPerfil1" [src]="especialista.fotoPerfil1" alt="Foto de perfil">
