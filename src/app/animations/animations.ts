@@ -1,6 +1,17 @@
 import { trigger, state, style, animate, transition } from '@angular/animations';
 
 export const animations = {
+  slideInTopAnimation : trigger('slideInTop', [
+    state('void', style({
+      transform: 'translateY(-1000px)',
+      opacity: 0
+    })),
+    state('*', style({
+      transform: 'translateY(0)',
+      opacity: 1
+    })),
+    transition('void => *', animate('0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940)')),
+  ]),
   scaleInCenter: trigger('scaleInCenter', [
     state('void', style({
       transform: 'scale(0)',

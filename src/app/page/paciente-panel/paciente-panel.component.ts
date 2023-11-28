@@ -5,6 +5,7 @@ import { TurnosService } from 'src/app/service/turnos.service';
 import Swal from 'sweetalert2';
 import { Usuario } from 'src/app/models/usuario.interface';
 import { AuthService } from 'src/app/service/auth.service';
+import { animations } from 'src/app/animations/animations';
 
 interface Especialidad {
   nombre: string;
@@ -14,7 +15,8 @@ interface Especialidad {
 @Component({
   selector: 'app-paciente-panel',
   templateUrl: './paciente-panel.component.html',
-  styleUrls: ['./paciente-panel.component.css']
+  styleUrls: ['./paciente-panel.component.css'],
+  animations: [animations.slideInTopAnimation]
 })
 export class PacientePanelComponent implements OnInit {
 

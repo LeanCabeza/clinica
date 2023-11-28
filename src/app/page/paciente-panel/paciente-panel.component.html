@@ -29,7 +29,7 @@
 
   <div class="content">
 
-    <div class="reservar-turno" *ngIf="showReservarTurno">
+    <div [@slideInTop] class="reservar-turno" *ngIf="showReservarTurno">
       <div class="form-container">
         <h2>Reservar Turno</h2>
 
@@ -109,7 +109,7 @@
     </div>
     </div>
 
-    <div class="proximos-turnos" *ngIf="showProximosTurnos">
+    <div [@slideInTop] class="proximos-turnos" *ngIf="showProximosTurnos">
 
       <div class="row">
         <div class="col-md-6">
@@ -146,7 +146,7 @@
       </table>
     </div>
 
-    <div class="historial-clinico" *ngIf="showHistorialClinico">
+    <div [@slideInTop] class="historial-clinico" *ngIf="showHistorialClinico">
 
       <div class="row">
         <div class="col-md-6">

@@ -3,11 +3,14 @@ import { Turno } from 'src/app/models/turnos.interface';
 import { AuthService } from 'src/app/service/auth.service';
 import { TurnosService } from 'src/app/service/turnos.service';
 import Swal from 'sweetalert2';
+import { animations } from 'src/app/animations/animations';
+
 
 @Component({
   selector: 'app-especialista-panel',
   templateUrl: './especialista-panel.component.html',
-  styleUrls: ['./especialista-panel.component.css']
+  styleUrls: ['./especialista-panel.component.css'],
+  animations: [animations.slideInTopAnimation]
 })
 export class EspecialistaPanelComponent implements OnInit {
   
