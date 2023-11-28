@@ -22,6 +22,7 @@ export class MyProfileComponent implements OnInit {
   horariosAtencion: string[] = [];
   fotoPerfil = true;
   historialClinico: any[] = [];
+  nombreApellidoFiltro: string = "";
   
   constructor(public authService:AuthService,
               public usuarioService:UsuariosService,
@@ -50,7 +51,10 @@ export class MyProfileComponent implements OnInit {
     if (this.usuarioLogueado) {
       this.turnosService.getHistoriaClinica(this.usuarioLogueado.dni.toString())
         .subscribe(historial => {
-          this.historialClinico = historial.filter(item => item.atendido == true);
+          this.historialClinico = historial.filter(turno => 
+            historial.filter(item => item.atendido == true) &&
+            `${turno.nombreDoctor} ${turno.apellidoDoctor}`.toLowerCase().includes(this.nombreApellidoFiltro.toLowerCase())
+          );
         });
     }
   }

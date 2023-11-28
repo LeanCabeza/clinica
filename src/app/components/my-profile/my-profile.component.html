@@ -93,6 +93,14 @@
                 <hr class="mt-0 mb-3">
                 <div #content class="row pt-1"  *ngIf="this.usuarioLogueado.tipoUsuario == 'Paciente'">
                   <h6>Historia Clinica</h6>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="nombreApellidoFiltro">Buscar por nombre y apellido del doctor:</label>
+                        <input class="form-control" type="text" [(ngModel)]="nombreApellidoFiltro" (input)="cargarHistorialClinico()">
+                      </div>
+                    </div>
+                  </div>
                   <table class="table table-bordered">
                     <thead>
                       <tr>
