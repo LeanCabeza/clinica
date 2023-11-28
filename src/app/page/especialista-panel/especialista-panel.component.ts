@@ -249,36 +249,61 @@ export class EspecialistaPanelComponent implements OnInit {
     }
   }
 
-  mostrarDatos(usuario:Usuario){
-    console.log("Mostrando Datos");
-    // Primero deberia filtrar en el array de turnos, los turnos unicamente de este paciente y luego mostrar todos los datos del turno en una tabla dentro de un modal de bootstrap o un sweet alert.
-    /*
-    Estos son los datos del turno  Especialidad: turno.especialidad || '',
-              EspecialistaDni: turno.especialistaDni || '',
-              NombreDoctor: turno.nombreDoctor || '',
-              ApellidoDoctor: turno.apellidoDoctor || '',
-              Fecha: turno.fecha || '',
-              Hora: turno.hora || '',
-              Atendido: turno.atendido ? 'Sí' : 'No',
-              CalificacionPaciente: turno.calificacionPaciente || '',
-              Resenia: turno.resenia || '',
-              ConfirmacionDoctor: turno.confirmacionDoctor || '',
-              PacienteDni: turno.pacienteDni || '',
-              NombrePaciente: turno.nombrePaciente || '',
-              ApellidoPaciente: turno.apellidoPaciente || '',
-              EdadPaciente: turno.edadPaciente || '',
-              ObraSocialPaciente: turno.obraSocialPaciente || '',
-              Altura: turno.atencionDoc?.altura || '',
-              Peso: turno.atencionDoc?.peso || '',
-              Presion: turno.atencionDoc?.presion || '',
-              Temperatura: turno.atencionDoc?.temperatura || '',
-              DatosDinamicos: turno.atencionDoc?.datosDinamicos
-                ? turno.atencionDoc?.datosDinamicos.map((item: any) => `${item.clave}: ${item.valor}`).join(', ')
-                : '',
-            };
-    */
+  mostrarDatos(usuario: Usuario) {
+  
+    // Filtrar los turnos del paciente seleccionado
+    const turnosPaciente = this.turnosDoctor.filter(turno => turno.pacienteDni == usuario.dni.toString() && turno.atendido == true);
+  
+    // Crear una tabla con la información de los turnos usando Bootstrap
+    let tablaDatos = '<table class="table table-bordered">' +
+      '<thead>' +
+      '<tr>' +
+      '<th>Especialidad</th>' +
+      '<th>Especialista</th>' +
+      '<th>Fecha</th>' +
+      '<th>Hora</th>' +
+      '<th>Reseña del Paciente</th>' +
+      '<th>Altura</th>' +
+      '<th>Peso</th>' +
+      '<th>Presión</th>' +
+      '<th>Temperatura</th>' +
+      '<th>Datos Dinámicos</th>' +
+      '</tr>' +
+      '</thead>' +
+      '<tbody>';
+  
+    turnosPaciente.forEach(turno => {
+      tablaDatos += '<tr>' +
+        `<td>${turno.especialidad || ''}</td>` +
+        `<td>${turno.nombreDoctor || ''} ${turno.apellidoDoctor || ''}<br>(${turno.especialistaDni || ''})</td>` +
+        `<td>${turno.fecha || ''}</td>` +
+        `<td>${turno.hora || ''}</td>` +
+        `<td>${turno.calificacionPaciente || 'Aun no cargo la reseña 😢'}</td>` +
+        `<td>${turno.atencionDoc?.altura || ''}</td>` +
+        `<td>${turno.atencionDoc?.peso || ''}</td>` +
+        `<td>${turno.atencionDoc?.presion || ''}</td>` +
+        `<td>${turno.atencionDoc?.temperatura || ''}</td>` +
+        `<td>${this.formatDatosDinamicos(turno.atencionDoc?.datosDinamicos)}</td>` +
+        '</tr>';
+    });
+  
+    tablaDatos += '</tbody></table>';
+  
+    // Mostrar la tabla en un SweetAlert
+    Swal.fire({
+      title: `Historia clinica del paciente ${usuario.nombre} ${usuario.apellido}`,
+      html: tablaDatos,
+      width: 1500,
+    });
   }
 
-
+  formatDatosDinamicos(datosDinamicos: any) {
+    if (!datosDinamicos || datosDinamicos.length === 0) {
+      return '';
+    }
+  
+    return datosDinamicos.map((item: any) => `${item.clave}: ${item.valor}`).join('<br>');
+  }
+  
 
 }

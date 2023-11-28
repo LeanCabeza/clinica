@@ -14,5 +14,14 @@ export interface Turno {
     apellidoPaciente?: string;
     edadPaciente?: string;
     obraSocialPaciente?: string;
-    atencionDoc?:object;
+    atencionDoc?: {
+      altura?: string;
+      peso?: string;
+      presion?:string;
+      temperatura?:string;
+      datosDinamicos?:{
+        clave?: any;
+        valor?:any;
+      }
+    }
   }
