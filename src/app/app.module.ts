@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MainComponent } from './page/main/main.component';
@@ -26,6 +26,11 @@ import { ExpandOnHoverDirective } from './directives/expand-on-hover.directive';
 import { HighlightRowDirective } from './directives/highlight-row.directive';
 import { HighlightElementDirective } from './directives/highlight-element.directive';
 import { DefaultImageDirective } from './directives/default-image.directive';
+import { HighchartsChartModule } from 'highcharts-angular';
+import { InformesComponent } from './page/informes/informes.component';
+
+
+
 
 
 @NgModule({
@@ -46,8 +51,9 @@ import { DefaultImageDirective } from './directives/default-image.directive';
     ExpandOnHoverDirective,
     HighlightRowDirective,
     HighlightElementDirective,
-    DefaultImageDirective
-  ],
+    DefaultImageDirective,
+    InformesComponent
+    ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -57,9 +63,11 @@ import { DefaultImageDirective } from './directives/default-image.directive';
     MatSnackBarModule,
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HighchartsChartModule
   ],
   providers:  [TurnosService,UsuariosService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class AppModule { }
