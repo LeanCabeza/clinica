@@ -2,6 +2,10 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Turno } from '../models/turnos.interface';
 import Swal from 'sweetalert2';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+
 
 @Injectable()
 export class TurnosService {
@@ -200,6 +204,41 @@ export class TurnosService {
         });
       });
     });
+  }
+
+  //SECCION INFORMES
+  
+    // Obtener cantidad de turnos por especialidad
+  getCantidadTurnosPorEspecialidad(especialidad: string): Observable<number> {
+    return this.firestore.collection<Turno>('turnos', ref =>
+      ref.where('especialidad', '==', especialidad)
+    ).valueChanges().pipe(map(turnos => turnos.length));
+  }
+
+  // Obtener cantidad de turnos por día
+  getCantidadTurnosPorDia(dia: string): Observable<number> {
+    return this.firestore.collection<Turno>('turnos', ref =>
+      ref.where('fecha', '==', dia)
+    ).valueChanges().pipe(map(turnos => turnos.length));
+  }
+
+  // Obtener cantidad de turnos solicitados por médico en un lapso de tiempo
+  getCantidadTurnosSolicitadosPorMedico(dni: string, fechaInicio: string, fechaFin: string): Observable<number> {
+    return this.firestore.collection<Turno>('turnos', ref =>
+      ref.where('especialistaDni', '==', dni)
+        .where('fecha', '>=', fechaInicio)
+        .where('fecha', '<=', fechaFin)
+    ).valueChanges().pipe(map(turnos => turnos.length));
+  }
+
+  // Obtener cantidad de turnos finalizados por médico en un lapso de tiempo
+  getCantidadTurnosFinalizadosPorMedico(dni: string, fechaInicio: string, fechaFin: string): Observable<number> {
+    return this.firestore.collection<Turno>('turnos', ref =>
+      ref.where('especialistaDni', '==', dni)
+        .where('atendido', '==', true)
+        .where('fecha', '>=', fechaInicio)
+        .where('fecha', '<=', fechaFin)
+    ).valueChanges().pipe(map(turnos => turnos.length));
   }
 
 
