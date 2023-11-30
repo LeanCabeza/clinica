@@ -3,7 +3,8 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Turno } from '../models/turnos.interface';
 import Swal from 'sweetalert2';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map , distinct} from 'rxjs/operators';
+
 
 
 
@@ -215,13 +216,19 @@ export class TurnosService {
     ).valueChanges().pipe(map(turnos => turnos.length));
   }
 
-  // Obtener cantidad de turnos por día
   getCantidadTurnosPorDia(dia: string): Observable<number> {
     return this.firestore.collection<Turno>('turnos', ref =>
       ref.where('fecha', '==', dia)
     ).valueChanges().pipe(map(turnos => turnos.length));
   }
 
+  // Obtener cantidad de turnos por día
+  getDiasConTurnos(): Observable<string[]> {
+    return this.firestore.collection<Turno>('turnos').valueChanges().pipe(
+      map(turnos => turnos.map(turno => turno.fecha as string)),
+      distinct()  // Para obtener días únicos
+    );
+  }
   // Obtener cantidad de turnos solicitados por médico en un lapso de tiempo
   getCantidadTurnosSolicitadosPorMedico(dni: string, fechaInicio: string, fechaFin: string): Observable<number> {
     return this.firestore.collection<Turno>('turnos', ref =>

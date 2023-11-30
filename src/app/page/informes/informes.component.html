@@ -1,6 +1,20 @@
-<div id="chartContainer">
-  <highcharts-chart
-    [Highcharts]="highcharts"
-    [options]="chartOptions"
-  ></highcharts-chart>
+<div class="container" style="padding: 100px;">
+  <!-- Contenedor para el gráfico de cantidad de turnos por especialidad -->
+  <div id="chartContainerEspecialidades">
+    <highcharts-chart
+      [Highcharts]="highcharts"
+      [options]="chartOptionsEspecialidades"
+    ></highcharts-chart>
+  </div>
+  <br>
+  <button class="btn btn-success" (click)="descargarPdfEspecialidades()">Descargar PDF</button>
+
+  <!-- Contenedor para el gráfico de cantidad de turnos por día -->
+  <div id="chartContainerDias">
+    <highcharts-chart
+      [Highcharts]="highcharts"
+      [options]="chartOptionsDias"
+    ></highcharts-chart>
+  </div>
+  <button class="btn btn-success" (click)="descargarPdfDias()">Descargar PDF</button>
 </div>
