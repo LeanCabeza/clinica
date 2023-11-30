@@ -59,7 +59,7 @@ export class PacientePanelComponent implements OnInit {
   generarFechas(dniDoctor: string) {
     this.fechaSeleccionada = "";
     this.horaSeleccionada = "";
-    
+  
     const doctorSeleccionado = this.doctores.find((doctor) => doctor.dni == dniDoctor);
   
     if (!doctorSeleccionado) {
@@ -71,11 +71,11 @@ export class PacientePanelComponent implements OnInit {
     console.log("Generando fechas del doctor -> ", doctorSeleccionado.diasAtencion);
   
     const fechaActual = new Date();
-    const fecha = new Date(); // Crear una única instancia de fecha antes del bucle
   
     const fechasGeneradas:any = []; // Nuevo array para almacenar fechas únicas
   
     for (let i = 0; i < 15; i++) {
+      const fecha = new Date(fechaActual.getTime()); // Crear una nueva instancia de fecha para cada iteración
       fecha.setDate(fechaActual.getDate() + i);
   
       // Verifica si el día de la semana coincide con uno de los días de atención y no es domingo.
@@ -87,7 +87,7 @@ export class PacientePanelComponent implements OnInit {
         const anio = fecha.getFullYear();
   
         const fechaFormateada = `${dia}-${mes}-${anio}`;
-        
+  
         // Verificar si la fecha ya existe en el array antes de agregarla
         if (!fechasGeneradas.includes(fechaFormateada)) {
           fechasGeneradas.push(fechaFormateada);
@@ -98,7 +98,6 @@ export class PacientePanelComponent implements OnInit {
     console.log("ARRAY DE FECHAS GENERADO", fechasGeneradas);
     this.fechas = fechasGeneradas; // Actualizar this.fechas con las fechas únicas
   }
-  
   
   // Función para obtener el nombre del día a partir del número (0 para Domingo, 1 para Lunes, etc.).
   getNombreDia(numeroDia:any) {
